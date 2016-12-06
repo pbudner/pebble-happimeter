@@ -1,0 +1,327 @@
+{
+  "name": "happimeter",
+  "author": "MakeAwesomeHappen",
+  "version": "1.0.0",
+  "keywords": [
+    "pebble-app"
+  ],
+  "private": true,
+  "dependencies": {
+    "pebble-clay": "^1.0.4"
+  },
+  "pebble": {
+    "capabilities": [
+      "health"
+    ],
+    "displayName": "Happimeter",
+    "uuid": "1d0c0108-4ef6-45cc-b4bf-e3c10f4e5260",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "chalk",
+      "diorite"
+    ],
+    "watchapp": {
+      "watchface": false
+    },
+    "messageKeys": [
+      "current_time",
+      "steps",
+      "activity",
+      "avg_heart_rate",
+      "avg_acc_x",
+      "var_acc_x",
+      "avg_acc_y",
+      "var_acc_y",
+      "avg_acc_z",
+      "var_acc_z",
+      "vmc",
+      "avg_light_level",
+      "userinfo_name",
+      "userinfo_email",
+      "userinfo_weight",
+      "userinfo_sportiness",
+      "happiness",
+      "did_any_sports",
+      "who_have_you_been_with",
+      "userinfo_age",
+      "app_callback"
+    ],
+    "resources": {
+      "media": [
+        {
+          "file": "images/AlertSign_Time",
+          "name": "Alert_Sign_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/zzz.png",
+          "name": "SLEEP",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/tree4",
+          "name": "IMAGE_TREE4",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/tree3",
+          "name": "IMAGE_TREE3",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/tree2",
+          "name": "IMAGE_TREE2",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/tree1",
+          "name": "IMAGE_TREE1",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/tick.png",
+          "name": "TICK",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/main_smily.png",
+          "name": "IMAGE_SPLASH",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/cross.png",
+          "name": "CROSS",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/WhoAreYouWithBolt_Time",
+          "name": "WhoAreYouWithBolt_Time",
+          "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk",
+            "diorite",
+            "emery"
+          ],
+          "type": "bitmap"
+        },
+        {
+          "file": "images/WhoAreYouWithBolt_Emery",
+          "name": "WhoAreYouWithBolt_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Very_Unhappy_Smiley_Time",
+          "name": "Very_Unhappy_Smiley_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Very_Unhappy_Smiley_Emery",
+          "name": "Very_Unhappy_Smiley_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Very_Happy_Smiley_Time",
+          "name": "Very_Happy_Smiley_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Very_Happy_Smiley_Emery",
+          "name": "Very_Happy_Smiley_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Unhappy_Smiley_Time",
+          "name": "Unhappy_Smiley_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Unhappy_Smiley_Emery",
+          "name": "Unhappy_Smiley_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/SignificantOther_Time",
+          "name": "SignificantOther_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/SignificantOther_Emery",
+          "name": "SignificantOther_Emery",
+          "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk",
+            "diorite",
+            "emery"
+          ],
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Pet_Time",
+          "name": "Pet_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Pet_Emery",
+          "name": "Pet_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Other_Time",
+          "name": "Other_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Other_Emery",
+          "name": "Other_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Normal_Smiley_Time",
+          "name": "Normal_Smiley_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Normal_Smiley_Emery",
+          "name": "Normal_Smiley_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Nobody_Time",
+          "name": "Nobody_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Nobody_Emery",
+          "name": "Nobody_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/HowAreYouFeelingBolt_Time",
+          "name": "HowAreYouFeelingBolt_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/HowAreYouFeelingBolt_Emery",
+          "name": "HowAreYouFeelingBolt_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Happy_Smiley_Time",
+          "name": "Happy_Smiley_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Happy_Smiley_Emery",
+          "name": "Happy_Smiley_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Friend_Time",
+          "name": "Friend_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Friend_Emery",
+          "name": "Friend_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Family_Time",
+          "name": "Family_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Family_Emery",
+          "name": "Family_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/ExitWindow_Time",
+          "name": "Exit_Window_Time",
+          "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk",
+            "diorite",
+            "emery"
+          ],
+          "type": "bitmap"
+        },
+        {
+          "file": "images/ExitWindow_Emery",
+          "name": "Exit_Window_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/DidYouDoSports_Time",
+          "name": "DidYouDoSports_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/DidYouDoSports_Emery",
+          "name": "DidYouDoSports_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Colleauge_Time",
+          "name": "Colleauge_Time",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/Colleauge_Emery",
+          "name": "Colleauge_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        },
+        {
+          "file": "images/AlertSign_Emery",
+          "name": "Alert_Sign_Emery",
+          "targetPlatforms": null,
+          "type": "bitmap"
+        }
+      ]
+    }
+  }
+}
