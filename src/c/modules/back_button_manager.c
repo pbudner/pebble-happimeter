@@ -26,5 +26,5 @@ void replace_click_config_provider(void *context) {
 ***********************************/
 void force_back_button(Window *window, MenuLayer *menu_layer) {
   previous_ccp = window_get_click_config_provider(window);
-  window_set_click_config_provider_with_context(window, new_ccp, menu_layer);
+  window_set_click_config_provider_with_context(window, replace_click_config_provider, menu_layer);
 }

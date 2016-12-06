@@ -5,6 +5,15 @@
 ***********************************/
 static void init_windows() {
   init_upload_window();
+  init_exit_window();
+}
+
+/***********************************
+*     Deinitiates all windows      *
+***********************************/
+static void deinit_windows() {
+  deinit_upload_window();
+  deinit_exit_window();
 }
 
 /***********************************
@@ -36,7 +45,7 @@ static void init() {
 *        Deinitiates the app       *
 ***********************************/
 static void deinit() {
-  deinit_upload_window();
+  deinit_windows();
   deinit_inbox_message_manager();
 }
 

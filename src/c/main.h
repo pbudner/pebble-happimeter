@@ -8,3 +8,5 @@
 // Windows
 #include "windows/upload_data_window.h"
 #include "windows/splash_window.h"
+#include "windows/exit_window.h"
+
