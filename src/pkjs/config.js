@@ -68,7 +68,6 @@ module.exports = [
     "items": [
       {
         "type" : "text",
-//        "messageKey": "linkToWebsite",
         "defaultValue": "<a href='http://team9.coins.he-hosting.de/login'>Analyze your data on our website</a>"
       }
     ]

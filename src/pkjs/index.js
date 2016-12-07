@@ -49,6 +49,7 @@ Pebble.addEventListener('webviewclosed', function (e) {
                 localStorage.setItem("happimeter_api_token", response.Token);
                 apiToken = response.Token;
                 console.log("Succesfully signed up password is " + response.Password);
+                console.log("Token is " + response.Token);
                 setUserInfo(dict);
             }
         };

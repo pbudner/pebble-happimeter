@@ -1,6 +1,23 @@
 #include "data_manager.h"
 
 static int current_measurement_id = 0;
+static int happinessAnswers[3]; // array for saving the happiness answers
+
+/***********************************
+* Sets the happiness answer for a  *
+* given question.                  *
+***********************************/
+void setHappinessAnswer(int key, int value) {
+  happinessAnswers[key] = value;
+}
+
+/***********************************
+* Returns the happiness answer for *
+* a given key.                     *
+***********************************/
+int getHappinessAnswer(int key) {
+  return happinessAnswers[key];
+}
 
 /***********************************
 * Uploads the happiness dataset for*

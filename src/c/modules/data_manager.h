@@ -11,3 +11,5 @@ extern void upload_measure();
 extern void outbox_sent_handler(DictionaryIterator *iter, void *context);
 extern bool upload_iteration();
 extern void worker_message_handler(uint16_t type, AppWorkerMessage *message);
+extern void setHappinessAnswer(int key, int value);
+extern int getHappinessAnswer(int key);
