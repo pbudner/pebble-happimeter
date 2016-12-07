@@ -35,3 +35,4 @@
 # Folders
 build/*
 node_modules/*
+.vscode/*
