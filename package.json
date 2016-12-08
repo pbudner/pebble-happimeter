@@ -40,6 +40,42 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/Pair_Sad-fatigued_EMERY",
+                    "name": "Pair_Sad_fatigued_EMERY",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Pair_Tense-upset_EMERY",
+                    "name": "Pair_Tense_Upset_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Pair_Contend-calm_EMERY",
+                    "name": "Pair_Contend_calm_EMERY",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Which_Mood_EMERY",
+                    "name": "Which_Mood_EMERY",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Which_Mood_Pair_Header_EMERY",
+                    "name": "Which_Mood_Pair_Header_EMERY",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Pair_Alert-Happy_EMERY",
+                    "name": "Pair_Alert_Happy_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/tree4_EMERY",
                     "name": "IMAGE_TREE4_EMERY",
                     "targetPlatforms": null,
