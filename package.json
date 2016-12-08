@@ -40,38 +40,134 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/Pair_Sad-fatigued_EMERY",
-                    "name": "Pair_Sad_fatigued_EMERY",
+                    "file": "images/Pair_Contened_calm_Emery",
+                    "name": "Pair_Contened_calm_Emery",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Pair_Tense-upset_EMERY",
+                    "file": "images/Contened_Emery",
+                    "name": "Contened_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Which_Mood_Pair_Header_Emery",
+                    "name": "Which_Mood_Pair_Header_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Which_Mood_Emery",
+                    "name": "Which_Mood_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Pair_Tense_Upset_Emery",
                     "name": "Pair_Tense_Upset_Emery",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Pair_Contend-calm_EMERY",
-                    "name": "Pair_Contend_calm_EMERY",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Which_Mood_EMERY",
-                    "name": "Which_Mood_EMERY",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Which_Mood_Pair_Header_EMERY",
-                    "name": "Which_Mood_Pair_Header_EMERY",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Pair_Alert-Happy_EMERY",
+                    "file": "images/Pair_Alert_Happy_Emery",
                     "name": "Pair_Alert_Happy_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Pair_Sad_fatigued_Emery",
+                    "name": "Pair_Sad_fatigued_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Serene_Emery",
+                    "name": "Serene_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Relaxed_Emery",
+                    "name": "Relaxed_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Calm_Emery",
+                    "name": "Calm_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Sad_Emery",
+                    "name": "Sad_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Fatigued_Emery",
+                    "name": "Fatigued_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Depressed_Emery",
+                    "name": "Depressed_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Bored_Emery",
+                    "name": "Bored_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Happy_Emery",
+                    "name": "Happy_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Exited_Emery",
+                    "name": "Exited_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Elated_Emery",
+                    "name": "Elated_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Alert_Emery",
+                    "name": "Alert_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Upset_Emery",
+                    "name": "Upset_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Tense_Emery",
+                    "name": "Tense_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Stressed_Emery",
+                    "name": "Stressed_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Nervous_Emery",
+                    "name": "Nervous_Emery",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },

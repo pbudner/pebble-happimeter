@@ -2,7 +2,7 @@
 
 static Window *secondquestionAWindow;
 static MenuLayer *secondquestionAMenuLayer;
-static GBitmap *Nobody, *Pet, *Friend, *Colleague, *Family, *Significant_Other, *Other, *WhoAreYouWith;
+static GBitmap *alert, *exited, *elated, *happy, *which_Mood_Header;
 
 /***********************************
 * Get num of sections of the menu  *
@@ -38,7 +38,7 @@ static void a_select_draw_header(GContext *ctx, const Layer *cell_layer, uint16_
   // draw the box; 3rd and 4th variables: rounding the corners of the box
   // the watch has a displey of 200 p width
   graphics_fill_rect(ctx, GRect((bounds.size.w - 144) / 2, 4, 144, 40), 8, GCornersAll);
-  graphics_draw_bitmap_in_rect(ctx, WhoAreYouWith, bounds);
+  graphics_draw_bitmap_in_rect(ctx, which_Mood_Header, bounds);
   // text in the box
   //graphics_draw_text(ctx, ("How are you feeling?"),fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD),GRect(0, 0, bounds.size.w, 80), GTextOverflowModeWordWrap, GTextAlignmentCenter, NULL);
 }
@@ -70,16 +70,16 @@ void a_select_draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuInde
     switch (cell_index->row)
     {
     case 0:
-      menu_cell_basic_draw(ctx, cell_layer, "", NULL, Nobody);
+      menu_cell_basic_draw(ctx, cell_layer, "", NULL, alert);
       break;
     case 1:
-      menu_cell_basic_draw(ctx, cell_layer, "", NULL, Pet);
+      menu_cell_basic_draw(ctx, cell_layer, "", NULL, exited);
       break;
     case 2:
-      menu_cell_basic_draw(ctx, cell_layer, "", NULL, Friend);
+      menu_cell_basic_draw(ctx, cell_layer, "", NULL, elated);
       break;
     case 3:
-      menu_cell_basic_draw(ctx, cell_layer, "", NULL, Colleague);
+      menu_cell_basic_draw(ctx, cell_layer, "", NULL, happy);
       break;
     }
 
@@ -132,53 +132,23 @@ void secondquestionA_window_load(Window *window)
 {
   a_select_menu_layer(window);
 
-#if defined(PBL_PLATFORM_EMERY)
-  Nobody = gbitmap_create_with_resource(RESOURCE_ID_Nobody_Emery);
-#else
-  Nobody = gbitmap_create_with_resource(RESOURCE_ID_Nobody_Time);
-#endif
+//#if defined(PBL_PLATFORM_EMERY)
+ // Nobody = gbitmap_create_with_resource(RESOURCE_ID_Nobody_Emery);
+//#else
+  //Nobody = gbitmap_create_with_resource(RESOURCE_ID_Nobody_Time);
+//#endif
 
-#if defined(PBL_PLATFORM_EMERY)
-  Pet = gbitmap_create_with_resource(RESOURCE_ID_Pet_Emery);
-#else
-  Pet = gbitmap_create_with_resource(RESOURCE_ID_Pet_Time);
-#endif
 
-#if defined(PBL_PLATFORM_EMERY)
-  Friend = gbitmap_create_with_resource(RESOURCE_ID_Friend_Emery);
-#else
-  Friend = gbitmap_create_with_resource(RESOURCE_ID_Friend_Time);
-#endif
+  alert = gbitmap_create_with_resource(RESOURCE_ID_Alert_Emery);
 
-#if defined(PBL_PLATFORM_EMERY)
-  Colleague = gbitmap_create_with_resource(RESOURCE_ID_Colleauge_Emery);
-#else
-  Colleague = gbitmap_create_with_resource(RESOURCE_ID_Colleauge_Time);
-#endif
+  exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Emery);
 
-#if defined(PBL_PLATFORM_EMERY)
-  Family = gbitmap_create_with_resource(RESOURCE_ID_Family_Emery);
-#else
-  Family = gbitmap_create_with_resource(RESOURCE_ID_Family_Time);
-#endif
+  elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Emery);
 
-#if defined(PBL_PLATFORM_EMERY)
-  Significant_Other = gbitmap_create_with_resource(RESOURCE_ID_SignificantOther_Emery);
-#else
-  Significant_Other = gbitmap_create_with_resource(RESOURCE_ID_SignificantOther_Time);
-#endif
+  happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Emery);
 
-#if defined(PBL_PLATFORM_EMERY)
-  Other = gbitmap_create_with_resource(RESOURCE_ID_Other_Emery);
-#else
-  Other = gbitmap_create_with_resource(RESOURCE_ID_Other_Time);
-#endif
+  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_WhoAreYouWithBolt_Emery);
 
-#if defined(PBL_PLATFORM_EMERY)
-  WhoAreYouWith = gbitmap_create_with_resource(RESOURCE_ID_WhoAreYouWithBolt_Emery);
-#else
-  WhoAreYouWith = gbitmap_create_with_resource(RESOURCE_ID_WhoAreYouWithBolt_Time);
-#endif
 }
 
 /***********************************
@@ -187,13 +157,12 @@ void secondquestionA_window_load(Window *window)
 void secondquestionA_window_unload(Window *window)
 {
   menu_layer_destroy(secondquestionAMenuLayer);
-  gbitmap_destroy(Nobody);
-  gbitmap_destroy(Pet);
-  gbitmap_destroy(Friend);
-  gbitmap_destroy(Colleague);
-  gbitmap_destroy(Family);
-  gbitmap_destroy(Significant_Other);
-  gbitmap_destroy(Other);
+  gbitmap_destroy(alert);
+  gbitmap_destroy(exited);
+  gbitmap_destroy(elated);
+  gbitmap_destroy(happy);
+  gbitmap_destroy(which_Mood_Header);
+
 }
 
 /***********************************

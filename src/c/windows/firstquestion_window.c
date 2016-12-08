@@ -2,7 +2,7 @@
 
 static Window *firstquestionWindow;
 static MenuLayer *firstquestionMenuLayer;
-static GBitmap *Very_Happy, *Happy, *Normal, *Unhappy, *Very_Unhappy, *HowAreYouFeeling;
+static GBitmap *header_which_Mood_Pair, *alert_happy, *sad_fatigued, *contend_calm, *tense_upset;
 static int16_t menu_header_height(struct MenuLayer *menu, uint16_t section_index, void *callback_context);
 static void menu_draw_header(GContext *ctx, const Layer *cell_layer, uint16_t section_index, void *callback_context);
 
@@ -40,7 +40,7 @@ static void menu_draw_header(GContext *ctx, const Layer *cell_layer, uint16_t se
   // draw the box; 3rd and 4th variables: rounding the corners of the box
   // the watch has a displey of 200 p width
   graphics_fill_rect(ctx, GRect((bounds.size.w - 144) / 2, 4, 144, 40), 8, GCornersAll);
-  graphics_draw_bitmap_in_rect(ctx, HowAreYouFeeling, bounds);
+  graphics_draw_bitmap_in_rect(ctx, header_which_Mood_Pair, bounds);
   // text in the box
   //graphics_draw_text(ctx, ("How are you feeling?"),fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD),GRect(0, 0, bounds.size.w, 80), GTextOverflowModeWordWrap, GTextAlignmentCenter, NULL);
 }
@@ -77,19 +77,19 @@ void menu_draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuIndex *c
     {
     case 0:
       // NULL = Smily icon to input
-      menu_cell_basic_draw(ctx, cell_layer, "", NULL, Very_Happy);
+      menu_cell_basic_draw(ctx, cell_layer, "", NULL, alert_happy);
       break;
     case 1:
       // NULL = Smily icon to input
-      menu_cell_basic_draw(ctx, cell_layer, "", NULL, Happy);
+      menu_cell_basic_draw(ctx, cell_layer, "", NULL, sad_fatigued);
       break;
     case 2:
       // NULL = Smily icon to input
-      menu_cell_basic_draw(ctx, cell_layer, "", NULL, Normal);
+      menu_cell_basic_draw(ctx, cell_layer, "", NULL, contend_calm);
       break;
     case 3:
       // NULL = Smily icon to input
-      menu_cell_basic_draw(ctx, cell_layer, "", NULL, Unhappy);
+      menu_cell_basic_draw(ctx, cell_layer, "", NULL, tense_upset);
       break;
     }
 
@@ -160,41 +160,16 @@ void firstquestion_window_load(Window *window)
 {
   setup_menu_layer(window);
 
-#if defined(PBL_PLATFORM_EMERY)
-  Very_Happy = gbitmap_create_with_resource(RESOURCE_ID_Very_Happy_Smiley_Emery);
-#else
-  Very_Happy = gbitmap_create_with_resource(RESOURCE_ID_Very_Happy_Smiley_Time);
-#endif
+  alert_happy = gbitmap_create_with_resource(RESOURCE_ID_Pair_Alert_Happy_Emery);
 
-#if defined(PBL_PLATFORM_EMERY)
-  Happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Smiley_Emery);
-#else
-  Happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Smiley_Time);
-#endif
+  sad_fatigued = gbitmap_create_with_resource(RESOURCE_ID_Pair_Sad_fatigued_Emery);
 
-#if defined(PBL_PLATFORM_EMERY)
-  Normal = gbitmap_create_with_resource(RESOURCE_ID_Normal_Smiley_Emery);
-#else
-  Normal = gbitmap_create_with_resource(RESOURCE_ID_Normal_Smiley_Time);
-#endif
+  contend_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contened_calm_Emery);
+  
+  tense_upset = gbitmap_create_with_resource(RESOURCE_ID_Pair_Tense_Upset_Emery);
 
-#if defined(PBL_PLATFORM_EMERY)
-  Unhappy = gbitmap_create_with_resource(RESOURCE_ID_Unhappy_Smiley_Emery);
-#else
-  Unhappy = gbitmap_create_with_resource(RESOURCE_ID_Unhappy_Smiley_Time);
-#endif
+  header_which_Mood_Pair = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Pair_Header_Emery);
 
-#if defined(PBL_PLATFORM_EMERY)
-  Very_Unhappy = gbitmap_create_with_resource(RESOURCE_ID_Very_Unhappy_Smiley_Emery);
-#else
-  Very_Unhappy = gbitmap_create_with_resource(RESOURCE_ID_Very_Unhappy_Smiley_Time);
-#endif
-
-#if defined(PBL_PLATFORM_EMERY)
-  HowAreYouFeeling = gbitmap_create_with_resource(RESOURCE_ID_HowAreYouFeelingBolt_Emery);
-#else
-  HowAreYouFeeling = gbitmap_create_with_resource(RESOURCE_ID_HowAreYouFeelingBolt_Time);
-#endif
 }
 
 /***********************************
@@ -202,11 +177,11 @@ void firstquestion_window_load(Window *window)
 ***********************************/
 void firstquestion_window_unload(Window *window)
 {
-  gbitmap_destroy(Very_Happy);
-  gbitmap_destroy(Happy);
-  gbitmap_destroy(Normal);
-  gbitmap_destroy(Unhappy);
-  gbitmap_destroy(Very_Unhappy);
+  gbitmap_destroy(alert_happy);
+  gbitmap_destroy(sad_fatigued);
+  gbitmap_destroy(contend_calm);
+  gbitmap_destroy(tense_upset);
+  gbitmap_destroy(header_which_Mood_Pair);
 }
 
 /***********************************
