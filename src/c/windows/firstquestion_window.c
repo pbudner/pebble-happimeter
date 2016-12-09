@@ -2,7 +2,7 @@
 
 static Window *firstquestionWindow;
 static MenuLayer *firstquestionMenuLayer;
-static GBitmap *header_which_Mood_Pair, *alert_happy, *sad_fatigued, *contend_calm, *tense_upset;
+static GBitmap *header_which_Mood_Pair, *alert_happy, *sad_fatigued, *contened_calm, *tense_upset;
 static int16_t menu_header_height(struct MenuLayer *menu, uint16_t section_index, void *callback_context);
 static void menu_draw_header(GContext *ctx, const Layer *cell_layer, uint16_t section_index, void *callback_context);
 
@@ -85,7 +85,7 @@ void menu_draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuIndex *c
       break;
     case 2:
       // NULL = Smily icon to input
-      menu_cell_basic_draw(ctx, cell_layer, "", NULL, contend_calm);
+      menu_cell_basic_draw(ctx, cell_layer, "", NULL, contened_calm);
       break;
     case 3:
       // NULL = Smily icon to input
@@ -160,15 +160,33 @@ void firstquestion_window_load(Window *window)
 {
   setup_menu_layer(window);
 
-  alert_happy = gbitmap_create_with_resource(RESOURCE_ID_Pair_Alert_Happy_Emery);
-
-  sad_fatigued = gbitmap_create_with_resource(RESOURCE_ID_Pair_Sad_fatigued_Emery);
-
-  contend_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contened_calm_Emery);
+   #if defined(PBL_PLATFORM_EMERY)
+   alert_happy = gbitmap_create_with_resource(RESOURCE_ID_Pair_Alert_Happy_Emery);
+  #else
+   alert_happy = gbitmap_create_with_resource(RESOURCE_ID_Pair_Alert_Happy_Time);
+  #endif
   
+   #if defined(PBL_PLATFORM_EMERY)
+  sad_fatigued = gbitmap_create_with_resource(RESOURCE_ID_Pair_Sad_Fatigued_Emery);
+  #else
+  sad_fatigued = gbitmap_create_with_resource(RESOURCE_ID_Pair_Sad_Fatigued_Time);
+  #endif
+  
+  contened_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contened_Calm_Emery);
+ 
+  
+   #if defined(PBL_PLATFORM_EMERY)
   tense_upset = gbitmap_create_with_resource(RESOURCE_ID_Pair_Tense_Upset_Emery);
-
+  #else
+  tense_upset = gbitmap_create_with_resource(RESOURCE_ID_Pair_Tense_Upset_Time);
+  #endif
+  
+   #if defined(PBL_PLATFORM_EMERY)
   header_which_Mood_Pair = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Pair_Header_Emery);
+  #else
+  header_which_Mood_Pair = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Pair_Header_Time);
+  #endif
+
 
 }
 
@@ -179,7 +197,7 @@ void firstquestion_window_unload(Window *window)
 {
   gbitmap_destroy(alert_happy);
   gbitmap_destroy(sad_fatigued);
-  gbitmap_destroy(contend_calm);
+  gbitmap_destroy(contened_calm);
   gbitmap_destroy(tense_upset);
   gbitmap_destroy(header_which_Mood_Pair);
 }

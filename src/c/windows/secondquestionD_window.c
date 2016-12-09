@@ -132,17 +132,46 @@ void secondquestionD_window_load(Window *window)
 {
   d_select_menu_layer(window);
 
-
-tense = gbitmap_create_with_resource(RESOURCE_ID_Tense_Emery);
-
+  #if defined(PBL_PLATFORM_EMERY)
+  tense = gbitmap_create_with_resource(RESOURCE_ID_Tense_Emery);
+  #else
+  tense = gbitmap_create_with_resource(RESOURCE_ID_Tense_Time);
+  #endif
+  
+   #if defined(PBL_PLATFORM_EMERY)
   nervous = gbitmap_create_with_resource(RESOURCE_ID_Nervous_Emery);
-
-
+  #else
+  nervous = gbitmap_create_with_resource(RESOURCE_ID_Nervous_Time);
+  #endif
+  
+   #if defined(PBL_PLATFORM_EMERY)
 stressed = gbitmap_create_with_resource(RESOURCE_ID_Stressed_Emery);
+  #else
+stressed = gbitmap_create_with_resource(RESOURCE_ID_Stressed_Time);
+  #endif
+  
+   #if defined(PBL_PLATFORM_EMERY)
   upset = gbitmap_create_with_resource(RESOURCE_ID_Upset_Emery);
-
-
+  #else
+  upset = gbitmap_create_with_resource(RESOURCE_ID_Upset_Time);
+  #endif
+  
+   #if defined(PBL_PLATFORM_EMERY)
   which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Emery);
+  #else
+  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Time);
+  #endif
+
+
+
+
+
+
+
+
+
+
+
 }
 
 /***********************************

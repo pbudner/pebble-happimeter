@@ -131,17 +131,37 @@ void b_select_menu_layer(Window *window)
 void secondquestionB_window_load(Window *window)
 {
   b_select_menu_layer(window);
-
-  sad = gbitmap_create_with_resource(RESOURCE_ID_Sad_Emery);
   
+  #if defined(PBL_PLATFORM_EMERY)
+  sad = gbitmap_create_with_resource(RESOURCE_ID_Sad_Emery);
+  #else
+  sad = gbitmap_create_with_resource(RESOURCE_ID_Sad_Time);
+  #endif
+  
+  #if defined(PBL_PLATFORM_EMERY)
   depressed = gbitmap_create_with_resource(RESOURCE_ID_Depressed_Emery);
-
+  #else
+  depressed = gbitmap_create_with_resource(RESOURCE_ID_Depressed_Time);
+  #endif
+  
+  #if defined(PBL_PLATFORM_EMERY)
   bored = gbitmap_create_with_resource(RESOURCE_ID_Bored_Emery);
-
+  #else
+  bored = gbitmap_create_with_resource(RESOURCE_ID_Bored_Time);
+  #endif
+  
+  #if defined(PBL_PLATFORM_EMERY)
   fatigued = gbitmap_create_with_resource(RESOURCE_ID_Fatigued_Emery);
-
+  #else
+  fatigued = gbitmap_create_with_resource(RESOURCE_ID_Fatigued_Time);
+  #endif
+  
+  #if defined(PBL_PLATFORM_EMERY)
   which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Friend_Emery);
-
+  #else
+  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Friend_Time);
+  #endif
+  
 }
 
 /***********************************

@@ -132,22 +132,36 @@ void secondquestionA_window_load(Window *window)
 {
   a_select_menu_layer(window);
 
-//#if defined(PBL_PLATFORM_EMERY)
- // Nobody = gbitmap_create_with_resource(RESOURCE_ID_Nobody_Emery);
-//#else
-  //Nobody = gbitmap_create_with_resource(RESOURCE_ID_Nobody_Time);
-//#endif
+#if defined(PBL_PLATFORM_EMERY)
+alert = gbitmap_create_with_resource(RESOURCE_ID_Alert_Emery);
+#else
+alert = gbitmap_create_with_resource(RESOURCE_ID_Alert_Time);
+#endif
 
-
-  alert = gbitmap_create_with_resource(RESOURCE_ID_Alert_Emery);
-
+#if defined(PBL_PLATFORM_EMERY)
   exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Emery);
-
+#else
+  exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Time);
+#endif
+  
+#if defined(PBL_PLATFORM_EMERY)
   elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Emery);
-
+#else
+  elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Time);
+#endif
+  
+#if defined(PBL_PLATFORM_EMERY)
   happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Emery);
-
+#else
+  happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Time);
+#endif
+  
+#if defined(PBL_PLATFORM_EMERY)
   which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_WhoAreYouWithBolt_Emery);
+#else
+  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_WhoAreYouWithBolt_Time);
+#endif
+
 
 }
 
