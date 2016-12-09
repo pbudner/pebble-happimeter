@@ -40,6 +40,12 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/Which_Mood_Pair_Header_Time",
+                    "name": "Which_Mood_Pair_Header_Time",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/Contented_Emery",
                     "name": "Contented_Emery",
                     "targetPlatforms": null,
@@ -48,12 +54,6 @@
                 {
                     "file": "images/Contented_Time",
                     "name": "Contented_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Which_Mood_Pair_Header_Time",
-                    "name": "Which_Mood_Pair_Header_Time",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -305,49 +305,49 @@
                 },
                 {
                     "file": "images/tree4_EMERY",
-                    "name": "Tree4_Emery",
+                    "name": "IMAGE_TREE4_EMERY",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree3_EMERY",
-                    "name": "Tree3_Emery",
+                    "name": "IMAGE_TREE3_EMERY",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree2_EMERY",
-                    "name": "Tree2_Emery",
+                    "name": "IMAGE_TREE2_EMERY",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree1_EMERY",
-                    "name": "Tree1_Emery",
+                    "name": "IMAGE_TREE1_EMERY",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree4_TIME",
-                    "name": "Tree4_Time",
+                    "name": "IMAGE_TREE4_TIME",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree3_TIME",
-                    "name": "Tree3_Time",
+                    "name": "IMAGE_TREE3_TIME",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree2_TIME",
-                    "name": "Tree2_Time",
+                    "name": "IMAGE_TREE2_TIME",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree1_TIME",
-                    "name": "Tree1_Time",
+                    "name": "IMAGE_TREE1_TIME",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },

@@ -94,8 +94,8 @@ void a_select_draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuInde
 void a_select_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *data)
 {
   //setAnswer(0,(int) cell_index->row);
-  window_stack_pop_all(false);
   window_stack_push(tree_window_get_window(), true);
+  //window_stack_pop_all(true);
 }
 
 /***********************************
@@ -133,34 +133,36 @@ void secondquestionA_window_load(Window *window)
   a_select_menu_layer(window);
 
 #if defined(PBL_PLATFORM_EMERY)
-  alert = gbitmap_create_with_resource(RESOURCE_ID_Alert_Emery);
+alert = gbitmap_create_with_resource(RESOURCE_ID_Alert_Emery);
 #else
-  alert = gbitmap_create_with_resource(RESOURCE_ID_Alert_Time);
+alert = gbitmap_create_with_resource(RESOURCE_ID_Alert_Time);
 #endif
 
 #if defined(PBL_PLATFORM_EMERY)
-  exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Emery);
+exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Emery);
 #else
-  exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Time);
+exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Time);
+#endif
+  
+#if defined(PBL_PLATFORM_EMERY)
+elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Emery);
+#else
+elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Time);
+#endif
+  
+#if defined(PBL_PLATFORM_EMERY)
+happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Emery);
+#else
+happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Time);
+#endif
+  
+#if defined(PBL_PLATFORM_EMERY)
+which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Emery);
+#else
+which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Time);
 #endif
 
-#if defined(PBL_PLATFORM_EMERY)
-  elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Emery);
-#else
-  elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Time);
-#endif
 
-#if defined(PBL_PLATFORM_EMERY)
-  happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Emery);
-#else
-  happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Time);
-#endif
-
-#if defined(PBL_PLATFORM_EMERY)
-  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Emery);
-#else
-  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Time);
-#endif
 }
 
 /***********************************
@@ -174,6 +176,7 @@ void secondquestionA_window_unload(Window *window)
   gbitmap_destroy(elated);
   gbitmap_destroy(happy);
   gbitmap_destroy(which_Mood_Header);
+
 }
 
 /***********************************
