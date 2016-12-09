@@ -48,10 +48,6 @@ static void delay_timer()
   }
 }
 
-//void launch_main_window2 (){
-//window_stack_push(main_window_get_window(), true);
-//}
-
 // A wakeup event has occurred while the app was already open
 
 /***********************************
@@ -108,54 +104,136 @@ void wakeup_click_config_provider(void *context)
 }
 
 /***********************************
-* Wakeup                           *
+* Almost Random Wakeup                           *
 ***********************************/
-static void wakeup()
-{
-
-  // Next occuring (day/hour/minutes)
+static void wakeup(){
+  
+   // Next occuring (day/hour/minutes)
   printf("wir sind in der wakeupfunktion");
+  
+  //TODO: Ist die tmp 12 oder 24 stunden format? komische Zeiten auf dem emulator
 
-  time_t timestamp_1 = clock_to_timestamp(TODAY, 9, 00);
-  time_t timestamp_2 = clock_to_timestamp(TODAY, 13, 00);
-  time_t timestamp_3 = clock_to_timestamp(TODAY, 17, 00);
-  time_t timestamp_4 = clock_to_timestamp(TODAY, 21, 00);
+  int randomhour_1;
+  int randomhour_2;
+  int randomhour_3;
+  int randomhour_4;
+  
+  int randomminute_1 = rand() % 60;
+  int randomminute_2 = rand() % 60;
+  int randomminute_3 = rand() % 60;
+  int randomminute_4 = rand() % 60;
+  
+  //https://linux.die.net/man/3/gmtime
+  //actual time
+  time_t t = time(0);   // get time now
+  struct tm * tmp = localtime( & t );
+  printf("hours is %d\n", tmp->tm_hour);
+  printf("minutes is %d\n", tmp->tm_min);
+  
+  //First random time: time slot 9-11(:59) o'clock
+  while (true){
+    if(tmp->tm_hour < 12){
+      randomhour_1 = 9;
+      randomminute_1 = 0;
+      printf("not random 9-12 %d\n", tmp->tm_hour);
+      break;
+    }
+    //simple way to change the range to be an integer between 0 and n-1 inclusive
+    randomhour_1 = rand() % 12;
+    if(randomhour_1 >= 9){
+      break;
+    }
+  }
+  
+  //Second random time: time slot 12-14(:59) o'clock
+   while (true){
+     if(tmp->tm_hour < 15 && tmp->tm_hour >= 12){
+      printf("not random 12-15 %d\n", tmp->tm_hour);
+      randomhour_2 = 12;
+      randomminute_2 = 0;
+      break;
+    }
+    //simple way to change the range to be an integer between 0 and n-1 inclusive
+    randomhour_2 = rand() % 15;
+    if(randomhour_2 >= 12){
+      break;
+    }
+  }
+  
+  //Third random time: time slot 15-17(:59) o'clock
+   while (true){
+     if(tmp->tm_hour < 18 && tmp->tm_hour >= 15){
+      printf("not random 15-18 %d\n", tmp->tm_hour);
+      randomhour_3 = 15;
+      randomminute_3 = 0;
+      break;
+    }
+    //simple way to change the range to be an integer between 0 and n-1 inclusive
+    randomhour_3 = rand() % 18;
+    if(randomhour_3 >= 15){
+      break;
+    }
+  }
+  
+  //Fourth random time: time slot 18-20(:59) o'clock
+   while (true){
+     if(tmp->tm_hour < 21 && tmp->tm_hour >= 18){
+      printf("not random 18-21 %d\n", tmp->tm_hour);
+      randomhour_4 = 18;
+      randomminute_4 = 0;
+      break;
+    }
+    //simple way to change the range to be an integer between 0 and n-1 inclusive
+    randomhour_4 = rand() % 21;
+    if(randomhour_4 >= 18){
+      break;
+    }
+  }
+  
+  APP_LOG(APP_LOG_LEVEL_INFO, "%d%d RandomTIME_1 wake_up", randomhour_1, randomminute_1);
+  APP_LOG(APP_LOG_LEVEL_INFO, "%d%d RandomTIME_2 wake_up", randomhour_2, randomminute_2);
+  APP_LOG(APP_LOG_LEVEL_INFO, "%d%d RandomTIME_3 wake_up", randomhour_3, randomminute_3);
+  APP_LOG(APP_LOG_LEVEL_INFO, "%d%d RandomTIME_4 wake_up", randomhour_4, randomminute_4);
+  
+  time_t timestamp_1 = clock_to_timestamp(TODAY, randomhour_1, randomminute_1);
+  time_t timestamp_2 = clock_to_timestamp(TODAY, randomhour_2, randomminute_2);
+  time_t timestamp_3 = clock_to_timestamp(TODAY, randomhour_3, randomminute_3);
+  time_t timestamp_4 = clock_to_timestamp(TODAY, randomhour_4, randomminute_4);
 
   // Choose a 'cookie' value representing the reason for the wakeup
   //const int cookie = 0;
 
-  // If true, the user will be notified if they missed the wakeup
+  // If true, the user will be notified if they missed the wakeup 
   // (i.e. their watch was off)
   const bool notify_if_missed = true;
-
+  
   //SUPERWICHTIG, // Cancel all wakeups
   wakeup_cancel_all();
-
+  
   // Schedule wakeup event
-  WakeupId id_1 = wakeup_schedule(timestamp_1, 1, notify_if_missed);
-  WakeupId id_2 = wakeup_schedule(timestamp_2, 2, notify_if_missed);
-  WakeupId id_3 = wakeup_schedule(timestamp_3, 3, notify_if_missed);
-  WakeupId id_4 = wakeup_schedule(timestamp_4, 4, notify_if_missed);
-
+  WakeupId id_1 = wakeup_schedule(timestamp_1 , 1 , notify_if_missed);
+  WakeupId id_2 = wakeup_schedule(timestamp_2 , 2 , notify_if_missed);
+  WakeupId id_3 = wakeup_schedule(timestamp_3 , 3 , notify_if_missed);
+  WakeupId id_4 = wakeup_schedule(timestamp_4 , 4 , notify_if_missed);
+  
   printf("scheduled!");
-
+  
   // Check the scheduling was successful
-  if (id_1 >= 0 && id_2 >= 0 && id_3 >= 0 && id_4 >= 0)
-  {
-    // Persist the ID so that a future launch can query it
-    printf("id is scheduled!");
-    const int wakeup_id_key = 43;
-    persist_write_int(wakeup_id_key, id_1);
-  }
-
+   if(id_1 >= 0 && id_2 >= 0 && id_3 >=0 && id_4 >= 0){
+     // Persist the ID so that a future launch can query it
+     printf("id is scheduled!");
+     const int wakeup_id_key = 43;
+     persist_write_int(wakeup_id_key, id_1);
+   }
+  
   // Is the wakeup still scheduled?
-  if (wakeup_query(id_1, &timestamp_1))
-  {
-    // Get the time remaining
-    int seconds_remaining = timestamp_1 - time(NULL);
-    APP_LOG(APP_LOG_LEVEL_INFO, "%d seconds until wakeup", seconds_remaining);
-  }
+if(wakeup_query(id_1, &timestamp_1)) {
+  // Get the time remaining
+  int seconds_remaining = timestamp_1 - time(NULL);
+  APP_LOG(APP_LOG_LEVEL_INFO, "%d seconds until wakeup", seconds_remaining);
 }
+}
+
 
 /***********************************
 * Load event of the wakeup window  *
@@ -220,7 +298,13 @@ void init_wakeup_window()
 
   wakeupWindow = window_create();
   window_set_window_handlers(wakeupWindow, (WindowHandlers){ .load = wakeup_window_load, .unload = wakeup_window_unload });
+  
+  //wake_up is only 4 times newly scheduled
+  if(launch_reason() == APP_LAUNCH_WAKEUP) {
+    wakeup();
+  }
 
+  //TODO: Rauslöschen
   wakeup();
 }
 

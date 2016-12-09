@@ -31,6 +31,14 @@ void tree_up_single_click_handler(ClickRecognizerRef recognizer, void *context)
 }
 
 /***********************************
+* Select single click handler          *
+***********************************/
+void tree_select_single_click_handler(ClickRecognizerRef recognizer, void *context)
+{
+  window_stack_pop_all(true);
+}
+
+/***********************************
 * CCP of the tree window           *
 ***********************************/
 void tree_click_config_provider(void *context)
@@ -38,6 +46,7 @@ void tree_click_config_provider(void *context)
   window_single_click_subscribe(BUTTON_ID_UP, (ClickHandler)tree_up_single_click_handler);
   window_single_click_subscribe(BUTTON_ID_DOWN, (ClickHandler)tree_down_single_click_handler);
   window_single_click_subscribe(BUTTON_ID_BACK, (ClickHandler)tree_back_single_click_handler);
+  window_single_click_subscribe(BUTTON_ID_SELECT, (ClickHandler)tree_select_single_click_handler);
 }
 
 /***********************************
