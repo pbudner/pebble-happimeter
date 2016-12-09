@@ -157,9 +157,9 @@ void secondquestionB_window_load(Window *window)
   #endif
   
   #if defined(PBL_PLATFORM_EMERY)
-  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Friend_Emery);
+  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_Which_Mood_Emery);
   #else
-  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Friend_Time);
+  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Time);
   #endif
   
 }

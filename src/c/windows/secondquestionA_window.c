@@ -139,27 +139,27 @@ alert = gbitmap_create_with_resource(RESOURCE_ID_Alert_Time);
 #endif
 
 #if defined(PBL_PLATFORM_EMERY)
-  exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Emery);
+exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Emery);
 #else
-  exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Time);
+exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Time);
 #endif
   
 #if defined(PBL_PLATFORM_EMERY)
-  elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Emery);
+elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Emery);
 #else
-  elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Time);
+elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Time);
 #endif
   
 #if defined(PBL_PLATFORM_EMERY)
-  happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Emery);
+happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Emery);
 #else
-  happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Time);
+happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Time);
 #endif
   
 #if defined(PBL_PLATFORM_EMERY)
-  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_WhoAreYouWithBolt_Emery);
+which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Emery);
 #else
-  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_WhoAreYouWithBolt_Time);
+which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Time);
 #endif
 
 
