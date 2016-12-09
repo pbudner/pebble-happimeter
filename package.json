@@ -305,49 +305,49 @@
                 },
                 {
                     "file": "images/tree4_EMERY",
-                    "name": "IMAGE_TREE4_EMERY",
+                    "name": "Tree4_Emery",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree3_EMERY",
-                    "name": "IMAGE_TREE3_EMERY",
+                    "name": "Tree3_Emery",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree2_EMERY",
-                    "name": "IMAGE_TREE2_EMERY",
+                    "name": "Tree2_Emery",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree1_EMERY",
-                    "name": "IMAGE_TREE1_EMERY",
+                    "name": "Tree1_Emery",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree4_TIME",
-                    "name": "IMAGE_TREE4_TIME",
+                    "name": "Tree4_Time",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree3_TIME",
-                    "name": "IMAGE_TREE3_TIME",
+                    "name": "Tree3_Time",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree2_TIME",
-                    "name": "IMAGE_TREE2_TIME",
+                    "name": "Tree2_Time",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/tree1_TIME",
-                    "name": "IMAGE_TREE1_TIME",
+                    "name": "Tree1_Time",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
