@@ -94,8 +94,8 @@ void a_select_draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuInde
 void a_select_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *data)
 {
   //setAnswer(0,(int) cell_index->row);
+  window_stack_pop_all(false);
   window_stack_push(tree_window_get_window(), true);
-  //window_stack_pop_all(true);
 }
 
 /***********************************
