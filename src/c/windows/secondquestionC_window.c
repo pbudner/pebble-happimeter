@@ -94,8 +94,8 @@ void c_select_draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuInde
 void c_select_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *data)
 {
   //setAnswer(0,(int) cell_index->row);
+  window_stack_pop_all(false);
   window_stack_push(tree_window_get_window(), true);
-  //window_stack_pop_all(true);
 }
 
 /***********************************
@@ -132,47 +132,35 @@ void secondquestionC_window_load(Window *window)
 {
   c_select_menu_layer(window);
 
-  
- #if defined(PBL_PLATFORM_EMERY)
- contented = gbitmap_create_with_resource(RESOURCE_ID_Contented_Emery);
- #else
- contented = gbitmap_create_with_resource(RESOURCE_ID_Contented_Time);
- #endif
-  
-   #if defined(PBL_PLATFORM_EMERY)
+#if defined(PBL_PLATFORM_EMERY)
+  contented = gbitmap_create_with_resource(RESOURCE_ID_Contented_Emery);
+#else
+  contented = gbitmap_create_with_resource(RESOURCE_ID_Contented_Time);
+#endif
+
+#if defined(PBL_PLATFORM_EMERY)
   serene = gbitmap_create_with_resource(RESOURCE_ID_Serene_Emery);
-  #else
+#else
   serene = gbitmap_create_with_resource(RESOURCE_ID_Serene_Time);
-  #endif
-  
-   #if defined(PBL_PLATFORM_EMERY)
+#endif
+
+#if defined(PBL_PLATFORM_EMERY)
   relaxed = gbitmap_create_with_resource(RESOURCE_ID_Relaxed_Emery);
-  #else
+#else
   relaxed = gbitmap_create_with_resource(RESOURCE_ID_Relaxed_Time);
-  #endif
-  
-   #if defined(PBL_PLATFORM_EMERY)
+#endif
+
+#if defined(PBL_PLATFORM_EMERY)
   calm = gbitmap_create_with_resource(RESOURCE_ID_Calm_Emery);
-  #else
+#else
   calm = gbitmap_create_with_resource(RESOURCE_ID_Calm_Time);
-  #endif
-  
-   #if defined(PBL_PLATFORM_EMERY)
+#endif
+
+#if defined(PBL_PLATFORM_EMERY)
   which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Emery);
-  #else
+#else
   which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Time);
-  #endif
-  
-
-
-
-
-
-
-
-
-
-
+#endif
 }
 
 /***********************************

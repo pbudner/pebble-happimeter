@@ -2,7 +2,7 @@
 
 static Window *secondquestionBWindow;
 static MenuLayer *secondquestionBMenuLayer;
-static GBitmap *sad, *depressed, *bored, *fatigued,*which_Mood_Header;
+static GBitmap *sad, *depressed, *bored, *fatigued, *which_Mood_Header;
 
 /***********************************
 * Get num of sections of the menu  *
@@ -94,8 +94,8 @@ void b_select_draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuInde
 void b_select_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *data)
 {
   //setAnswer(0,(int) cell_index->row);
+  window_stack_pop_all(false);
   window_stack_push(tree_window_get_window(), true);
-  //window_stack_pop_all(true);
 }
 
 /***********************************
@@ -131,37 +131,36 @@ void b_select_menu_layer(Window *window)
 void secondquestionB_window_load(Window *window)
 {
   b_select_menu_layer(window);
-  
-  #if defined(PBL_PLATFORM_EMERY)
+
+#if defined(PBL_PLATFORM_EMERY)
   sad = gbitmap_create_with_resource(RESOURCE_ID_Sad_Emery);
-  #else
+#else
   sad = gbitmap_create_with_resource(RESOURCE_ID_Sad_Time);
-  #endif
-  
-  #if defined(PBL_PLATFORM_EMERY)
+#endif
+
+#if defined(PBL_PLATFORM_EMERY)
   depressed = gbitmap_create_with_resource(RESOURCE_ID_Depressed_Emery);
-  #else
+#else
   depressed = gbitmap_create_with_resource(RESOURCE_ID_Depressed_Time);
-  #endif
-  
-  #if defined(PBL_PLATFORM_EMERY)
+#endif
+
+#if defined(PBL_PLATFORM_EMERY)
   bored = gbitmap_create_with_resource(RESOURCE_ID_Bored_Emery);
-  #else
+#else
   bored = gbitmap_create_with_resource(RESOURCE_ID_Bored_Time);
-  #endif
-  
-  #if defined(PBL_PLATFORM_EMERY)
+#endif
+
+#if defined(PBL_PLATFORM_EMERY)
   fatigued = gbitmap_create_with_resource(RESOURCE_ID_Fatigued_Emery);
-  #else
+#else
   fatigued = gbitmap_create_with_resource(RESOURCE_ID_Fatigued_Time);
-  #endif
-  
-  #if defined(PBL_PLATFORM_EMERY)
+#endif
+
+#if defined(PBL_PLATFORM_EMERY)
   which_Mood_Header = gbitmap_create_with_resource(RESOURCE_Which_Mood_Emery);
-  #else
+#else
   which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Time);
-  #endif
-  
+#endif
 }
 
 /***********************************
@@ -175,7 +174,6 @@ void secondquestionB_window_unload(Window *window)
   gbitmap_destroy(bored);
   gbitmap_destroy(fatigued);
   gbitmap_destroy(which_Mood_Header);
-
 }
 
 /***********************************

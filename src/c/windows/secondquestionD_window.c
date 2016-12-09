@@ -94,8 +94,8 @@ void d_select_draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuInde
 void d_select_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *data)
 {
   //setAnswer(0,(int) cell_index->row);
+  window_stack_pop_all(false);
   window_stack_push(tree_window_get_window(), true);
-  //window_stack_pop_all(true);
 }
 
 /***********************************
@@ -132,46 +132,35 @@ void secondquestionD_window_load(Window *window)
 {
   d_select_menu_layer(window);
 
-  #if defined(PBL_PLATFORM_EMERY)
+#if defined(PBL_PLATFORM_EMERY)
   tense = gbitmap_create_with_resource(RESOURCE_ID_Tense_Emery);
-  #else
+#else
   tense = gbitmap_create_with_resource(RESOURCE_ID_Tense_Time);
-  #endif
-  
-   #if defined(PBL_PLATFORM_EMERY)
+#endif
+
+#if defined(PBL_PLATFORM_EMERY)
   nervous = gbitmap_create_with_resource(RESOURCE_ID_Nervous_Emery);
-  #else
+#else
   nervous = gbitmap_create_with_resource(RESOURCE_ID_Nervous_Time);
-  #endif
-  
-   #if defined(PBL_PLATFORM_EMERY)
-stressed = gbitmap_create_with_resource(RESOURCE_ID_Stressed_Emery);
-  #else
-stressed = gbitmap_create_with_resource(RESOURCE_ID_Stressed_Time);
-  #endif
-  
-   #if defined(PBL_PLATFORM_EMERY)
+#endif
+
+#if defined(PBL_PLATFORM_EMERY)
+  stressed = gbitmap_create_with_resource(RESOURCE_ID_Stressed_Emery);
+#else
+  stressed = gbitmap_create_with_resource(RESOURCE_ID_Stressed_Time);
+#endif
+
+#if defined(PBL_PLATFORM_EMERY)
   upset = gbitmap_create_with_resource(RESOURCE_ID_Upset_Emery);
-  #else
+#else
   upset = gbitmap_create_with_resource(RESOURCE_ID_Upset_Time);
-  #endif
-  
-   #if defined(PBL_PLATFORM_EMERY)
+#endif
+
+#if defined(PBL_PLATFORM_EMERY)
   which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Emery);
-  #else
+#else
   which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Time);
-  #endif
-
-
-
-
-
-
-
-
-
-
-
+#endif
 }
 
 /***********************************
