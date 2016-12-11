@@ -39,6 +39,12 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/Pair_Contented_Calm_Emery",
+                    "name": "Pair_Contented_Calm_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/zzz.png",
                     "name": "SLEEP",
                     "targetPlatforms": null,
@@ -233,12 +239,6 @@
                 {
                     "file": "images/Pair_Contented_Calm_Time",
                     "name": "Pair_Contented_Calm_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Pair_Contened_Calm_Emery",
-                    "name": "Pair_Contened_Calm_Emery",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },

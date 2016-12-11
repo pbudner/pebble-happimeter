@@ -172,8 +172,11 @@ void firstquestion_window_load(Window *window)
   sad_fatigued = gbitmap_create_with_resource(RESOURCE_ID_Pair_Sad_Fatigued_Time);
   #endif
   
-  contened_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contened_Calm_Emery);
- 
+  #if defined(PBL_PLATFORM_EMERY)
+  contened_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contented_Calm_Emery);
+  #else
+  contened_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contented_Calm_Time);
+  #endif
   
    #if defined(PBL_PLATFORM_EMERY)
   tense_upset = gbitmap_create_with_resource(RESOURCE_ID_Pair_Tense_Upset_Emery);
