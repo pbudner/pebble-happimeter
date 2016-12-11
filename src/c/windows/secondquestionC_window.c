@@ -93,7 +93,22 @@ void c_select_draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuInde
 ***********************************/
 void c_select_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *data)
 {
-  //setAnswer(0,(int) cell_index->row);
+  switch (cell_index->row)
+  {
+  case 0:
+    setMoodAnswer(3, 1);
+    break;
+  case 1:
+    setMoodAnswer(2, 1);
+    break;
+  case 2:
+    setMoodAnswer(3, 0);
+    break;
+  case 3:
+    setMoodAnswer(2, 0);
+    break;
+  }
+
   window_stack_pop_all(false);
   window_stack_push(tree_window_get_window(), true);
 }

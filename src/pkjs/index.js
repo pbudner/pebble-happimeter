@@ -119,7 +119,7 @@ Pebble.addEventListener('appmessage', function (e) {
                 'acc_avg_z': dict.avg_acc_z,
                 'acc_var_z': dict.var_acc_z,
                 'VMC': dict.vmc,
-                'AvgLightLevel': dict.avg_light_level,
+                'avglightlevel': dict.avg_light_level,
                 'PositionLat': pos.coords.latitude,
                 'PositionLon': pos.coords.longitude,
                 'Altitude': pos.coords.altitude
@@ -128,7 +128,7 @@ Pebble.addEventListener('appmessage', function (e) {
             console.log(err);
             sendFinishedWithUpload();
         }, options);
-    } else if (dict.happiness >= 0) {
+    } else if (dict.activation >= 0) {
         console.log('Message contains happiness data..');
         
         if (!apiToken) {
@@ -153,9 +153,8 @@ Pebble.addEventListener('appmessage', function (e) {
         request.send(JSON.stringify({
             'Token': apiToken,
             'Timestamp': Math.round(new Date() / 1000),
-            'happiness': dict.happiness,
-            'whohaveyoubeenwith': dict.who_have_you_been_with,
-            'didyoudosports': dict.did_any_sports
+            'activation': dict.activation,
+            'pleasant': dict.pleasant
         }));
     }
 });

@@ -1,45 +1,50 @@
 #include "data_manager.h"
 
 static int current_measurement_id = 0;
-static int happinessAnswers[3]; // array for saving the happiness answers
+static int pleasant; // saving pleasing answer
+static int activation; // saving pleasing answer
 
 /***********************************
-* Sets the happiness answer for a  *
-* given question.                  *
+* Sets the users mood answer       *
 ***********************************/
-void setHappinessAnswer(int key, int value) {
-  happinessAnswers[key] = value;
+void setMoodAnswer(int _pleasant, int _activation) {
+  pleasant = _pleasant;
+  activation = _activation;
 }
 
 /***********************************
-* Returns the happiness answer for *
-* a given key.                     *
+* Returns the pleasnt answer.      *
 ***********************************/
-int getHappinessAnswer(int key) {
-  return happinessAnswers[key];
+int getPleasant() {
+  return pleasant;
 }
 
 /***********************************
-* Uploads the happiness dataset for*
-* a given set of answers.          *
+* Returns the activation answer.   *
 ***********************************/
-void upload_happiness(int answers[]) {
+int getActivation() {
+  return activation;
+}
+
+/***********************************
+* Uploads the mood dataset.        *
+***********************************/
+void upload_mood(int pleasant, int activation) {
   DictionaryIterator *out_iter;
   app_message_open(64, 256); // open the app message
   AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
   if(result == APP_MSG_OK) {
-    dict_write_int(out_iter, MESSAGE_KEY_happiness, &answers[0], sizeof(int), true);
-    dict_write_int(out_iter, MESSAGE_KEY_did_any_sports, &answers[1], sizeof(int), true);
-    dict_write_int(out_iter, MESSAGE_KEY_who_have_you_been_with, &answers[2], sizeof(int), true);
+    dict_write_int(out_iter, MESSAGE_KEY_pleasant, &pleasant, sizeof(int), true);
+    dict_write_int(out_iter, MESSAGE_KEY_activation, &activation, sizeof(int), true);
     result = app_message_outbox_send(); // send this message
     if(result != APP_MSG_OK) {
-      APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the happiness outbox: %d", (int)result);
+      APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the mood outbox: %d", (int)result);
     } else {
-      APP_LOG(APP_LOG_LEVEL_INFO, "Succesfully sent the happiness outbox: %d", (int)result);
+      APP_LOG(APP_LOG_LEVEL_INFO, "Succesfully sent the mood outbox: %d", (int)result);
     }
   } else {
     // the outbox cannot be used right now
-    APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the happiness outbox: %d", (int)result);
+    APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the mood outbox: %d", (int)result);
   }
 }
 

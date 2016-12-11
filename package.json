@@ -30,9 +30,8 @@
             "userinfo_email",
             "userinfo_weight",
             "userinfo_sportiness",
-            "happiness",
-            "did_any_sports",
-            "who_have_you_been_with",
+            "pleasant",
+            "activation",
             "userinfo_age",
             "app_callback"
         ],

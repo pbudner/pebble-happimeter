@@ -3,6 +3,7 @@
 #include "exit_window.h"
 #include "tree_window.h"
 #include "firstquestion_window.h"
+#include "../modules/data_manager.h"
 #include "../main.h"
 
 extern void init_secondquestionA_window();

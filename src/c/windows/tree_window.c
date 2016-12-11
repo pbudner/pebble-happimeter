@@ -54,14 +54,13 @@ void tree_click_config_provider(void *context)
 ***********************************/
 void tree_window_load(Window *window)
 {
-  //int userAnswers[3];
-  //userAnswers[0] = getHappinessAnswer(0);
-  //userAnswers[1] = getHappinessAnswer(1);
-  //userAnswers[2] = getHappinessAnswer(2);
-  //APP_LOG(APP_LOG_LEVEL_INFO, "User answer #1 %d", userAnswers[0]);
-  //APP_LOG(APP_LOG_LEVEL_INFO, "User answer #2 %d", userAnswers[1]);
-  //APP_LOG(APP_LOG_LEVEL_INFO, "User answer #3 %d", userAnswers[2]);
-  //upload_happiness(userAnswers);
+  int _activation, _pleasant;
+  _activation = getActivation();
+  _pleasant = getPleasant();
+  
+  APP_LOG(APP_LOG_LEVEL_INFO, "Pleasant value is %d", _pleasant);
+  APP_LOG(APP_LOG_LEVEL_INFO, "Activation value is %d", _activation);
+  upload_mood(_pleasant, _activation);
   Layer *window_layer = window_get_root_layer(window);
   APP_LOG(APP_LOG_LEVEL_INFO, "%ld", persist_read_int(counter));
 
