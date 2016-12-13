@@ -127,7 +127,11 @@ void tree_window_load(Window *window)
   }
 
   // Loads a png Image from ressources
+  #if defined(PBL_PLATFORM_EMERY)
+  treeImageLayer = bitmap_layer_create(GRect(0, 0, 200, 228));
+  #else
   treeImageLayer = bitmap_layer_create(GRect(0, 0, 144, 168));
+  #endif
   bitmap_layer_set_bitmap(treeImageLayer, treeImage);
   bitmap_layer_set_compositing_mode(treeImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(treeImageLayer));
@@ -150,8 +154,10 @@ void tree_window_unload(Window *window)
 ***********************************/
 void init_tree_window()
 {
-  treeWindow = window_create();
-  window_set_window_handlers(treeWindow, (WindowHandlers) { .load = tree_window_load, .unload = tree_window_unload });
+  if (!treeWindow){
+    treeWindow = window_create();
+    window_set_window_handlers(treeWindow, (WindowHandlers) { .load = tree_window_load, .unload = tree_window_unload });
+  }
 }
 
 /***********************************
@@ -167,5 +173,6 @@ void deinit_tree_window()
 ***********************************/
 Window *tree_window_get_window()
 {
+  init_tree_window();
   return treeWindow;
 }
