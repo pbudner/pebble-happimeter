@@ -39,12 +39,6 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/Pair_Contented_Calm_Emery",
-                    "name": "Pair_Contented_Calm_Emery",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/zzz.png",
                     "name": "SLEEP",
                     "targetPlatforms": null,
@@ -243,6 +237,12 @@
                     "type": "bitmap"
                 },
                 {
+                    "file": "images/Pair_Contented_Calm_Emery",
+                    "name": "Pair_Contented_Calm_Emery",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/Pair_Alert_Happy_Time",
                     "name": "Pair_Alert_Happy_Time",
                     "targetPlatforms": null,
@@ -423,7 +423,8 @@
             "aplite",
             "basalt",
             "chalk",
-            "diorite"
+            "diorite",
+            "emery"
         ],
         "uuid": "1d0c0108-4ef6-45cc-b4bf-e3c10f4e5260",
         "watchapp": {
