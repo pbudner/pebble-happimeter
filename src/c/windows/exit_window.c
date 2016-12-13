@@ -54,30 +54,8 @@ void exit_down_single_click_handler(ClickRecognizerRef recognizer, void *context
 ***********************************/
 void exit_back_single_click_handler(ClickRecognizerRef recognizer, void *context)
 {
-  if (number == 0)
-  {
-    window_stack_push(firstquestion_window_get_window(), true);
-  }
-  if (number == 1)
-  {
-    window_stack_push(secondquestionA_window_get_window(), true);
-  }
-  if (number == 2)
-  {
-    window_stack_push(secondquestionB_window_get_window(), true);
-  }
-  if (number == 3)
-  {
-    window_stack_push(secondquestionC_window_get_window(), true);
-  }
-  if (number == 4)
-  {
-    window_stack_push(secondquestionD_window_get_window(), true);
-  }
-  if (number < 0 || number > 4)
-  {
-    window_stack_pop_all(true);
-  }
+  // behaviour on 'back' equals 'down'
+  exit_down_single_click_handler(recognizer, &context);
 }
 
 /***********************************

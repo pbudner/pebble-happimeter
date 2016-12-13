@@ -1,8 +1,20 @@
-#include "missingconfig_window.h"
+#include "src/c/windows/missingconfig_window.h"
 
 static Window *emailWindow;
 static GBitmap *emailImage;
 static BitmapLayer *emailImageLayer;
+
+// dedicated button manager from here ---
+void back_single_click_handler(ClickRecognizerRef recognizer, void *context) {
+  Window *window = (Window *)context;
+  APP_LOG(APP_LOG_LEVEL_INFO, "Back button is pressed on missingconfig_window. Exiting now!");
+  window_stack_pop_all(true);
+}
+
+void config_provider(Window *window) {
+  window_single_click_subscribe(BUTTON_ID_BACK, back_single_click_handler);  
+}
+// dedicated button manager till here ---
 
 /***********************************
 * Load event of the window         *
@@ -21,6 +33,9 @@ void missingconfig_window_load(Window *window){
   bitmap_layer_set_bitmap(emailImageLayer, emailImage);
   bitmap_layer_set_compositing_mode(emailImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(emailImageLayer));  
+  
+  // override back_button_manager
+  window_set_click_config_provider(window, (ClickConfigProvider) config_provider);
 }
 
 /***********************************
@@ -29,7 +44,6 @@ void missingconfig_window_load(Window *window){
 void missingconfig_window_unload(){
   bitmap_layer_destroy(emailImageLayer);
   gbitmap_destroy(emailImage);
-  window_destroy(emailWindow);
 }
 
 /***********************************
