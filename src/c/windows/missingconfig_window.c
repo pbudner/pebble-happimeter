@@ -24,7 +24,7 @@ void missingconfig_window_load(Window *window){
   
   // Loads a png Image from ressources
   #if defined(PBL_PLATFORM_EMERY)
-  emailImage = gbitmap_create_with_resource(RESOURCE_ID_Alert_Sign_Emery);
+  emailImage = gbitmap_create_with_resource(RESOURCE_ID_Alert_Sign_Black_White);
   emailImageLayer = bitmap_layer_create(GRect(0,0,200,228));
   #else
   emailImage = gbitmap_create_with_resource(RESOURCE_ID_Alert_Sign_Time);

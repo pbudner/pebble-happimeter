@@ -147,34 +147,34 @@ void secondquestionB_window_load(Window *window)
 {
   b_select_menu_layer(window);
 
-  #if defined(PBL_PLATFORM_EMERY)
-  sad = gbitmap_create_with_resource(RESOURCE_ID_Sad_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
   sad = gbitmap_create_with_resource(RESOURCE_ID_Sad_Time);
+  #else
+  sad = gbitmap_create_with_resource(RESOURCE_ID_Sad_Black_White);
   #endif
 
-  #if defined(PBL_PLATFORM_EMERY)
-  depressed = gbitmap_create_with_resource(RESOURCE_ID_Depressed_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
   depressed = gbitmap_create_with_resource(RESOURCE_ID_Depressed_Time);
+  #else
+  depressed = gbitmap_create_with_resource(RESOURCE_ID_Depressed_Black_White);
   #endif
 
-  #if defined(PBL_PLATFORM_EMERY)
-  bored = gbitmap_create_with_resource(RESOURCE_ID_Bored_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
   bored = gbitmap_create_with_resource(RESOURCE_ID_Bored_Time);
+  #else
+  bored = gbitmap_create_with_resource(RESOURCE_ID_Bored_Black_White);
   #endif
 
-  #if defined(PBL_PLATFORM_EMERY)
-  fatigued = gbitmap_create_with_resource(RESOURCE_ID_Fatigued_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
   fatigued = gbitmap_create_with_resource(RESOURCE_ID_Fatigued_Time);
+  #else
+  fatigued = gbitmap_create_with_resource(RESOURCE_ID_Fatigued_Black_White);
   #endif
 
-  #if defined(PBL_PLATFORM_EMERY)
-  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
   which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Time);
+  #else
+  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Black_White);
   #endif
 
 }

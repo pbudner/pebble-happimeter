@@ -43,10 +43,10 @@ static void init() {
   init_windows();
 
   // show enter config window if the app is not configured yet
-  if(is_configured() == 0) {
-    window_stack_push(missingconfig_window_get_window(), true); // show the missing config window
-    return;
-  }
+ // if(is_configured() == 0) {
+   // window_stack_push(missingconfig_window_get_window(), true); // show the missing config window
+   // return;
+  //}
 
   // do something based on the launch reason
   if(launch_reason() == APP_LAUNCH_WORKER) {

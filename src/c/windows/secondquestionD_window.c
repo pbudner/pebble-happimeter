@@ -147,34 +147,34 @@ void secondquestionD_window_load(Window *window)
 {
   d_select_menu_layer(window);
 
-  #if defined(PBL_PLATFORM_EMERY)
-  tense = gbitmap_create_with_resource(RESOURCE_ID_Tense_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
   tense = gbitmap_create_with_resource(RESOURCE_ID_Tense_Time);
+  #else
+  tense = gbitmap_create_with_resource(RESOURCE_ID_Tense_Black_White);
   #endif
   
-   #if defined(PBL_PLATFORM_EMERY)
-  nervous = gbitmap_create_with_resource(RESOURCE_ID_Nervous_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
   nervous = gbitmap_create_with_resource(RESOURCE_ID_Nervous_Time);
+  #else
+  nervous = gbitmap_create_with_resource(RESOURCE_ID_Nervous_Black_White);
   #endif
   
-   #if defined(PBL_PLATFORM_EMERY)
-stressed = gbitmap_create_with_resource(RESOURCE_ID_Stressed_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
 stressed = gbitmap_create_with_resource(RESOURCE_ID_Stressed_Time);
+  #else
+stressed = gbitmap_create_with_resource(RESOURCE_ID_Stressed_Black_White);
   #endif
   
-   #if defined(PBL_PLATFORM_EMERY)
-  upset = gbitmap_create_with_resource(RESOURCE_ID_Upset_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
   upset = gbitmap_create_with_resource(RESOURCE_ID_Upset_Time);
+  #else
+  upset = gbitmap_create_with_resource(RESOURCE_ID_Upset_Black_White);
   #endif
   
-   #if defined(PBL_PLATFORM_EMERY)
-  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
   which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Time);
+  #else
+  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Black_White);
   #endif
 
 

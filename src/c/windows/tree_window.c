@@ -77,40 +77,40 @@ void tree_window_load(Window *window)
 
   {
   case 1:
-#if defined(PBL_PLATFORM_EMERY)
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE1_EMERY);
-#else
+#if defined(PBL_PLATFORM_BASALT)
     treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE1_TIME);
+#else
+    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE1_Black_White);
 #endif
     counter = counter + 1;
     persist_write_int(key, counter);
     break;
 
   case 2:
-#if defined(PBL_PLATFORM_EMERY)
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE2_EMERY);
-#else
+#if defined(PBL_PLATFORM_BASALT)
     treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE2_TIME);
+#else
+    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE2_Black_White);
 #endif
     counter = counter + 1;
     persist_write_int(key, counter);
     break;
 
   case 3:
-#if defined(PBL_PLATFORM_EMERY)
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE3_EMERY);
-#else
+#if defined(PBL_PLATFORM_BASALT)
     treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE3_TIME);
+#else
+    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE3_Black_White);
 #endif
     counter = counter + 1;
     persist_write_int(key, counter);
     break;
 
   case 0:
-#if defined(PBL_PLATFORM_EMERY)
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE4_EMERY);
-#else
+#if defined(PBL_PLATFORM_BASALT)
     treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE4_TIME);
+#else
+    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE4_Black_White);
 #endif
     counter = counter + 1;
     persist_write_int(key, counter);

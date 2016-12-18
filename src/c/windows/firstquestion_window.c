@@ -160,34 +160,34 @@ void firstquestion_window_load(Window *window)
 {
   setup_menu_layer(window);
 
-   #if defined(PBL_PLATFORM_EMERY)
-   alert_happy = gbitmap_create_with_resource(RESOURCE_ID_Pair_Alert_Happy_Emery);
-  #else
+   #if defined(PBL_PLATFORM_BASALT)
    alert_happy = gbitmap_create_with_resource(RESOURCE_ID_Pair_Alert_Happy_Time);
+  #else
+   alert_happy = gbitmap_create_with_resource(RESOURCE_ID_Pair_Alert_Happy_Black_White);
   #endif
   
-   #if defined(PBL_PLATFORM_EMERY)
-  sad_fatigued = gbitmap_create_with_resource(RESOURCE_ID_Pair_Sad_Fatigued_Emery);
-  #else
+   #if defined(PBL_PLATFORM_BASALT)
   sad_fatigued = gbitmap_create_with_resource(RESOURCE_ID_Pair_Sad_Fatigued_Time);
+  #else
+  sad_fatigued = gbitmap_create_with_resource(RESOURCE_ID_Pair_Sad_Fatigued_Black_White);
   #endif
   
-  #if defined(PBL_PLATFORM_EMERY)
-  contened_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contented_Calm_Emery);
-  #else
+   #if defined(PBL_PLATFORM_BASALT)
   contened_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contented_Calm_Time);
+  #else
+  contened_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contented_Calm_Black_White);
   #endif
   
-   #if defined(PBL_PLATFORM_EMERY)
-  tense_upset = gbitmap_create_with_resource(RESOURCE_ID_Pair_Tense_Upset_Emery);
-  #else
+   #if defined(PBL_PLATFORM_BASALT)
   tense_upset = gbitmap_create_with_resource(RESOURCE_ID_Pair_Tense_Upset_Time);
+  #else
+  tense_upset = gbitmap_create_with_resource(RESOURCE_ID_Pair_Tense_Upset_Black_White);
   #endif
   
-   #if defined(PBL_PLATFORM_EMERY)
-  header_which_Mood_Pair = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Pair_Header_Emery);
-  #else
+   #if defined(PBL_PLATFORM_BASALT)
   header_which_Mood_Pair = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Pair_Header_Time);
+  #else
+  header_which_Mood_Pair = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Pair_Header_Black_White);
   #endif
 
 
