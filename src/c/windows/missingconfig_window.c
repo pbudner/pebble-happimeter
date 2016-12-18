@@ -5,14 +5,14 @@ static GBitmap *emailImage;
 static BitmapLayer *emailImageLayer;
 
 // dedicated button manager from here ---
-void back_single_click_handler(ClickRecognizerRef recognizer, void *context) {
+void back_single_click_handler_mc(ClickRecognizerRef recognizer, void *context) {
   Window *window = (Window *)context;
   APP_LOG(APP_LOG_LEVEL_INFO, "Back button is pressed on missingconfig_window. Exiting now!");
   window_stack_pop_all(true);
 }
 
-void config_provider(Window *window) {
-  window_single_click_subscribe(BUTTON_ID_BACK, back_single_click_handler);  
+void config_provider_mc(Window *window) {
+  window_single_click_subscribe(BUTTON_ID_BACK, back_single_click_handler_mc);  
 }
 // dedicated button manager till here ---
 
@@ -35,7 +35,7 @@ void missingconfig_window_load(Window *window){
   layer_add_child(window_layer, bitmap_layer_get_layer(emailImageLayer));  
   
   // override back_button_manager
-  window_set_click_config_provider(window, (ClickConfigProvider) config_provider);
+  window_set_click_config_provider(window, (ClickConfigProvider) config_provider_mc);
 }
 
 /***********************************

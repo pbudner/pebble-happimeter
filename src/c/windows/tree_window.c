@@ -6,47 +6,38 @@ static BitmapLayer *treeImageLayer;
 static uint32_t key;
 static uint32_t counter;
 
-/***********************************
-* Overwrite default back button    *
-***********************************/
-void tree_back_single_click_handler(ClickRecognizerRef recognizer, void *context)
-{
+// dedicated button manager from here ---
+void back_single_click_handler_tree(ClickRecognizerRef recognizer, void *context) {
+  Window *window = (Window *)context;
+  APP_LOG(APP_LOG_LEVEL_INFO, "Back button is pressed on missingconfig_window. Exiting now!");
   window_stack_pop_all(true);
 }
 
-/***********************************
-* Down single click handler        *
-***********************************/
-void tree_down_single_click_handler(ClickRecognizerRef recognizer, void *context)
-{
+// dedicated button manager from here ---
+void down_single_click_handler_tree(ClickRecognizerRef recognizer, void *context) {
+  Window *window = (Window *)context;
+  APP_LOG(APP_LOG_LEVEL_INFO, "Back button is pressed on missingconfig_window. Exiting now!");
   window_stack_pop_all(true);
 }
 
-/***********************************
-* Up single click handler          *
-***********************************/
-void tree_up_single_click_handler(ClickRecognizerRef recognizer, void *context)
-{
+// dedicated button manager from here ---
+void select_single_click_handler_tree(ClickRecognizerRef recognizer, void *context) {
+  Window *window = (Window *)context;
+  APP_LOG(APP_LOG_LEVEL_INFO, "Back button is pressed on missingconfig_window. Exiting now!");
   window_stack_pop_all(true);
 }
 
-/***********************************
-* Select single click handler          *
-***********************************/
-void tree_select_single_click_handler(ClickRecognizerRef recognizer, void *context)
-{
+// dedicated button manager from here ---
+void up_single_click_handler_tree(ClickRecognizerRef recognizer, void *context) {
+  Window *window = (Window *)context;
+  APP_LOG(APP_LOG_LEVEL_INFO, "Back button is pressed on missingconfig_window. Exiting now!");
   window_stack_pop_all(true);
 }
-
-/***********************************
-* CCP of the tree window           *
-***********************************/
-void tree_click_config_provider(void *context)
-{
-  window_single_click_subscribe(BUTTON_ID_UP, (ClickHandler)tree_up_single_click_handler);
-  window_single_click_subscribe(BUTTON_ID_DOWN, (ClickHandler)tree_down_single_click_handler);
-  window_single_click_subscribe(BUTTON_ID_BACK, (ClickHandler)tree_back_single_click_handler);
-  window_single_click_subscribe(BUTTON_ID_SELECT, (ClickHandler)tree_select_single_click_handler);
+void config_provider_tree(Window *window) {
+  window_single_click_subscribe(BUTTON_ID_BACK, back_single_click_handler_tree);  
+   window_single_click_subscribe(BUTTON_ID_SELECT, down_single_click_handler_tree);  
+   window_single_click_subscribe(BUTTON_ID_DOWN, up_single_click_handler_tree);  
+   window_single_click_subscribe(BUTTON_ID_UP, select_single_click_handler_tree);  
 }
 
 /***********************************
@@ -135,9 +126,9 @@ void tree_window_load(Window *window)
   bitmap_layer_set_bitmap(treeImageLayer, treeImage);
   bitmap_layer_set_compositing_mode(treeImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(treeImageLayer));
-
-  //set config providers
-  window_set_click_config_provider(treeWindow, tree_click_config_provider);
+  
+  // override back_button_manager
+  window_set_click_config_provider(window, (ClickConfigProvider) config_provider_tree);
 }
 
 /***********************************
