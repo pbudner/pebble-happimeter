@@ -23,6 +23,9 @@ void upload_click_config_provider(void *context)
 {
  
   window_single_click_subscribe(BUTTON_ID_BACK, (ClickHandler)upload_back_single_click_handler);
+   window_single_click_subscribe(BUTTON_ID_UP, (ClickHandler)upload_back_single_click_handler);
+   window_single_click_subscribe(BUTTON_ID_SELECT, (ClickHandler)upload_back_single_click_handler);
+   window_single_click_subscribe(BUTTON_ID_DOWN, (ClickHandler)upload_back_single_click_handler);
 }
   
 
