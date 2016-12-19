@@ -4,6 +4,29 @@ static Window *upload_window;
 static TextLayer *upload_window_text_layer;
 static char *info_message = "Please keep your Watch connected to your Phone and the Pebble App opened on your Phone! Otherwise we cannot receive your research data..";
 
+
+/***********************************
+* Overwrite default back button    *
+***********************************/
+void upload_back_single_click_handler(ClickRecognizerRef recognizer, void *context)
+{
+    Window *window = (Window *)context;
+  window_stack_pop_all(true);
+}
+
+
+
+/***********************************
+* CCP of the tree window           *
+***********************************/
+void upload_click_config_provider(void *context)
+{
+ 
+  window_single_click_subscribe(BUTTON_ID_BACK, (ClickHandler)upload_back_single_click_handler);
+}
+  
+
+
 /***********************************
 * Show warning message if the up-  *
 * load timed out..                 *
@@ -30,6 +53,9 @@ void init_upload_window(void) {
   // Set the font and text alignment
   text_layer_set_font(upload_window_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
   text_layer_set_text_alignment(upload_window_text_layer, GTextAlignmentCenter);
+  
+    //set config providers
+  window_set_click_config_provider(upload_window, upload_click_config_provider);
   
   // Add the text layer to the window
   layer_add_child(window_get_root_layer(upload_window), text_layer_get_layer(upload_window_text_layer));
