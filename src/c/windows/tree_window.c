@@ -41,12 +41,14 @@ void tree_single_click_handler(ClickRecognizerRef recognizer, void *context)
   window_stack_pop_all(true);
 }
 
-void config_provider_tree(Window *window)
-{
-  window_single_click_subscribe(BUTTON_ID_BACK, back_single_click_handler_tree);
-  window_single_click_subscribe(BUTTON_ID_SELECT, down_single_click_handler_tree);
-  window_single_click_subscribe(BUTTON_ID_DOWN, up_single_click_handler_tree);
-  window_single_click_subscribe(BUTTON_ID_UP, select_single_click_handler_tree);
+/***********************************
+* CCP of the tree window           *
+***********************************/
+void tree_click_config_provider(void *context){
+  window_single_click_subscribe(BUTTON_ID_UP, (ClickHandler)tree_single_click_handler);
+  window_single_click_subscribe(BUTTON_ID_DOWN, (ClickHandler)tree_single_click_handler);
+  window_single_click_subscribe(BUTTON_ID_BACK, (ClickHandler)tree_single_click_handler);
+  window_single_click_subscribe(BUTTON_ID_SELECT, (ClickHandler)tree_single_click_handler);
 }
 
 /***********************************
@@ -129,7 +131,7 @@ void tree_window_load(Window *window)
   layer_add_child(window_layer, bitmap_layer_get_layer(treeImageLayer));
 
   // override back_button_manager
-  window_set_click_config_provider(window, (ClickConfigProvider) config_provider_tree);
+  window_set_click_config_provider(window, (ClickConfigProvider) tree_click_config_provider);
 }
 
 /***********************************
