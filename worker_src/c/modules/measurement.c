@@ -135,7 +135,7 @@ void measurement_iteration() {
     int data_set_id = get_last_measure_id() + 1;
     APP_LOG(APP_LOG_LEVEL_INFO, "Data Set ID: %d", data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Time: %d", measure.Time);
-    save_measure(10, measure.Time, data_set_id);
+    APP_LOG(APP_LOG_LEVEL_INFO, "Saved Time: %d", save_measure(10, measure.Time, data_set_id));
     APP_LOG(APP_LOG_LEVEL_INFO, "Steps: %d", measure.Steps);
     save_measure(11, measure.Steps, data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Activity: %d", measure.CurrentActivity);

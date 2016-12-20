@@ -74,10 +74,35 @@ module.exports = function(minified) {
   clayConfig.on(clayConfig.EVENTS.AFTER_BUILD, function () {
     var email = clayConfig.getItemByMessageKey("userinfo_email");
     var submit = clayConfig.getItemsByType("submit")[0];
+    var logout_btn = clayConfig.getItemById("btn_logout");
+    var login_btn = clayConfig.getItemById("btn_login");
+    var sctn_personal = clayConfig.getItemsByType("section")[0];
+
+    logout_btn.on('click', function () {
+      clayCon.getItemById('txt_loginFirst').show();
+      clayConfig.getItemByMessageKey("userinfo_name").hide();
+      clayConfig.getItemByMessageKey("userinfo_age").hide();
+      clayConfig.getItemByMessageKey("userinfo_weight").hide();
+      clayConfig.getItemByMessageKey("userinfo_height").hide();
+      clayConfig.getItemByMessageKey("userinfo_sportiness").hide();
+      clayConfig.getItemByMessageKey("sportiness_description").hide();
+      email.enable();
+      logout_btn.hide();
+      login_btn.show();
+    });
     
     // disable e-mail field if one is already set up
     if (this.meta.userData.apiTokenIsSet) {
-        email.disable();  
+      clayCon.getItemById('txt_loginFirst').hide();
+      clayConfig.getItemByMessageKey("userinfo_name").show();
+      clayConfig.getItemByMessageKey("userinfo_age").show();
+      clayConfig.getItemByMessageKey("userinfo_weight").show();
+      clayConfig.getItemByMessageKey("userinfo_height").show();
+      clayConfig.getItemByMessageKey("userinfo_sportiness").show();
+      clayConfig.getItemByMessageKey("sportiness_description").show();
+      email.disable();
+      logout_btn.show();
+      login_btn.hide();
     }
 
     // verify email address according to REGEXP

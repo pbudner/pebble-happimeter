@@ -3,7 +3,7 @@
 #include <pebble_worker.h>
 #include "storage.h"
 
-#define UPDATE_INTERVAL_IN_MINUTES 5
+#define UPDATE_INTERVAL_IN_MINUTES 15
 
 typedef struct {
     int Time;

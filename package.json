@@ -10,7 +10,8 @@
     "pebble": {
         "capabilities": [
             "configurable",
-            "health"
+            "health",
+            "location"
         ],
         "displayName": "Happimeter",
         "enableMultiJS": true,
@@ -30,6 +31,7 @@
             "userinfo_name",
             "userinfo_email",
             "userinfo_weight",
+            "userinfo_height",
             "userinfo_sportiness",
             "pleasant",
             "activation",

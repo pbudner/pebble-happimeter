@@ -3,6 +3,8 @@
 static int current_measurement_id = 0;
 static int pleasant; // saving pleasing answer
 static int activation; // saving pleasing answer
+static bool wait_for_upload_finish = true;
+static bool handled_all_data_items = false;
 
 /***********************************
 * Sets the users mood answer       *
@@ -24,6 +26,28 @@ int getPleasant() {
 ***********************************/
 int getActivation() {
   return activation;
+}
+
+/***********************************
+* Marks an data upload as finished *
+***********************************/
+void received_finished_upload() {
+  wait_for_upload_finish = false;
+  upload_measure();
+}
+
+/***********************************
+* Checks whether the entire data   *
+* uploading process is finished.   * 
+***********************************/
+void check_whether_upload_process_is_finished() {
+  APP_LOG(APP_LOG_LEVEL_INFO, "Wait for upload to be finished: %d", wait_for_upload_finish);
+  APP_LOG(APP_LOG_LEVEL_INFO, "Handled all data items: %d", handled_all_data_items);
+
+  if(!wait_for_upload_finish && handled_all_data_items) {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "Exit app, since upload process finished.");
+    window_stack_pop_all(true);
+  }
 }
 
 /***********************************
@@ -74,11 +98,11 @@ void upload_measure() {
     APP_LOG(APP_LOG_LEVEL_INFO, "Found light level %d.", avg_light_level);  
     APP_LOG(APP_LOG_LEVEL_INFO, "Found vmc %d.", vector_magnitude_counts);    
     DictionaryIterator *out_iter; // Declare the dictionary's iterator
-    app_message_open(64, 256); // open the app message
+    app_message_open(64, 512); // open the app message
     AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
     if(result == APP_MSG_OK) {
       dict_write_int(out_iter, MESSAGE_KEY_current_time, &current_time, sizeof(int), true);
-      dict_write_int(out_iter, MESSAGE_KEY_steps, &steps, sizeof(int), true);
+      //dict_write_int(out_iter, MESSAGE_KEY_steps, &steps, sizeof(int), true);
       dict_write_int(out_iter, MESSAGE_KEY_activity, &activity, sizeof(int), true);
       dict_write_int(out_iter, MESSAGE_KEY_avg_heart_rate, &avg_heart_rate, sizeof(int), true);
       dict_write_int(out_iter, MESSAGE_KEY_avg_acc_x, &avg_acc_x, sizeof(int), true);
@@ -89,6 +113,7 @@ void upload_measure() {
       dict_write_int(out_iter, MESSAGE_KEY_var_acc_z, &var_acc_z, sizeof(int), true);
       dict_write_int(out_iter, MESSAGE_KEY_vmc, &vector_magnitude_counts, sizeof(int), true);
       dict_write_int(out_iter, MESSAGE_KEY_avg_light_level, &avg_light_level, sizeof(int), true);
+      wait_for_upload_finish = true;
       result = app_message_outbox_send(); // send this message
       if(result != APP_MSG_OK) {
         APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the outbox: %d", (int)result);
@@ -101,16 +126,10 @@ void upload_measure() {
     // go to next dataset
     current_measurement_id++;
   } else {
+    handled_all_data_items = true;
     APP_LOG(APP_LOG_LEVEL_INFO, "Did not find any further dataset.. Thus, finished processing data (last id was %d)", (current_measurement_id - 1));
+    check_whether_upload_process_is_finished();
   }
-}
-
-/***********************************
-* When finished with sending data- *
-* set try to send another one.     *
-***********************************/
-void outbox_sent_handler(DictionaryIterator *iter, void *context) {
-  upload_measure();
 }
 
 /***********************************
@@ -120,10 +139,12 @@ bool upload_iteration() {
   int lastId = get_last_measure_id();
   if(lastId == 0) {
     APP_LOG(APP_LOG_LEVEL_ERROR, "There is no data in the storage to upload!!");
+    handled_all_data_items = true;
     return false;
   } else {
     APP_LOG(APP_LOG_LEVEL_INFO, "Last inserted id is %d.", lastId);
     current_measurement_id = 1;
+    handled_all_data_items = false;
     upload_measure();
     return true;
   }
@@ -138,7 +159,6 @@ void worker_message_handler(uint16_t type, AppWorkerMessage *message) {
     int action = message->data0;
     if(action == 4711) {
       APP_LOG(APP_LOG_LEVEL_DEBUG, "Received the uploading task. Thus, uploading the data saved on storage..");
-      app_message_register_outbox_sent(outbox_sent_handler);
       upload_iteration();
     }
   }

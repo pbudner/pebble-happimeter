@@ -14,3 +14,4 @@ extern void worker_message_handler(uint16_t type, AppWorkerMessage *message);
 extern void setMoodAnswer(int _pleasant, int _activation);
 extern int getPleasant();
 extern int getActivation();
+extern void received_finished_upload();
