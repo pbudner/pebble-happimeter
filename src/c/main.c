@@ -14,6 +14,7 @@ static void init_windows() {
   init_secondquestionC_window();
   init_secondquestionD_window();
   init_missingconfig_window();
+  init_introduction_window();
   //init_tree_window(); //since we have memory issues, tree window only gets initiated on call.
 }
 
@@ -32,6 +33,7 @@ static void deinit_windows() {
   deinit_secondquestionD_window();
   deinit_missingconfig_window();
   deinit_tree_window();
+  deinit_introduction_window();
 }
 
 /***********************************
@@ -43,10 +45,10 @@ static void init() {
   init_windows();
 
   // show enter config window if the app is not configured yet
-  if(is_configured() == 0) {
-    window_stack_push(missingconfig_window_get_window(), true); // show the missing config window
-    return;
-  }
+ // if(is_configured() == 0) {
+   //window_stack_push(missingconfig_window_get_window(), true); // show the missing config window
+   //return;
+  //}
 
   // do something based on the launch reason
   if(launch_reason() == APP_LAUNCH_WORKER) {
@@ -55,7 +57,8 @@ static void init() {
     vibes_double_pulse(); // vibrate..
     window_stack_push(wakeup_window_get_window(), true); // show the wakeup window
   } else {
-    window_stack_push(firstquestion_window_get_window(), true); // show the main window
+    window_stack_push(introduction_window_get_window(), true);
+    // window_stack_push(firstquestion_window_get_window(), true); // show the main window
   }
 }
 

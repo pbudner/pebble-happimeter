@@ -148,34 +148,34 @@ void secondquestionC_window_load(Window *window)
   c_select_menu_layer(window);
 
   
- #if defined(PBL_PLATFORM_EMERY)
- contented = gbitmap_create_with_resource(RESOURCE_ID_Contented_Emery);
- #else
+#if defined(PBL_PLATFORM_BASALT)
  contented = gbitmap_create_with_resource(RESOURCE_ID_Contented_Time);
+ #else
+ contented = gbitmap_create_with_resource(RESOURCE_ID_Contented_Black_White);
  #endif
   
-   #if defined(PBL_PLATFORM_EMERY)
-  serene = gbitmap_create_with_resource(RESOURCE_ID_Serene_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
   serene = gbitmap_create_with_resource(RESOURCE_ID_Serene_Time);
+  #else
+  serene = gbitmap_create_with_resource(RESOURCE_ID_Serene_Black_White);
   #endif
   
-   #if defined(PBL_PLATFORM_EMERY)
-  relaxed = gbitmap_create_with_resource(RESOURCE_ID_Relaxed_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
   relaxed = gbitmap_create_with_resource(RESOURCE_ID_Relaxed_Time);
+  #else
+  relaxed = gbitmap_create_with_resource(RESOURCE_ID_Relaxed_Black_White);
   #endif
   
-   #if defined(PBL_PLATFORM_EMERY)
-  calm = gbitmap_create_with_resource(RESOURCE_ID_Calm_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
   calm = gbitmap_create_with_resource(RESOURCE_ID_Calm_Time);
+  #else
+  calm = gbitmap_create_with_resource(RESOURCE_ID_Calm_Black_White);
   #endif
   
-   #if defined(PBL_PLATFORM_EMERY)
-  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Emery);
-  #else
+#if defined(PBL_PLATFORM_BASALT)
   which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Time);
+  #else
+  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Black_White);
   #endif
   
 

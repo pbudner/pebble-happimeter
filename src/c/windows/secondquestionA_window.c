@@ -147,34 +147,34 @@ void secondquestionA_window_load(Window *window)
 {
   a_select_menu_layer(window);
 
-#if defined(PBL_PLATFORM_EMERY)
-  alert = gbitmap_create_with_resource(RESOURCE_ID_Alert_Emery);
-#else
+#if defined(PBL_PLATFORM_BASALT)
   alert = gbitmap_create_with_resource(RESOURCE_ID_Alert_Time);
+#else
+  alert = gbitmap_create_with_resource(RESOURCE_ID_Alert_Black_White);
 #endif
 
-#if defined(PBL_PLATFORM_EMERY)
-  exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Emery);
-#else
+#if defined(PBL_PLATFORM_BASALT)
   exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Time);
+#else
+  exited = gbitmap_create_with_resource(RESOURCE_ID_Exited_Black_White);
 #endif
 
-#if defined(PBL_PLATFORM_EMERY)
-  elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Emery);
-#else
+#if defined(PBL_PLATFORM_BASALT)
   elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Time);
+#else
+  elated = gbitmap_create_with_resource(RESOURCE_ID_Elated_Black_White);
 #endif
 
-#if defined(PBL_PLATFORM_EMERY)
-  happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Emery);
-#else
+#if defined(PBL_PLATFORM_BASALT)
   happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Time);
+#else
+  happy = gbitmap_create_with_resource(RESOURCE_ID_Happy_Black_White);
 #endif
 
-#if defined(PBL_PLATFORM_EMERY)
-  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Emery);
-#else
+#if defined(PBL_PLATFORM_BASALT)
   which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Time);
+#else
+  which_Mood_Header = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Black_White);
 #endif
 }
 

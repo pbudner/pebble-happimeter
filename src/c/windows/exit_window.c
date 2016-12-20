@@ -85,7 +85,7 @@ void exit_window_load(Window *window)
   Layer *window_layer = window_get_root_layer(window);
 // GRect bounds = layer_get_bounds(window_layer);
 #if defined(PBL_PLATFORM_EMERY)
-  exit_Window = gbitmap_create_with_resource(RESOURCE_ID_Exit_Window_Emery);
+  exit_Window = gbitmap_create_with_resource(RESOURCE_ID_Exit_Window_Black_White);
 #else
   exit_Window = gbitmap_create_with_resource(RESOURCE_ID_Exit_Window_Time);
 #endif
