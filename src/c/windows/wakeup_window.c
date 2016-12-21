@@ -299,7 +299,9 @@ void init_wakeup_window()
   wakeupWindow = window_create();
   window_set_window_handlers(wakeupWindow, (WindowHandlers){ .load = wakeup_window_load, .unload = wakeup_window_unload });
   
-  wakeup();
+  if(launch_reason() != APP_LAUNCH_WORKER){
+    wakeup();
+  }
 }
 
 /***********************************
