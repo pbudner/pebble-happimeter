@@ -107,29 +107,29 @@ void wakeup_click_config_provider(void *context)
 * Almost Random Wakeup                           *
 ***********************************/
 static void wakeup(){
-  
+
    // Next occuring (day/hour/minutes)
   printf("wir sind in der wakeupfunktion");
-  
+
   //TODO: Ist die tmp 12 oder 24 stunden format? komische Zeiten auf dem emulator
 
   int randomhour_1;
   int randomhour_2;
   int randomhour_3;
   int randomhour_4;
-  
+
   int randomminute_1 = rand() % 60;
   int randomminute_2 = rand() % 60;
   int randomminute_3 = rand() % 60;
   int randomminute_4 = rand() % 60;
-  
+
   //https://linux.die.net/man/3/gmtime
   //actual time
   time_t t = time(0);   // get time now
   struct tm * tmp = localtime( & t );
   printf("hours is %d\n", tmp->tm_hour);
   printf("minutes is %d\n", tmp->tm_min);
-  
+
   //First random time: time slot 9-11(:59) o'clock
   while (true){
     if(tmp->tm_hour < 12){
@@ -144,7 +144,7 @@ static void wakeup(){
       break;
     }
   }
-  
+
   //Second random time: time slot 12-14(:59) o'clock
    while (true){
      if(tmp->tm_hour < 15 && tmp->tm_hour >= 12){
@@ -159,7 +159,7 @@ static void wakeup(){
       break;
     }
   }
-  
+
   //Third random time: time slot 15-17(:59) o'clock
    while (true){
      if(tmp->tm_hour < 18 && tmp->tm_hour >= 15){
@@ -174,7 +174,7 @@ static void wakeup(){
       break;
     }
   }
-  
+
   //Fourth random time: time slot 18-20(:59) o'clock
    while (true){
      if(tmp->tm_hour < 21 && tmp->tm_hour >= 18){
@@ -189,12 +189,12 @@ static void wakeup(){
       break;
     }
   }
-  
+
   APP_LOG(APP_LOG_LEVEL_INFO, "%d%d RandomTIME_1 wake_up", randomhour_1, randomminute_1);
   APP_LOG(APP_LOG_LEVEL_INFO, "%d%d RandomTIME_2 wake_up", randomhour_2, randomminute_2);
   APP_LOG(APP_LOG_LEVEL_INFO, "%d%d RandomTIME_3 wake_up", randomhour_3, randomminute_3);
   APP_LOG(APP_LOG_LEVEL_INFO, "%d%d RandomTIME_4 wake_up", randomhour_4, randomminute_4);
-  
+
   time_t timestamp_1 = clock_to_timestamp(TODAY, randomhour_1, randomminute_1);
   time_t timestamp_2 = clock_to_timestamp(TODAY, randomhour_2, randomminute_2);
   time_t timestamp_3 = clock_to_timestamp(TODAY, randomhour_3, randomminute_3);
@@ -203,21 +203,21 @@ static void wakeup(){
   // Choose a 'cookie' value representing the reason for the wakeup
   //const int cookie = 0;
 
-  // If true, the user will be notified if they missed the wakeup 
+  // If true, the user will be notified if they missed the wakeup
   // (i.e. their watch was off)
   const bool notify_if_missed = true;
-  
+
   //SUPERWICHTIG, // Cancel all wakeups
   wakeup_cancel_all();
-  
+
   // Schedule wakeup event
   WakeupId id_1 = wakeup_schedule(timestamp_1 , 1 , notify_if_missed);
   WakeupId id_2 = wakeup_schedule(timestamp_2 , 2 , notify_if_missed);
   WakeupId id_3 = wakeup_schedule(timestamp_3 , 3 , notify_if_missed);
   WakeupId id_4 = wakeup_schedule(timestamp_4 , 4 , notify_if_missed);
-  
+
   printf("scheduled!");
-  
+
   // Check the scheduling was successful
    if(id_1 >= 0 && id_2 >= 0 && id_3 >=0 && id_4 >= 0){
      // Persist the ID so that a future launch can query it
@@ -225,7 +225,7 @@ static void wakeup(){
      const int wakeup_id_key = 43;
      persist_write_int(wakeup_id_key, id_1);
    }
-  
+
   // Is the wakeup still scheduled?
 if(wakeup_query(id_1, &timestamp_1)) {
   // Get the time remaining
@@ -246,11 +246,26 @@ static void wakeup_window_load(Window *window)
   GRect bounds = layer_get_bounds(window_layer);
 
   const GEdgeInsets label_insets = {.top = 10, .right = ACTION_BAR_WIDTH + ACTION_BAR_WIDTH / 2, .left = ACTION_BAR_WIDTH / 2};
+
+  //Get the number of the planted tree.
+  static uint32_t counter;
+  static char buf_tree[99] = "Hello, You haven't planted any tree. You can get one after finishing a question-set 4 times. Go on?";
+  counter = persist_exists(TREE_KEY) ? persist_read_int(TREE_KEY) / 4 : 0;
+  if (counter < 1){
+    snprintf(buf_tree,  sizeof(buf_tree), "Hello, You haven't planted any tree. You can get one after finishing a question-set 4 times. Go on?");
+  } else{
+    snprintf(buf_tree,  sizeof(buf_tree), "Hello, You have planted %ld tree(s). Time for a short question-set?", counter);
+  }
+
   s_label_layer = text_layer_create(grect_inset(bounds, label_insets));
-  text_layer_set_text(s_label_layer, "Time for three little questions?");
+  text_layer_set_text(s_label_layer, buf_tree);
   text_layer_set_background_color(s_label_layer, GColorClear);
   text_layer_set_text_alignment(s_label_layer, GTextAlignmentCenter);
-  text_layer_set_font(s_label_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+  #if defined(PBL_PLATFORM_EMERY)
+    text_layer_set_font(s_label_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+  #else
+    text_layer_set_font(s_label_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+  #endif
   layer_add_child(window_layer, text_layer_get_layer(s_label_layer));
 
   s_tick_bitmap = gbitmap_create_with_resource(RESOURCE_ID_TICK);
@@ -298,7 +313,7 @@ void init_wakeup_window()
 
   wakeupWindow = window_create();
   window_set_window_handlers(wakeupWindow, (WindowHandlers){ .load = wakeup_window_load, .unload = wakeup_window_unload });
-  
+
   if(launch_reason() != APP_LAUNCH_WORKER){
     wakeup();
   }

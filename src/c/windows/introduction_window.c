@@ -29,19 +29,18 @@ void intro_click_config_provider(void *context){
 void introduction_window_load(Window *window){
 
   Layer *window_layer = window_get_root_layer(window);
-  static char buf_tree[99] = "Hello, You have planted 999999 tree(s).\nLet's finish some questions to plant more. :)";
+  static char buf_tree[99] = "Hello, You haven't planted any tree. You can get one after finishing a question-set 4 times. :)";
 
   #ifndef PBL_SDK_3
     window_set_fullscreen(window, true);
   #endif
-  /**
-  * It may should be changed to get the tree number from website.
-  */
+
+  //Get the number of the planted tree.
   counter = persist_exists(TREE_KEY) ? persist_read_int(TREE_KEY) / 4 : 0;
   if (counter < 1){
-    snprintf(buf_tree,  sizeof(buf_tree), "Hello, You haven't planted any tree.\nYou can get one after finishing four question-sets. :)");
+    snprintf(buf_tree,  sizeof(buf_tree), "Hello, You haven't planted any tree. You can get one after finishing a question-set 4 times. :)");
   } else{
-    snprintf(buf_tree,  sizeof(buf_tree), "Hello, You have planted %ld tree(s).\nLet's go for a new one. :)", counter);
+    snprintf(buf_tree,  sizeof(buf_tree), "Hello, You have planted %ld tree(s). Let's go for a new one. :)", counter);
   }
 
   APP_LOG(APP_LOG_LEVEL_INFO, buf_tree);
