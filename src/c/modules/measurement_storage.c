@@ -1,6 +1,35 @@
 #include "measurement_storage.h"
 
 /***********************************
+* Removes the measure for          *
+* the given id and the given type  *
+***********************************/
+void remove_measure(int id, int type) {
+  int key = id * 100 + type;
+  persist_delete (key);
+}
+
+
+/***********************************
+* Removes all measures for         *
+* the given id                     *
+***********************************/
+void remove_all_measures(int id) {
+  remove_measure(id, 10);
+  remove_measure(id, 11);
+  remove_measure(id, 12);
+  remove_measure(id, 13);
+  remove_measure(id, 14);
+  remove_measure(id, 15);
+  remove_measure(id, 16);
+  remove_measure(id, 17);
+  remove_measure(id, 18);
+  remove_measure(id, 19);
+  remove_measure(id, 20);
+  remove_measure(id, 21);
+}
+
+/***********************************
 * Returns the measure saved for    *
 * the given id and the given type  *
 * deletes the measure if wanted    *

@@ -33,6 +33,7 @@ int getActivation() {
 ***********************************/
 void received_finished_upload() {
   wait_for_upload_finish = false;
+  remove_all_measures(current_measurement_id - 1); // remove the measures for the last uploaded id
   upload_measure();
 }
 
@@ -81,18 +82,18 @@ void upload_measure() {
     APP_LOG(APP_LOG_LEVEL_INFO, "Found a dataset with the id %d.", current_measurement_id);
 
     // receive all measurement data and delete them
-    int current_time = get_measure(current_measurement_id, 10, true);
-    int steps = get_measure(current_measurement_id, 11, true);
-    int activity = get_measure(current_measurement_id, 12, true);
-    int avg_heart_rate = get_measure(current_measurement_id, 13, true);
-    int avg_acc_x = get_measure(current_measurement_id, 14, true);
-    int var_acc_x = get_measure(current_measurement_id, 15, true);
-    int avg_acc_y = get_measure(current_measurement_id, 16, true);
-    int var_acc_y = get_measure(current_measurement_id, 17, true);
-    int avg_acc_z = get_measure(current_measurement_id, 18, true);
-    int var_acc_z = get_measure(current_measurement_id, 19, true);
-    int vector_magnitude_counts = get_measure(current_measurement_id, 20, true);
-    int avg_light_level = get_measure(current_measurement_id, 21, true);
+    int current_time = get_measure(current_measurement_id, 10, false);
+    int steps = get_measure(current_measurement_id, 11, false);
+    int activity = get_measure(current_measurement_id, 12, false);
+    int avg_heart_rate = get_measure(current_measurement_id, 13, false);
+    int avg_acc_x = get_measure(current_measurement_id, 14, false);
+    int var_acc_x = get_measure(current_measurement_id, 15, false);
+    int avg_acc_y = get_measure(current_measurement_id, 16, false);
+    int var_acc_y = get_measure(current_measurement_id, 17, false);
+    int avg_acc_z = get_measure(current_measurement_id, 18, false);
+    int var_acc_z = get_measure(current_measurement_id, 19, false);
+    int vector_magnitude_counts = get_measure(current_measurement_id, 20, false);
+    int avg_light_level = get_measure(current_measurement_id, 21, false);
     
     APP_LOG(APP_LOG_LEVEL_INFO, "Found number of steps %d.", steps);
     APP_LOG(APP_LOG_LEVEL_INFO, "Found light level %d.", avg_light_level);  
