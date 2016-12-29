@@ -30,7 +30,7 @@ static int last_activity = 0;
 ***********************************/
 HealthMeasure perform_measurement() {
   time_t end = time(NULL);
-  time_t start = end - (UPDATE_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE);
+  time_t start = end - 60 * 15; // TODO: revert this!!! (UPDATE_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE);
 
   // last 15 minutes may not be available
   start -= (15 * SECONDS_PER_MINUTE);
@@ -79,11 +79,12 @@ HealthMeasure perform_measurement() {
   HealthServiceAccessibilityMask result = health_service_metric_accessible(HealthMetricStepCount, start, end);
   if(result == HealthServiceAccessibilityMaskAvailable) {
     APP_LOG(APP_LOG_LEVEL_INFO, "Health Service is available..");
-    const uint32_t max_records = UPDATE_INTERVAL_IN_MINUTES;
+    const uint32_t max_records = 15;  // TODO: revert UPDATE_INTERVAL_IN_MINUTES;
     HealthMinuteData *minute_data = (HealthMinuteData*) malloc(max_records * sizeof(HealthMinuteData));
     uint32_t num_records = health_service_get_minute_history(minute_data, max_records, &start, &end);
     APP_LOG(APP_LOG_LEVEL_INFO, "Num records: %d", (int)num_records);
 
+    int number_of_valid_bpm = 0;
     measure.Steps = 0;
     measure.AverageLightLevel = 0;
     measure.AverageHeartRate = 0;
@@ -92,12 +93,16 @@ HealthMeasure perform_measurement() {
     {
       measure.Steps += (int)minute_data[i].steps;
       measure.AverageLightLevel += (int)minute_data[i].light;
-      measure.AverageHeartRate += (int)minute_data[i].heart_rate_bpm;
       measure.VectorMagnitudeCounts += (int)minute_data[i].vmc;
+      int heart_rate = (int)minute_data[i].heart_rate_bpm;
+      if(heart_rate > HEART_RATE_THRESHOLD) {
+        number_of_valid_bpm++;
+        measure.AverageHeartRate += heart_rate;
+      }
     }
 
     measure.AverageLightLevel = measure.AverageLightLevel / num_records;
-    measure.AverageHeartRate =  measure.AverageHeartRate / num_records;
+    measure.AverageHeartRate =  measure.AverageHeartRate / number_of_valid_bpm;
 
     // free the array
     free(minute_data);

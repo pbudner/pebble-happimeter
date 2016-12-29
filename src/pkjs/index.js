@@ -10,7 +10,7 @@ var clay = new Clay(clayConfig, customClay, {
     }
 });
 
-var url = "";
+var url = "http://team9.coins.he-hosting.de/api/";
 var watchToken = "";
 var accountToken = "";
 
@@ -19,7 +19,6 @@ Pebble.addEventListener('ready', function (e) {
     console.log('PebbleKit JS is ready!');
     watchToken = Pebble.getWatchToken();
     accountToken = Pebble.getAccountToken();
-    url = "http://team9.coins.he-hosting.de/api/";
     console.log('(JS) Happimeter API url: ' + url);
     console.log('(JS) Watch Token: ' + watchToken);
     console.log('(JS) Account Token: ' + accountToken);
@@ -55,27 +54,15 @@ Pebble.addEventListener('webviewclosed', function (e) {
     }));
 });
 
-var sendSensorData = function (dict, lat, lon, alt) {
-    // Create the request
-    var request = new XMLHttpRequest();
+var saveSensorData = function (dict) {
+    var items = localStorage.getItem("sensorItems");
+    if (!items) {
+        items = [];
+    } else {
+        items = JSON.parse(items);
+    }
 
-    // Specify the callback for when the request is completed
-    request.onload = function () {
-        console.log('Got save sensor data response: ' + this.responseText);
-        sendFinishedWithUpload();
-    };
-
-    request.onerror = function (e) {
-        console.log('Error during saving sensor data: ' + e);
-        sendFinishedWithUpload();
-    };
-
-    console.log('(JS) AVG LIGHT LEVEL is: ' + dict.avg_light_level);
-
-    // Send the request
-    request.open("POST", url + "sensor/");
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.send(JSON.stringify({
+    items.push({
         'Account_ID': accountToken,
         'Device_ID': watchToken,
         'Timestamp': dict.current_time,
@@ -90,64 +77,145 @@ var sendSensorData = function (dict, lat, lon, alt) {
         'acc_var_z': dict.var_acc_z,
         'VMC': dict.vmc,
         'avglightlevel': dict.avg_light_level,
-        'PositionLat': lat,
-        'PositionLon': lon,
-        'Altitude': alt
-    }));
-}
+        'PositionLat': dict.lat,
+        'PositionLon': dict.lon,
+        'Altitude': dict.alt
+    });
 
-// Listen for when an AppMessage is received
-Pebble.addEventListener('appmessage', function (e) {
-    // Get the dictionary from the message
-    var dict = e.payload;
+    localStorage.setItem("sensorItems", JSON.stringify(items));
+};
 
-    console.log('(JS) Got message: ' + JSON.stringify(dict));
+var sendSensorData = function () {
+    var items = localStorage.getItem("sensorItems");
+    if (!items) {
+        return;
+    }
 
-    var options = {
-        enableHighAccuracy: true,
-        maximumAge: 10000,
-        timeout: 10000
-    };
+    var sendData = function (items) {
+        var sensorObj = items.shift();
+        if (!sensorObj)
+            return;
 
-    if (dict.current_time >= 0) {
-        console.log("(JS) Message contains sensor data..");
-
-        // Request current position
-        navigator.geolocation.getCurrentPosition(function (pos) {
-            sendSensorData(dict, pos.coords.latitude, pos.coords.longitude, pos.coords.altitude);
-        }, function (err) {
-            console.log(err);
-            sendSensorData(dict, null, null, null);
-        }, options);
-    } else if (dict.activation >= 0) {
-        console.log('(JS) Message contains happiness data..');
+        // Create the request
         var request = new XMLHttpRequest();
 
         // Specify the callback for when the request is completed
         request.onload = function () {
-            console.log('Got happiness response: ' + this.responseText);
+            console.log('Got save sensor data response: ' + this.responseText);
+            localStorage.setItem("sensorItems", JSON.stringify(items));
+            sendFinishedWithUpload();
+            sendData(items);
         };
 
         request.onerror = function (e) {
-            console.log("Got error response:", e.target.status);
+            console.log('Error during saving sensor data: ' + e);
+            sendFinishedWithUpload();
+        };
+
+        // Send the request
+        request.open("POST", url + "sensor/");
+        request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        request.send(JSON.stringify(sensorObj));
+    };
+    
+    items = JSON.parse(items);
+    if (!(!items) && items.length > 0) {
+        sendData(items);
+    } else {
+        console.log("(JS) There are no sensor items to be send.");
+    }
+};
+
+var saveMoodData = function (dict) {
+    var items = localStorage.getItem("moodItems");
+    console.log("(JS) Got mood items:", items);
+    if (!items) {
+        items = [];
+    } else {
+        items = JSON.parse(items);
+    }
+
+    items.push({
+        'Account_ID': accountToken,
+        'Device_ID': watchToken,
+        'Timestamp': dict.current_time,
+        'Activation': dict.activation,
+        'Pleasant': dict.pleasant
+    });
+
+    localStorage.setItem("moodItems", JSON.stringify(items));
+};
+
+var sendMoodData = function () {
+    var items = localStorage.getItem("moodItems");
+    if (!items) {
+        return;
+    }
+
+    var sendData = function (items) {
+        var moodObj = items.shift();
+        if (!moodObj)
+            return;
+
+        // Create the request
+        var request = new XMLHttpRequest();
+
+        // Specify the callback for when the request is completed
+        request.onload = function () {
+            console.log('Got save mood data response: ' + this.responseText);
+            localStorage.setItem("moodItems", JSON.stringify(items));
+            // sendFinishedWithUpload();
+            sendData(items);
+        };
+
+        request.onerror = function (e) {
+            console.log('Error during saving mood data: ' + e);
+            // sendFinishedWithUpload();
         };
 
         // Send the request
         request.open("POST", url + "happiness/");
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        request.send(JSON.stringify({
-            'Account_ID': accountToken,
-            'Device_ID': watchToken,
-            'Timestamp': Math.round(new Date() / 1000),
-            'activation': dict.activation,
-            'pleasant': dict.pleasant
-        }));
+        request.send(JSON.stringify(moodObj));
+    };
+    
+    items = JSON.parse(items);
+    if (!(!items) && items.length > 0) {
+        sendData(items);
+    } else {
+        console.log("(JS) There are no mood items to be send.");
+    }
+};
+
+// Listen for when an AppMessage is received
+Pebble.addEventListener('appmessage', function (e) {
+    var dict = e.payload; // Get the dictionary from the message
+    console.log('(JS) Got message: ' + JSON.stringify(dict));
+    if (dict.vmc >= 0) {
+        console.log("(JS) Message contains sensor data..");
+
+        // Request current position
+        navigator.geolocation.getCurrentPosition(function (pos) {
+            dict.lat = pos.coords.latitude;
+            dict.lon = pos.coords.longitude;
+            dict.alt = pos.coords.altitude;
+            saveSensorData(dict);
+            sendSensorData();
+        }, function (err) {
+            console.log(err);
+            saveSensorData(dict);
+            sendSensorData();
+        }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 });
+    } else if (dict.activation >= 0) {
+        console.log("(JS) Message contains mood data..");
+        saveMoodData(dict);
+        sendMoodData();
     }
 });
 
 var sendFinishedWithUpload = function () {
     Pebble.sendAppMessage({
-        'app_callback': 100 // this says I'm finished with upload
+        'app_callback': 100 // this says finished with upload
     }, function () {
         console.log('(JS) Message "finished with upload" sent successfully..');
     }, function (e) {

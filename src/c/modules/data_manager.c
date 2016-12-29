@@ -59,6 +59,8 @@ void upload_mood(int pleasant, int activation) {
   app_message_open(64, 256); // open the app message
   AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
   if(result == APP_MSG_OK) {
+    int current_time = (int)time(NULL);
+    dict_write_int(out_iter, MESSAGE_KEY_current_time, &current_time, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_pleasant, &pleasant, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_activation, &activation, sizeof(int), true);
     result = app_message_outbox_send(); // send this message
