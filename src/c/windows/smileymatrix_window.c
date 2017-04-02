@@ -6,9 +6,11 @@ static BitmapLayer *smileyMatrixImageLayer;
 static int selectedMatrixOption = 0;
 
 void refresh_menu_image() {
-  gbitmap_destroy(smileyMatrixImage);
+  if(smileyMatrixImage != NULL) {
+    gbitmap_destroy(smileyMatrixImage);
+  }
 
-  APP_LOG(APP_LOG_LEVEL_INFO, "%d is selected matrix option", selectedMatrixOption);
+  APP_LOG(APP_LOG_LEVEL_INFO, "%d is internal selected matrix option", selectedMatrixOption);
   APP_LOG(APP_LOG_LEVEL_INFO, "%d is selected matrix option", 3 - selectedMatrixOption);
 
   switch (3 - selectedMatrixOption)
@@ -25,6 +27,8 @@ void refresh_menu_image() {
   case 3:
     smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_4);
     break;
+  default:
+    smileyMatrixImage = NULL;
   }
 
   bitmap_layer_set_bitmap(smileyMatrixImageLayer, smileyMatrixImage);
@@ -33,12 +37,12 @@ void refresh_menu_image() {
 }
 
 void smileymatrix_single_up_click_handler(ClickRecognizerRef recognizer, void *context){
-  selectedMatrixOption = abs(selectedMatrixOption - 1 % 4);
+  selectedMatrixOption = abs(selectedMatrixOption + 1 % 3);
   refresh_menu_image();
 }
 
 void smileymatrix_single_down_click_handler(ClickRecognizerRef recognizer, void *context){
-  selectedMatrixOption = abs(selectedMatrixOption + 1 % 4);
+  selectedMatrixOption = abs(selectedMatrixOption - 1 % 3);
   refresh_menu_image();
 }
 
