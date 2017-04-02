@@ -1,7 +1,6 @@
 #pragma once
 #include <pebble.h>
 #include "firstquestion_window.h"
-#include "splash_window.h"
 
 #define TREE_KEY 0
 

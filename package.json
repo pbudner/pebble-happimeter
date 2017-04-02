@@ -102,12 +102,6 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/main_smily.png",
-                    "name": "IMAGE_SPLASH",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/cross.png",
                     "name": "CROSS",
                     "targetPlatforms": null,
@@ -336,18 +330,6 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/DidYouDoSports_Time",
-                    "name": "DidYouDoSports_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/DidYouDoSports_Black_White",
-                    "name": "DidYouDoSports_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/Depressed_Time",
                     "name": "Depressed_Time",
                     "targetPlatforms": null,
@@ -423,11 +405,7 @@
         },
         "sdkVersion": "3",
         "targetPlatforms": [
-            "aplite",
-            "basalt",
-            "chalk",
-            "diorite",
-            "emery"
+           "diorite"
         ],
         "uuid": "1d0c0108-4ef6-45cc-b4bf-e3c10f4e5260",
         "watchapp": {

@@ -6,7 +6,6 @@
 static void init_windows() {
   init_upload_window();
   init_exit_window();
-  init_splash_window();
   init_wakeup_window();
   init_firstquestion_window();
   init_secondquestionA_window();
@@ -24,7 +23,6 @@ static void init_windows() {
 static void deinit_windows() {
   deinit_upload_window();
   deinit_exit_window();
-  deinit_splash_window();
   deinit_wakeup_window();
   deinit_firstquestion_window();
   deinit_secondquestionA_window();

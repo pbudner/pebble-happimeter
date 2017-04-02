@@ -1,7 +1,6 @@
 #include "exit_window.h"
 
 static Window *exitWindow;
-static MenuLayer *exitMenuLayer;
 static TextLayer *s_label_layer;
 static BitmapLayer *s_icon_layer;
 static ActionBarLayer *s_action_bar_layer;

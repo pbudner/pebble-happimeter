@@ -8,7 +8,6 @@
 
 // Windows
 #include "windows/upload_data_window.h"
-#include "windows/splash_window.h"
 #include "windows/exit_window.h"
 #include "windows/wakeup_window.h"
 #include "windows/tree_window.h"
