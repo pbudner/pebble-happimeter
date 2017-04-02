@@ -402,28 +402,28 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Smilie_Icons_1.png",
+                    "file": "images/Smilie_Icon_1.png",
                     "name": "Smiley_Matrix_1",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 }
                 ,
                 {
-                    "file": "images/Smilie_Icons_2.png",
+                    "file": "images/Smilie_Icon_2.png",
                     "name": "Smiley_Matrix_2",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 }
                 ,
                 {
-                    "file": "images/Smilie_Icons_3.png",
+                    "file": "images/Smilie_Icon_3.png",
                     "name": "Smiley_Matrix_3",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 }
                 ,
                 {
-                    "file": "images/Smilie_Icons_4.png",
+                    "file": "images/Smilie_Icon_4.png",
                     "name": "Smiley_Matrix_4",
                     "targetPlatforms": null,
                     "type": "bitmap"
