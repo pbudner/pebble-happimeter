@@ -23,6 +23,10 @@ void smileymatrix_back_click_handler(ClickRecognizerRef recognizer, void *contex
 
 void refresh_menu_image() {
   gbitmap_destroy(smileyMatrixImage);
+
+  APP_LOG(APP_LOG_LEVEL_INFO, "%d is selected matrix option", selectedMatrixOption);
+  APP_LOG(APP_LOG_LEVEL_INFO, "%d is selected matrix option", 3 - selectedMatrixOption);
+
   switch (3 - selectedMatrixOption)
   {
   case 0:
@@ -40,6 +44,8 @@ void refresh_menu_image() {
   }
 
   bitmap_layer_set_bitmap(smileyMatrixImageLayer, smileyMatrixImage);
+  layer_mark_dirty(bitmap_layer_get_layer(smileyMatrixImageLayer));
+
 }
 
 /***********************************
