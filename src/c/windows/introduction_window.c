@@ -7,7 +7,7 @@ static TextLayer *treenum_label_layer;
 // static BitmapLayer *introImageLayer;
 
 void intro_single_click_handler(ClickRecognizerRef recognizer, void *context){
-  window_stack_push(firstquestion_window_get_window(), true); // show the main window
+  window_stack_push(smileymatrix_window_get_window(), true); // show the main window
 }
 void intro_back_click_handler(ClickRecognizerRef recognizer, void *context){
   window_stack_pop_all(true);

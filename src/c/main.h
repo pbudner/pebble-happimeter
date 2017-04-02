@@ -13,6 +13,7 @@
 #include "windows/tree_window.h"
 #include "windows/missingconfig_window.h"
 #include "windows/introduction_window.h"
+#include "windows/smileymatrix_window.h"
 
 #include "windows/firstquestion_window.h"
 #include "windows/secondquestionA_window.h"

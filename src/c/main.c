@@ -14,6 +14,7 @@ static void init_windows() {
   init_secondquestionD_window();
   init_missingconfig_window();
   init_introduction_window();
+  init_smileymatrix_window();
   //init_tree_window(); //since we have memory issues, tree window only gets initiated on call.
 }
 
@@ -32,6 +33,7 @@ static void deinit_windows() {
   deinit_missingconfig_window();
   deinit_tree_window();
   deinit_introduction_window();
+  deinit_smileymatrix_window();
 }
 
 /***********************************

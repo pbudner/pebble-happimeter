@@ -400,6 +400,12 @@
                     "name": "Alert_Sign_Black_White",
                     "targetPlatforms": null,
                     "type": "bitmap"
+                },
+                {
+                    "file": "images/Smilie_Icons_1.png",
+                    "name": "Smiley_Matrix_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
                 }
             ]
         },

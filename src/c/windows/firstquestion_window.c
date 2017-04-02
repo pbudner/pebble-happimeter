@@ -2,8 +2,8 @@
 
 static Window *firstquestionWindow;
 static MenuLayer *firstquestionMenuLayer;
-static GBitmap *header_which_Mood_Pair, *alert_happy, *sad_fatigued, *contened_calm, *tense_upset;
 static int16_t menu_header_height(struct MenuLayer *menu, uint16_t section_index, void *callback_context);
+static GBitmap *header_which_Mood_Pair, *alert_happy, *sad_fatigued, *contened_calm, *tense_upset;
 static void menu_draw_header(GContext *ctx, const Layer *cell_layer, uint16_t section_index, void *callback_context);
 
 /***********************************
@@ -12,6 +12,14 @@ static void menu_draw_header(GContext *ctx, const Layer *cell_layer, uint16_t se
 uint16_t menu_get_num_sections_callback(MenuLayer *menu_layer, void *data)
 {
   return 1;
+}
+
+/***********************************
+* Size of the menu header box      *
+***********************************/
+int16_t menu_header_height(struct MenuLayer *menu, uint16_t section_index, void *callback_context)
+{
+  return 40;
 }
 
 /***********************************
@@ -43,14 +51,6 @@ static void menu_draw_header(GContext *ctx, const Layer *cell_layer, uint16_t se
   graphics_draw_bitmap_in_rect(ctx, header_which_Mood_Pair, bounds);
   // text in the box
   //graphics_draw_text(ctx, ("How are you feeling?"),fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD),GRect(0, 0, bounds.size.w, 80), GTextOverflowModeWordWrap, GTextAlignmentCenter, NULL);
-}
-
-/***********************************
-* Size of the menu header box      *
-***********************************/
-int16_t menu_header_height(struct MenuLayer *menu, uint16_t section_index, void *callback_context)
-{
-  return 40;
 }
 
 //void menu_draw_header_callback(GContext* ctx, const Layer *cell_layer, uint16_t section_index, void *data) {
