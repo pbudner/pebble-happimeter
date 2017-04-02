@@ -5,22 +5,6 @@ static GBitmap *smileyMatrixImage;
 static BitmapLayer *smileyMatrixImageLayer;
 static int selectedMatrixOption = 0;
 
-void smileymatrix_single_click_handler(ClickRecognizerRef recognizer, void *context){
-  window_stack_push(firstquestion_window_get_window(), true); // show the main window
-}
-
-void smileymatrix_single_up_click_handler(ClickRecognizerRef recognizer, void *context){
-  selectedMatrixOption = (selectedMatrixOption - 1) % 3;
-}
-
-void smileymatrix_single_down_click_handler(ClickRecognizerRef recognizer, void *context){
-  selectedMatrixOption = (selectedMatrixOption + 1) % 3;
-}
-
-void smileymatrix_back_click_handler(ClickRecognizerRef recognizer, void *context){
-  window_stack_pop_all(true);
-}
-
 void refresh_menu_image() {
   gbitmap_destroy(smileyMatrixImage);
 
@@ -46,6 +30,24 @@ void refresh_menu_image() {
   bitmap_layer_set_bitmap(smileyMatrixImageLayer, smileyMatrixImage);
   layer_mark_dirty(bitmap_layer_get_layer(smileyMatrixImageLayer));
 
+}
+
+void smileymatrix_single_up_click_handler(ClickRecognizerRef recognizer, void *context){
+  selectedMatrixOption = abs(selectedMatrixOption - 1 % 4);
+  refresh_menu_image();
+}
+
+void smileymatrix_single_down_click_handler(ClickRecognizerRef recognizer, void *context){
+  selectedMatrixOption = abs(selectedMatrixOption + 1 % 4);
+  refresh_menu_image();
+}
+
+void smileymatrix_single_click_handler(ClickRecognizerRef recognizer, void *context){
+  window_stack_push(firstquestion_window_get_window(), true); // show the main window
+}
+
+void smileymatrix_back_click_handler(ClickRecognizerRef recognizer, void *context){
+  window_stack_pop_all(true);
 }
 
 /***********************************
