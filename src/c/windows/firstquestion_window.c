@@ -2,14 +2,14 @@
 
 static Window *firstquestionWindow;
 static MenuLayer *firstquestionMenuLayer;
-<<<<<<< HEAD
-=======
+
+
 static GBitmap *header_which_Mood_Pair, 
                *alert_happy, 
                *sad_fatigued, 
                *contened_calm, 
                *tense_upset;
->>>>>>> 98b9011cbe85fbddfb28c937735bade3d8e7a631
+
 static int16_t menu_header_height(struct MenuLayer *menu, uint16_t section_index, void *callback_context);
 static GBitmap *header_which_Mood_Pair, *alert_happy, *sad_fatigued, *contened_calm, *tense_upset;
 static void menu_draw_header(GContext *ctx, const Layer *cell_layer, uint16_t section_index, void *callback_context);

@@ -168,6 +168,30 @@
                     "type": "bitmap"
                 },
                 {
+                    "file": "images/Smilie_Icon_4.png",
+                    "name": "Smiley_Matrix_4",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Smilie_Icon_3.png",
+                    "name": "Smiley_Matrix_3",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Smilie_Icon_2.png",
+                    "name": "Smiley_Matrix_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Smilie_Icon_1.png",
+                    "name": "Smiley_Matrix_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/Serene_Time",
                     "name": "Serene_Time",
                     "targetPlatforms": null,
@@ -400,39 +424,12 @@
                     "name": "Alert_Sign_Black_White",
                     "targetPlatforms": null,
                     "type": "bitmap"
-                },
-                {
-                    "file": "images/Smilie_Icon_1.png",
-                    "name": "Smiley_Matrix_1",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                }
-                ,
-                {
-                    "file": "images/Smilie_Icon_2.png",
-                    "name": "Smiley_Matrix_2",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                }
-                ,
-                {
-                    "file": "images/Smilie_Icon_3.png",
-                    "name": "Smiley_Matrix_3",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                }
-                ,
-                {
-                    "file": "images/Smilie_Icon_4.png",
-                    "name": "Smiley_Matrix_4",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
                 }
             ]
         },
         "sdkVersion": "3",
         "targetPlatforms": [
-           "diorite"
+            "diorite"
         ],
         "uuid": "1d0c0108-4ef6-45cc-b4bf-e3c10f4e5260",
         "watchapp": {
