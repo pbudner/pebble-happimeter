@@ -20,6 +20,28 @@ void smileymatrix_single_down_click_handler(ClickRecognizerRef recognizer, void 
 void smileymatrix_back_click_handler(ClickRecognizerRef recognizer, void *context){
   window_stack_pop_all(true);
 }
+
+void refresh_menu_image() {
+  gbitmap_destroy(smileyMatrixImage);
+  switch (3 - selectedMatrixOption)
+  {
+  case 0:
+    smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_1);
+    break;
+  case 1:
+    smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_2);
+    break;
+  case 2:
+    smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_3);
+    break;
+  case 3:
+    smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_4);
+    break;
+  }
+
+  bitmap_layer_set_bitmap(smileyMatrixImageLayer, smileyMatrixImage);
+}
+
 /***********************************
 * Right buttons click config       *
 ***********************************/
@@ -47,26 +69,6 @@ void smileymatrix_window_load(Window *window){
 
   // overwrite default setting for back button
   // force_back_button(window, firstquestionMenuLayer);
-}
-
-void refresh_menu_image() {
-  gbitmap_destroy(smileyMatrixImage)
-  switch(3-selectedMatrixOption) {
-    case 0:
-      smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_1);
-      break;
-    case 1:
-      smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_2);
-      break;
-    case 2:
-      smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_3);
-      break;
-    case 3:
-      smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_4);
-      break;
-    }
-
-    bitmap_layer_set_bitmap(smileyMatrixImageLayer);
 }
 
 /***********************************
