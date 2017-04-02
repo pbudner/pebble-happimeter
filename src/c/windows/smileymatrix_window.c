@@ -8,6 +8,15 @@ static int selectedMatrixOption = 0;
 void smileymatrix_single_click_handler(ClickRecognizerRef recognizer, void *context){
   window_stack_push(firstquestion_window_get_window(), true); // show the main window
 }
+
+void smileymatrix_single_up_click_handler(ClickRecognizerRef recognizer, void *context){
+  selectedMatrixOption = (selectedMatrixOption - 1) % 3;
+}
+
+void smileymatrix_single_down_click_handler(ClickRecognizerRef recognizer, void *context){
+  selectedMatrixOption = (selectedMatrixOption + 1) % 3;
+}
+
 void smileymatrix_back_click_handler(ClickRecognizerRef recognizer, void *context){
   window_stack_pop_all(true);
 }
@@ -15,8 +24,8 @@ void smileymatrix_back_click_handler(ClickRecognizerRef recognizer, void *contex
 * Right buttons click config       *
 ***********************************/
 void smileymatrix_click_config_provider(void *context){
-  window_single_click_subscribe(BUTTON_ID_UP, (ClickHandler)smileymatrix_single_click_handler);
-  window_single_click_subscribe(BUTTON_ID_DOWN, (ClickHandler)smileymatrix_single_click_handler);
+  window_single_click_subscribe(BUTTON_ID_UP, (ClickHandler)smileymatrix_single_up_click_handler);
+  window_single_click_subscribe(BUTTON_ID_DOWN, (ClickHandler)smileymatrix_single_down_click_handler);
   window_single_click_subscribe(BUTTON_ID_SELECT, (ClickHandler)smileymatrix_single_click_handler);
   window_single_click_subscribe(BUTTON_ID_BACK, (ClickHandler)smileymatrix_back_click_handler);
 }
@@ -31,14 +40,33 @@ void smileymatrix_window_load(Window *window){
   window_set_click_config_provider(window, smileymatrix_click_config_provider);
 
   Layer *window_layer = window_get_root_layer(window);
-  smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_1); // Loads a png Image from ressources
   smileyMatrixImageLayer = bitmap_layer_create(GRect(0, 0, 144, 168));
-  bitmap_layer_set_bitmap(smileyMatrixImageLayer, smileyMatrixImage);
   bitmap_layer_set_compositing_mode(smileyMatrixImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(smileyMatrixImageLayer));
+  refresh_menu_image();
 
   // overwrite default setting for back button
   // force_back_button(window, firstquestionMenuLayer);
+}
+
+void refresh_menu_image() {
+  gbitmap_destroy(smileyMatrixImage)
+  switch(3-selectedMatrixOption) {
+    case 0:
+      smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_1);
+      break;
+    case 1:
+      smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_2);
+      break;
+    case 2:
+      smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_3);
+      break;
+    case 3:
+      smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_4);
+      break;
+    }
+
+    bitmap_layer_set_bitmap(smileyMatrixImageLayer);
 }
 
 /***********************************
