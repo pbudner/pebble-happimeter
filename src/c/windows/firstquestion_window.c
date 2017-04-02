@@ -2,7 +2,11 @@
 
 static Window *firstquestionWindow;
 static MenuLayer *firstquestionMenuLayer;
-static GBitmap *header_which_Mood_Pair, *alert_happy, *sad_fatigued, *contened_calm, *tense_upset;
+static GBitmap *header_which_Mood_Pair, 
+               *alert_happy, 
+               *sad_fatigued, 
+               *contened_calm, 
+               *tense_upset;
 static int16_t menu_header_height(struct MenuLayer *menu, uint16_t section_index, void *callback_context);
 static void menu_draw_header(GContext *ctx, const Layer *cell_layer, uint16_t section_index, void *callback_context);
 
@@ -34,13 +38,13 @@ uint16_t menu_get_num_rows_callback(MenuLayer *menu_layer, uint16_t section_inde
 static void menu_draw_header(GContext *ctx, const Layer *cell_layer, uint16_t section_index, void *callback_context)
 {
   GRect bounds = layer_get_bounds(cell_layer);
-  //menu_cell_basic_draw(ctx, cell_layer, "", NULL, HowAreYouFeeling);
-  graphics_context_set_fill_color(ctx, GColorWhite);
+  menu_cell_basic_draw(ctx, cell_layer, "How are you feelig", NULL, NULL);
+  //graphics_context_set_fill_color(ctx, GColorWhite);
   //graphics_context_set_text_color(ctx, GColorBlack);
   // draw the box; 3rd and 4th variables: rounding the corners of the box
   // the watch has a displey of 200 p width
   graphics_fill_rect(ctx, GRect((bounds.size.w - 144) / 2, 4, 144, 40), 8, GCornersAll);
-  graphics_draw_bitmap_in_rect(ctx, header_which_Mood_Pair, bounds);
+  //graphics_draw_bitmap_in_rect(ctx, header_which_Mood_Pair, bounds);
   // text in the box
   //graphics_draw_text(ctx, ("How are you feeling?"),fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD),GRect(0, 0, bounds.size.w, 80), GTextOverflowModeWordWrap, GTextAlignmentCenter, NULL);
 }
@@ -77,19 +81,19 @@ void menu_draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuIndex *c
     {
     case 0:
       // NULL = Smily icon to input
-      menu_cell_basic_draw(ctx, cell_layer, "", NULL, alert_happy);
+      menu_cell_basic_draw(ctx, cell_layer, "Smily Matrix", NULL, NULL);
       break;
     case 1:
       // NULL = Smily icon to input
-      menu_cell_basic_draw(ctx, cell_layer, "", NULL, sad_fatigued);
+      menu_cell_basic_draw(ctx, cell_layer, "Personal Network", NULL, NULL);
       break;
     case 2:
       // NULL = Smily icon to input
-      menu_cell_basic_draw(ctx, cell_layer, "", NULL, contened_calm);
+      menu_cell_basic_draw(ctx, cell_layer, "Mood History", NULL, NULL);
       break;
     case 3:
       // NULL = Smily icon to input
-      menu_cell_basic_draw(ctx, cell_layer, "", NULL, tense_upset);
+      menu_cell_basic_draw(ctx, cell_layer, "Current Mood", NULL, NULL);
       break;
     }
 
@@ -132,8 +136,8 @@ void setup_menu_layer(Window *window)
   GRect bounds = layer_get_bounds(window_layer);
 
   firstquestionMenuLayer = menu_layer_create(bounds);
-  menu_layer_set_normal_colors(firstquestionMenuLayer, GColorWhite, GColorWhite);
-  menu_layer_set_highlight_colors(firstquestionMenuLayer, GColorLightGray, GColorBlack);
+//  menu_layer_set_normal_colors(firstquestionMenuLayer, GColorWhite, GColorWhite);
+//  menu_layer_set_highlight_colors(firstquestionMenuLayer, GColorLightGray, GColorBlack);
 
   menu_layer_set_callbacks(firstquestionMenuLayer, NULL, (MenuLayerCallbacks){
                                                              .get_num_sections = menu_get_num_sections_callback,
@@ -160,35 +164,14 @@ void firstquestion_window_load(Window *window)
 {
   setup_menu_layer(window);
 
-   #if defined(PBL_PLATFORM_BASALT)
-   alert_happy = gbitmap_create_with_resource(RESOURCE_ID_Pair_Alert_Happy_Time);
-  #else
-   alert_happy = gbitmap_create_with_resource(RESOURCE_ID_Pair_Alert_Happy_Black_White);
-  #endif
   
-   #if defined(PBL_PLATFORM_BASALT)
-  sad_fatigued = gbitmap_create_with_resource(RESOURCE_ID_Pair_Sad_Fatigued_Time);
-  #else
-  sad_fatigued = gbitmap_create_with_resource(RESOURCE_ID_Pair_Sad_Fatigued_Black_White);
-  #endif
   
-   #if defined(PBL_PLATFORM_BASALT)
-  contened_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contented_Calm_Time);
-  #else
-  contened_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contented_Calm_Black_White);
-  #endif
-  
-   #if defined(PBL_PLATFORM_BASALT)
-  tense_upset = gbitmap_create_with_resource(RESOURCE_ID_Pair_Tense_Upset_Time);
-  #else
-  tense_upset = gbitmap_create_with_resource(RESOURCE_ID_Pair_Tense_Upset_Black_White);
-  #endif
-  
-   #if defined(PBL_PLATFORM_BASALT)
-  header_which_Mood_Pair = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Pair_Header_Time);
-  #else
+  // alert_happy = gbitmap_create_with_resource(RESOURCE_ID_Pair_Alert_Happy_Black_White);
+  // sad_fatigued = gbitmap_create_with_resource(RESOURCE_ID_Pair_Sad_Fatigued_Black_White); 
+  //contened_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contented_Calm_Black_White);
+  //tense_upset = gbitmap_create_with_resource(RESOURCE_ID_Pair_Tense_Upset_Black_White);
   header_which_Mood_Pair = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Pair_Header_Black_White);
-  #endif
+  
 
 
 }
@@ -219,7 +202,9 @@ void firstquestion_window_appear(Window *window)
 void init_firstquestion_window()
 {
   firstquestionWindow = window_create();
-  window_set_window_handlers(firstquestionWindow, (WindowHandlers){.load = firstquestion_window_load, .unload = firstquestion_window_unload, .appear = firstquestion_window_appear});
+  window_set_window_handlers(firstquestionWindow, (WindowHandlers){
+    .load = firstquestion_window_load, 
+    .unload = firstquestion_window_unload, .appear = firstquestion_window_appear});
 }
 
 /***********************************
