@@ -42,12 +42,6 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/Smiley_Icon_3.png",
-                    "name": "Smiley_Matrix_3",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/zzz.png",
                     "name": "SLEEP",
                     "targetPlatforms": null,
@@ -176,6 +170,12 @@
                 {
                     "file": "images/Smiley_Icon_4.png",
                     "name": "Smiley_Matrix_4",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Smiley_Icon_3.png",
+                    "name": "Smiley_Matrix_3",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
