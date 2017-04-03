@@ -13,7 +13,7 @@ void refresh_menu_image() {
   APP_LOG(APP_LOG_LEVEL_INFO, "%d is internal selected matrix option", selectedMatrixOption);
   APP_LOG(APP_LOG_LEVEL_INFO, "%d is selected matrix option", 3 - selectedMatrixOption);
 
-  switch (3 - selectedMatrixOption)
+  switch (3- selectedMatrixOption)
   {
   case 0:
     smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_1);

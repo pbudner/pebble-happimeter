@@ -42,25 +42,7 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/Smiley_Icon_4.png",
-                    "name": "Smiley_Matrix_4",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Smiley_Icon_2.png",
-                    "name": "Smiley_Matrix_2",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Smiley_Icon_1.png",
-                    "name": "Smiley_Matrix_1",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Smiley_Icon_3",
+                    "file": "images/Smiley_Icon_3.png",
                     "name": "Smiley_Matrix_3",
                     "targetPlatforms": null,
                     "type": "bitmap"
@@ -188,6 +170,24 @@
                 {
                     "file": "images/Stressed_Black_White",
                     "name": "Stressed_Black_White",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Smiley_Icon_4.png",
+                    "name": "Smiley_Matrix_4",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Smiley_Icon_2.png",
+                    "name": "Smiley_Matrix_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Smiley_Icon_1.png",
+                    "name": "Smiley_Matrix_1",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },

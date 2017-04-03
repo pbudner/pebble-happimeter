@@ -1,9 +1,6 @@
 #include "tree_window.h"
 
-static Window *treeWindow;
-static GBitmap *treeImage;
-static BitmapLayer *treeImageLayer;
-static uint32_t counter;
+          
 
 // // dedicated button manager from here ---
 // void back_single_click_handler_tree(ClickRecognizerRef recognizer, void *context) {
@@ -35,6 +32,59 @@ static uint32_t counter;
 /***********************************
 * Any button single click handler  *
 ***********************************/
+
+ const int animation_images[] = {
+        RESOURCE_ID_IMAGE_TREE_1,
+     RESOURCE_ID_IMAGE_TREE_2,
+     RESOURCE_ID_IMAGE_TREE_3,
+     RESOURCE_ID_IMAGE_TREE_4,
+     RESOURCE_ID_IMAGE_TREE_5,
+     RESOURCE_ID_IMAGE_TREE_6,
+     RESOURCE_ID_IMAGE_TREE_7,
+     RESOURCE_ID_IMAGE_TREE_8,
+     RESOURCE_ID_IMAGE_TREE_9,
+        RESOURCE_ID_IMAGE_TREE_10,
+     RESOURCE_ID_IMAGE_TREE_11,
+     RESOURCE_ID_IMAGE_TREE_12,
+     RESOURCE_ID_IMAGE_TREE_13,
+     RESOURCE_ID_IMAGE_TREE_14,
+     RESOURCE_ID_IMAGE_TREE_15,
+     RESOURCE_ID_IMAGE_TREE_16,
+     RESOURCE_ID_IMAGE_TREE_17,
+     RESOURCE_ID_IMAGE_TREE_18,
+     RESOURCE_ID_IMAGE_TREE_19,
+        RESOURCE_ID_IMAGE_TREE_20,
+     RESOURCE_ID_IMAGE_TREE_21,
+     RESOURCE_ID_IMAGE_TREE_22,
+     RESOURCE_ID_IMAGE_TREE_23,
+     RESOURCE_ID_IMAGE_TREE_24,
+     RESOURCE_ID_IMAGE_TREE_25,
+     RESOURCE_ID_IMAGE_TREE_26,
+     RESOURCE_ID_IMAGE_TREE_27,
+     RESOURCE_ID_IMAGE_TREE_28,
+     RESOURCE_ID_IMAGE_TREE_29,
+        RESOURCE_ID_IMAGE_TREE_30,
+     RESOURCE_ID_IMAGE_TREE_31,
+     RESOURCE_ID_IMAGE_TREE_32,
+     RESOURCE_ID_IMAGE_TREE_33,
+     RESOURCE_ID_IMAGE_TREE_34,
+     RESOURCE_ID_IMAGE_TREE_35,
+     RESOURCE_ID_IMAGE_TREE_36,
+     RESOURCE_ID_IMAGE_TREE_37,
+     RESOURCE_ID_IMAGE_TREE_38,
+     RESOURCE_ID_IMAGE_TREE_39,
+        RESOURCE_ID_IMAGE_TREE_40,
+     RESOURCE_ID_IMAGE_TREE_41,
+     RESOURCE_ID_IMAGE_TREE_42,
+     RESOURCE_ID_IMAGE_TREE_43,
+     RESOURCE_ID_IMAGE_TREE_44,
+     RESOURCE_ID_IMAGE_TREE_45,
+     RESOURCE_ID_IMAGE_TREE_46,
+     RESOURCE_ID_IMAGE_TREE_47
+
+ };
+
+
 void tree_single_click_handler(ClickRecognizerRef recognizer, void *context)
 {
   APP_LOG(APP_LOG_LEVEL_INFO, "One button is pressed on tree_window. Exiting now!");
