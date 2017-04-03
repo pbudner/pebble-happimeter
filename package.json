@@ -108,26 +108,8 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ExitWindow_Time",
-                    "name": "Exit_Window_Time",
-                    "targetPlatforms": [
-                        "aplite",
-                        "basalt",
-                        "chalk",
-                        "diorite",
-                        "emery"
-                    ],
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/ExitWindow_Black_White",
                     "name": "Exit_Window_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/AlertSign_Time",
-                    "name": "Alert_Sign_Time",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
