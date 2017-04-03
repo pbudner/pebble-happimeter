@@ -8,10 +8,6 @@ static void init_windows() {
   init_exit_window();
   init_wakeup_window();
   init_firstquestion_window();
-  init_secondquestionA_window();
-  init_secondquestionB_window();
-  init_secondquestionC_window();
-  init_secondquestionD_window();
   init_missingconfig_window();
   init_introduction_window();
   init_smileymatrix_window();
@@ -26,10 +22,6 @@ static void deinit_windows() {
   deinit_exit_window();
   deinit_wakeup_window();
   deinit_firstquestion_window();
-  deinit_secondquestionA_window();
-  deinit_secondquestionB_window();
-  deinit_secondquestionC_window();
-  deinit_secondquestionD_window();
   deinit_missingconfig_window();
   deinit_tree_window();
   deinit_introduction_window();

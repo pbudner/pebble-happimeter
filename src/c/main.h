@@ -16,7 +16,3 @@
 #include "windows/smileymatrix_window.h"
 
 #include "windows/firstquestion_window.h"
-#include "windows/secondquestionA_window.h"
-#include "windows/secondquestionB_window.h"
-#include "windows/secondquestionC_window.h"
-#include "windows/secondquestionD_window.h"
