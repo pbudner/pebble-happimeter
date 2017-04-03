@@ -48,20 +48,8 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/tree4_TIME",
-                    "name": "IMAGE_TREE4_TIME",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/tree4_Black_White",
                     "name": "IMAGE_TREE4_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/tree3_TIME",
-                    "name": "IMAGE_TREE3_TIME",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -72,20 +60,8 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/tree2_TIME",
-                    "name": "IMAGE_TREE2_TIME",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/tree2_Black_White",
                     "name": "IMAGE_TREE2_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/tree1_TIME",
-                    "name": "IMAGE_TREE1_TIME",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -110,18 +86,6 @@
                 {
                     "file": "images/Which_Mood_Time",
                     "name": "Which_Mood_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Which_Mood_Pair_Header_Time",
-                    "name": "Which_Mood_Pair_Header_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Which_Mood_Pair_Header_Black_White",
-                    "name": "Which_Mood_Pair_Header_Black_White",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -224,54 +188,6 @@
                 {
                     "file": "images/Relaxed_Black_White",
                     "name": "Relaxed_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Pair_Tense_Upset_Time",
-                    "name": "Pair_Tense_Upset_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Pair_Tense_Upset_Black_White",
-                    "name": "Pair_Tense_Upset_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Pair_Sad_Fatigued_Time",
-                    "name": "Pair_Sad_Fatigued_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Pair_Sad_Fatigued_Black_White",
-                    "name": "Pair_Sad_Fatigued_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Pair_Contented_Calm_Time",
-                    "name": "Pair_Contented_Calm_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Pair_Contented_Calm_Black_White",
-                    "name": "Pair_Contented_Calm_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Pair_Alert_Happy_Time",
-                    "name": "Pair_Alert_Happy_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Pair_Alert_Happy_Black_White",
-                    "name": "Pair_Alert_Happy_Black_White",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },

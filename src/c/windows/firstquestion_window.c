@@ -174,7 +174,7 @@ void firstquestion_window_load(Window *window)
   // sad_fatigued = gbitmap_create_with_resource(RESOURCE_ID_Pair_Sad_Fatigued_Black_White); 
   //contened_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contented_Calm_Black_White);
   //tense_upset = gbitmap_create_with_resource(RESOURCE_ID_Pair_Tense_Upset_Black_White);
-  header_which_Mood_Pair = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Pair_Header_Black_White);
+
   
 
 

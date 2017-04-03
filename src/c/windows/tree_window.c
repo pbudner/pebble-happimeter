@@ -103,44 +103,25 @@ void tree_window_load(Window *window)
   switch (counter)
   {
   case 1:
-#if defined(PBL_PLATFORM_BASALT)
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE1_TIME);
-#else
     treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE1_Black_White);
-#endif
     break;
 
   case 2:
-#if defined(PBL_PLATFORM_BASALT)
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE2_TIME);
-#else
     treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE2_Black_White);
-#endif
     break;
 
   case 3:
-#if defined(PBL_PLATFORM_BASALT)
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE3_TIME);
-#else
     treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE3_Black_White);
-#endif
     break;
 
   case 0:
-#if defined(PBL_PLATFORM_BASALT)
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE4_TIME);
-#else
     treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE4_Black_White);
-#endif
     break;
   }
 
   // Loads a png Image from ressources
-  #if defined(PBL_PLATFORM_EMERY)
-  treeImageLayer = bitmap_layer_create(GRect(0, 0, 200, 228));
-  #else
   treeImageLayer = bitmap_layer_create(GRect(0, 0, 144, 168));
-  #endif
+
   bitmap_layer_set_bitmap(treeImageLayer, treeImage);
   bitmap_layer_set_compositing_mode(treeImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(treeImageLayer));
