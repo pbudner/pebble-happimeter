@@ -119,6 +119,97 @@
                     "targetPlatforms": null,
                     "type": "bitmap"
                 }
+                ,
+                {
+                    "file": "images/Tree2_1",
+                    "name": "Tree2_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_2",
+                    "name": "Tree2_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_3",
+                    "name": "Tree2_3",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_4",
+                    "name": "Tree2_4",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_5",
+                    "name": "Tree2_5",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_6",
+                    "name": "Tree2_6",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_7",
+                    "name": "Tree2_7",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_8",
+                    "name": "Tree2_8",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_9",
+                    "name": "Tree2_9",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_10",
+                    "name": "Tree2_10",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_11",
+                    "name": "Tree2_11",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_12",
+                    "name": "Tree2_12",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_13",
+                    "name": "Tree2_13",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_14",
+                    "name": "Tree2_14",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+                                {
+                    "file": "images/Tree2_15",
+                    "name": "Tree2_15",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
             ]
         },
         "sdkVersion": "3",
