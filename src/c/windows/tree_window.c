@@ -3,13 +3,13 @@
 static Window *treeWindow;
 static GBitmap *treeImage = NULL;
 static BitmapLayer *treeImageLayer;
-static uint32_t counter;
+static uint32_t counter = 1;
 
 int       frame_no1, 
           frame_no2, 
           frame_no3,
           frame_no4;
-const int NO_OF_FRAMES1 = 49, 
+const int NO_OF_FRAMES1 = 15, 
           NO_OF_FRAMES2 = 49, 
           NO_OF_FRAMES3 = 49, 
           NO_OF_FRAMES4 = 49; 
@@ -45,8 +45,22 @@ const int NO_OF_FRAMES1 = 49,
 * Any button single click handler  *
 ***********************************/
 
- const int animation_images[] = {
-    
+ const int animation_images_1[] = {
+      RESOURCE_ID_Tree2_1,
+      RESOURCE_ID_Tree2_2,
+      RESOURCE_ID_Tree2_3,
+      RESOURCE_ID_Tree2_4,
+      RESOURCE_ID_Tree2_5,
+      RESOURCE_ID_Tree2_6,
+      RESOURCE_ID_Tree2_7,
+      RESOURCE_ID_Tree2_8,
+      RESOURCE_ID_Tree2_9,
+      RESOURCE_ID_Tree2_10,
+      RESOURCE_ID_Tree2_11,
+      RESOURCE_ID_Tree2_12,
+      RESOURCE_ID_Tree2_13,
+      RESOURCE_ID_Tree2_14,
+      RESOURCE_ID_Tree2_15
  };
 
 
@@ -64,6 +78,46 @@ void tree_click_config_provider(void *context){
   window_single_click_subscribe(BUTTON_ID_DOWN, (ClickHandler)tree_single_click_handler);
   window_single_click_subscribe(BUTTON_ID_BACK, (ClickHandler)tree_single_click_handler);
   window_single_click_subscribe(BUTTON_ID_SELECT, (ClickHandler)tree_single_click_handler);
+}
+
+
+static void load_sequence();
+
+static void timer_handler(void *context){
+  if(frame_no1 < NO_OF_FRAMES1){
+
+    
+  if(treeImage !=NULL){
+    gbitmap_destroy(treeImage);
+    treeImage = NULL;
+  }
+  
+    switch (counter)
+  {
+  case 1:
+    treeImage = gbitmap_create_with_resource(animation_images_1[frame_no1]);
+    break;
+
+  case 2:
+    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE2_Black_White);
+    break;
+
+  case 3:
+    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE3_Black_White);
+    break;
+
+  case 0:
+    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE4_Black_White);
+    break;
+  }
+  
+  bitmap_layer_set_bitmap(treeImageLayer, treeImage);
+  layer_mark_dirty(bitmap_layer_get_layer(treeImageLayer));
+  frame_no1++;
+  app_timer_register(80, timer_handler, NULL);
+  
+  } 
+  
 }
 
 /***********************************
@@ -100,24 +154,7 @@ void tree_window_load(Window *window)
     counter = counter % 4;
   }
 
-  switch (counter)
-  {
-  case 1:
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE1_Black_White);
-    break;
 
-  case 2:
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE2_Black_White);
-    break;
-
-  case 3:
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE3_Black_White);
-    break;
-
-  case 0:
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE4_Black_White);
-    break;
-  }
 
   // Loads a png Image from ressources
   treeImageLayer = bitmap_layer_create(GRect(0, 0, 144, 168));
