@@ -11,7 +11,7 @@ static void init_windows() {
   init_missingconfig_window();
   init_introduction_window();
   init_smileymatrix_window();
-  //init_tree_window(); //since we have memory issues, tree window only gets initiated on call.
+  init_tree_window(); //since we have memory issues, tree window only gets initiated on call.
 }
 
 /***********************************

@@ -117,7 +117,7 @@ void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *da
   //setHappinessAnswer(0, (int)cell_index->row);
   if ((int)cell_index->row == 0)
   {
-    window_stack_push(firstquestion_window_get_window(), true);
+    window_stack_push(tree_window_get_window(), true);
   }
   if ((int)cell_index->row == 1)
   {

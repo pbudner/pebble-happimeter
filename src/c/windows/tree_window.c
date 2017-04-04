@@ -84,7 +84,9 @@ void tree_click_config_provider(void *context){
 static void load_sequence();
 
 static void timer_handler(void *context){
-  if(frame_no1 < NO_OF_FRAMES1){
+  if(frame_no1 == NO_OF_FRAMES1){
+  frame_no1= 0;
+  }{
 
     
   if(treeImage !=NULL){
@@ -99,15 +101,15 @@ static void timer_handler(void *context){
     break;
 
   case 2:
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE2_Black_White);
+    treeImage = gbitmap_create_with_resource(animation_images_1[frame_no1]);
     break;
 
   case 3:
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE3_Black_White);
+    treeImage = gbitmap_create_with_resource(animation_images_1[frame_no1]);
     break;
 
   case 0:
-    treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE4_Black_White);
+    treeImage = gbitmap_create_with_resource(animation_images_1[frame_no1]);
     break;
   }
   
@@ -120,22 +122,27 @@ static void timer_handler(void *context){
   
 }
 
+static void load_sequence() {
+  frame_no1 = 0;
+  app_timer_register(1, timer_handler, NULL);
+}
+
 /***********************************
 * Load event of the tree window    *
 ***********************************/
 void tree_window_load(Window *window)
 {
+  
+  
   int _activation, _pleasant;
   _activation = getActivation();
   _pleasant = getPleasant();
 
-  APP_LOG(APP_LOG_LEVEL_INFO, "Pleasant value is %d", _pleasant);
-  APP_LOG(APP_LOG_LEVEL_INFO, "Activation value is %d", _activation);
+  
   upload_mood(_pleasant, _activation);
   Layer *window_layer = window_get_root_layer(window);
-  APP_LOG(APP_LOG_LEVEL_INFO, "%ld", persist_read_int(counter));
+     GRect bounds = layer_get_bounds(window_layer);
 
-  // treeWindow = window_create(); //apper second times
 #ifndef PBL_SDK_3
   window_set_fullscreen(treeWindow, true);
 #endif
@@ -144,7 +151,6 @@ void tree_window_load(Window *window)
   {
     counter = 1;
     persist_write_int(TREE_KEY, counter);
-    //treeImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TREE1);
   }
   else
   {
@@ -157,11 +163,12 @@ void tree_window_load(Window *window)
 
 
   // Loads a png Image from ressources
-  treeImageLayer = bitmap_layer_create(GRect(0, 0, 144, 168));
+  treeImageLayer = bitmap_layer_create(bounds);
 
-  bitmap_layer_set_bitmap(treeImageLayer, treeImage);
-  bitmap_layer_set_compositing_mode(treeImageLayer, GCompOpSet);
+  //bitmap_layer_set_bitmap(treeImageLayer, treeImage);
+  //bitmap_layer_set_compositing_mode(treeImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(treeImageLayer));
+  load_sequence();
 
   // override back_button_manager
   window_set_click_config_provider(window, (ClickConfigProvider) tree_click_config_provider);
