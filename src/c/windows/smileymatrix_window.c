@@ -10,25 +10,22 @@ void refresh_menu_image() {
     gbitmap_destroy(smileyMatrixImage);
   }
 
-  APP_LOG(APP_LOG_LEVEL_INFO, "%d is internal selected matrix option", selectedMatrixOption);
-  APP_LOG(APP_LOG_LEVEL_INFO, "%d is selected matrix option", 3 - selectedMatrixOption);
-
-  switch (3 - selectedMatrixOption)
+  switch (selectedMatrixOption)
   {
-  case 0:
-    smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_1);
-    break;
-  case 1:
-    smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_2);
-    break;
-  case 2:
-    smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_3);
-    break;
-  case 3:
-    smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_4);
-    break;
-  default:
-    smileyMatrixImage = NULL;
+    case 0:
+      smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_1);
+      break;
+    case 1:
+      smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_2);
+      break;
+    case 2:
+      smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_3);
+      break;
+    case 3:
+      smileyMatrixImage = gbitmap_create_with_resource(RESOURCE_ID_Smiley_Matrix_4);
+      break;
+    default:
+      smileyMatrixImage = NULL;
   }
 
   bitmap_layer_set_bitmap(smileyMatrixImageLayer, smileyMatrixImage);
@@ -36,13 +33,23 @@ void refresh_menu_image() {
 
 }
 
-void smileymatrix_single_up_click_handler(ClickRecognizerRef recognizer, void *context){
-  selectedMatrixOption = abs(selectedMatrixOption + 1 % 3);
+void smileymatrix_single_up_click_handler(ClickRecognizerRef recognizer, void *context) {
+  selectedMatrixOption = selectedMatrixOption + 1;
+
+  if(selectedMatrixOption > 3) {
+    selectedMatrixOption = 0;
+  }
+
   refresh_menu_image();
 }
 
-void smileymatrix_single_down_click_handler(ClickRecognizerRef recognizer, void *context){
-  selectedMatrixOption = abs(selectedMatrixOption - 1 % 3);
+void smileymatrix_single_down_click_handler(ClickRecognizerRef recognizer, void *context) {
+  selectedMatrixOption = selectedMatrixOption - 1;
+
+  if(selectedMatrixOption < 0) {
+    selectedMatrixOption = 3;
+  }
+  
   refresh_menu_image();
 }
 
