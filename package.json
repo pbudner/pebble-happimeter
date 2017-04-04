@@ -42,38 +42,8 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/Smiley_Icon_4.png",
-                    "name": "Smiley_Matrix_4",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Smiley_Icon_2.png",
-                    "name": "Smiley_Matrix_2",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Smiley_Icon_1.png",
-                    "name": "Smiley_Matrix_1",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Smiley_Icon_3",
-                    "name": "Smiley_Matrix_3",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/zzz.png",
                     "name": "SLEEP",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/tree4_TIME",
-                    "name": "IMAGE_TREE4_TIME",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -84,32 +54,14 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/tree3_TIME",
-                    "name": "IMAGE_TREE3_TIME",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/tree3_Black_White",
                     "name": "IMAGE_TREE3_Black_White",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/tree2_TIME",
-                    "name": "IMAGE_TREE2_TIME",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/tree2_Black_White",
                     "name": "IMAGE_TREE2_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/tree1_TIME",
-                    "name": "IMAGE_TREE1_TIME",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -132,290 +84,218 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Which_Mood_Time",
-                    "name": "Which_Mood_Time",
+                    "file": "images/Tree2_9.png",
+                    "name": "Tree2_9",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Which_Mood_Pair_Header_Time",
-                    "name": "Which_Mood_Pair_Header_Time",
+                    "file": "images/Tree2_8.png",
+                    "name": "Tree2_8",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Which_Mood_Pair_Header_Black_White",
-                    "name": "Which_Mood_Pair_Header_Black_White",
+                    "file": "images/Tree2_7.png",
+                    "name": "Tree2_7",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Which_Mood_Black_White",
-                    "name": "Which_Mood_Black_White",
+                    "file": "images/Tree2_6.png",
+                    "name": "Tree2_6",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Upset_Time",
-                    "name": "Upset_Time",
+                    "file": "images/Tree2_5.png",
+                    "name": "Tree2_5",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Upset_Black_White",
-                    "name": "Upset_Black_White",
+                    "file": "images/Tree2_4.png",
+                    "name": "Tree2_4",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Tense_Time",
-                    "name": "Tense_Time",
+                    "file": "images/Tree2_3.png",
+                    "name": "Tree2_3",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Tense_Black_White",
-                    "name": "Tense_Black_White",
+                    "file": "images/Tree2_2.png",
+                    "name": "Tree2_2",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Stressed_Time",
-                    "name": "Stressed_Time",
+                    "file": "images/Tree2_15.png",
+                    "name": "Tree2_15",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Stressed_Black_White",
-                    "name": "Stressed_Black_White",
+                    "file": "images/Tree2_14.png",
+                    "name": "Tree2_14",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Serene_Time",
-                    "name": "Serene_Time",
+                    "file": "images/Tree2_13.png",
+                    "name": "Tree2_13",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Serene_Black_White",
-                    "name": "Serene_Black_White",
+                    "file": "images/Tree2_12.png",
+                    "name": "Tree2_12",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Sad_Time",
-                    "name": "Sad_Time",
+                    "file": "images/Tree2_11.png",
+                    "name": "Tree2_11",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Sad_Black_White",
-                    "name": "Sad_Black_White",
+                    "file": "images/Tree2_10.png",
+                    "name": "Tree2_10",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Relaxed_Time",
-                    "name": "Relaxed_Time",
+                    "file": "images/Tree2_1.png",
+                    "name": "Tree2_1",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Relaxed_Black_White",
-                    "name": "Relaxed_Black_White",
+                    "file": "images/Tree1_9.png",
+                    "name": "Tree1_9",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Pair_Tense_Upset_Time",
-                    "name": "Pair_Tense_Upset_Time",
+                    "file": "images/Tree1_8.png",
+                    "name": "Tree1_8",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Pair_Tense_Upset_Black_White",
-                    "name": "Pair_Tense_Upset_Black_White",
+                    "file": "images/Tree1_7.png",
+                    "name": "Tree1_7",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Pair_Sad_Fatigued_Time",
-                    "name": "Pair_Sad_Fatigued_Time",
+                    "file": "images/Tree1_6.png",
+                    "name": "Tree1_6",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Pair_Sad_Fatigued_Black_White",
-                    "name": "Pair_Sad_Fatigued_Black_White",
+                    "file": "images/Tree1_5.png",
+                    "name": "Tree1_5",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Pair_Contented_Calm_Time",
-                    "name": "Pair_Contented_Calm_Time",
+                    "file": "images/Tree1_4.png",
+                    "name": "Tree1_4",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Pair_Contented_Calm_Black_White",
-                    "name": "Pair_Contented_Calm_Black_White",
+                    "file": "images/Tree1_3.png",
+                    "name": "Tree1_3",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Pair_Alert_Happy_Time",
-                    "name": "Pair_Alert_Happy_Time",
+                    "file": "images/Tree1_2.png",
+                    "name": "Tree1_2",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Pair_Alert_Happy_Black_White",
-                    "name": "Pair_Alert_Happy_Black_White",
+                    "file": "images/Tree1_16.png",
+                    "name": "Tree1_16",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Nervous_Time",
-                    "name": "Nervous_Time",
+                    "file": "images/Tree1_15.png",
+                    "name": "Tree1_15",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Nervous_Black_White",
-                    "name": "Nervous_Black_White",
+                    "file": "images/Tree1_14.png",
+                    "name": "Tree1_14",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Happy_Time",
-                    "name": "Happy_Time",
+                    "file": "images/Tree1_13.png",
+                    "name": "Tree1_13",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Happy_Black_White",
-                    "name": "Happy_Black_White",
+                    "file": "images/Tree1_12.png",
+                    "name": "Tree1_12",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Fatigued_Time",
-                    "name": "Fatigued_Time",
+                    "file": "images/Tree1_11.png",
+                    "name": "Tree1_11",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Fatigued_Black_White",
-                    "name": "Fatigued_Black_White",
+                    "file": "images/Tree1_10.png",
+                    "name": "Tree1_10",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Exited_Time",
-                    "name": "Exited_Time",
+                    "file": "images/Tree1_1.png",
+                    "name": "Tree1_1",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/Exited_Black_White",
-                    "name": "Exited_Black_White",
+                    "file": "images/Smiley_Icon_4.png",
+                    "name": "Smiley_Matrix_4",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ExitWindow_Time",
-                    "name": "Exit_Window_Time",
-                    "targetPlatforms": [
-                        "aplite",
-                        "basalt",
-                        "chalk",
-                        "diorite",
-                        "emery"
-                    ],
+                    "file": "images/Smiley_Icon_3.png",
+                    "name": "Smiley_Matrix_3",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Smiley_Icon_2.png",
+                    "name": "Smiley_Matrix_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Smiley_Icon_1.png",
+                    "name": "Smiley_Matrix_1",
+                    "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/ExitWindow_Black_White",
                     "name": "Exit_Window_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Elated_Time",
-                    "name": "Elated_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Elated_Black_White",
-                    "name": "Elated_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Depressed_Time",
-                    "name": "Depressed_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Depressed_Black_White",
-                    "name": "Depressed_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Contented_Time",
-                    "name": "Contented_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Contented_Black_White",
-                    "name": "Contented_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Calm_Time",
-                    "name": "Calm_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Calm_Black_White",
-                    "name": "Calm_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Bored_Time",
-                    "name": "Bored_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Bored_Black_White",
-                    "name": "Bored_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Alert_Time",
-                    "name": "Alert_Time",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Alert_Black_White",
-                    "name": "Alert_Black_White",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/AlertSign_Time",
-                    "name": "Alert_Sign_Time",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },

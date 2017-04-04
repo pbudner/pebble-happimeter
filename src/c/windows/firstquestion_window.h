@@ -1,11 +1,8 @@
 #pragma once
 #include <pebble.h>
 #include "exit_window.h"
-#include "secondquestionA_window.h"
-#include "secondquestionB_window.h"
-#include "secondquestionC_window.h"
-#include "secondquestionD_window.h"
 #include "../modules/back_button_manager.h"
+#include "src/c/windows/tree_window.h"
 
 extern void init_firstquestion_window();
 extern void deinit_firstquestion_window();

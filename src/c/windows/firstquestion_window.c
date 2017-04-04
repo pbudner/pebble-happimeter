@@ -111,22 +111,25 @@ void menu_draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuIndex *c
 ***********************************/
 void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *data)
 {
+  
+  
+  // firstquestion_window_get_window => Dummy window muss noch geändert werden!
   //setHappinessAnswer(0, (int)cell_index->row);
   if ((int)cell_index->row == 0)
   {
-    window_stack_push(secondquestionA_window_get_window(), true);
+    window_stack_push(tree_window_get_window(), true);
   }
   if ((int)cell_index->row == 1)
   {
-    window_stack_push(secondquestionB_window_get_window(), true);
+    window_stack_push(firstquestion_window_get_window(), true);
   }
   if ((int)cell_index->row == 2)
   {
-    window_stack_push(secondquestionC_window_get_window(), true);
+    window_stack_push(firstquestion_window_get_window(), true);
   }
   if ((int)cell_index->row == 3)
   {
-    window_stack_push(secondquestionD_window_get_window(), true);
+    window_stack_push(firstquestion_window_get_window(), true);
   }
 }
 
@@ -174,7 +177,7 @@ void firstquestion_window_load(Window *window)
   // sad_fatigued = gbitmap_create_with_resource(RESOURCE_ID_Pair_Sad_Fatigued_Black_White); 
   //contened_calm = gbitmap_create_with_resource(RESOURCE_ID_Pair_Contented_Calm_Black_White);
   //tense_upset = gbitmap_create_with_resource(RESOURCE_ID_Pair_Tense_Upset_Black_White);
-  header_which_Mood_Pair = gbitmap_create_with_resource(RESOURCE_ID_Which_Mood_Pair_Header_Black_White);
+
   
 
 

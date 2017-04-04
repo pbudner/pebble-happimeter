@@ -27,19 +27,19 @@ void exit_down_single_click_handler(ClickRecognizerRef recognizer, void *context
   }
   if (number == 1)
   {
-    window_stack_push(secondquestionA_window_get_window(), true);
+    window_stack_push(firstquestion_window_get_window(), true);
   }
   if (number == 2)
   {
-    window_stack_push(secondquestionB_window_get_window(), true);
+    window_stack_push(firstquestion_window_get_window(), true);
   }
   if (number == 3)
   {
-    window_stack_push(secondquestionC_window_get_window(), true);
+    window_stack_push(firstquestion_window_get_window(), true);
   }
   if (number == 4)
   {
-    window_stack_push(secondquestionD_window_get_window(), true);
+    window_stack_push(firstquestion_window_get_window(), true);
   }
   if (number < 0 || number > 4)
   {
@@ -83,17 +83,10 @@ void exit_window_load(Window *window)
 
   Layer *window_layer = window_get_root_layer(window);
 // GRect bounds = layer_get_bounds(window_layer);
-#if defined(PBL_PLATFORM_EMERY)
   exit_Window = gbitmap_create_with_resource(RESOURCE_ID_Exit_Window_Black_White);
-#else
-  exit_Window = gbitmap_create_with_resource(RESOURCE_ID_Exit_Window_Time);
-#endif
 
-#if defined(PBL_PLATFORM_EMERY)
-  s_icon_layer = bitmap_layer_create(GRect(0, 0, 200, 228));
-#else
   s_icon_layer = bitmap_layer_create(GRect(0, 0, 144, 168));
-#endif
+
 
   bitmap_layer_set_bitmap(s_icon_layer, exit_Window);
   bitmap_layer_set_compositing_mode(s_icon_layer, GCompOpSet);
