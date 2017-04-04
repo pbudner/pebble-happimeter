@@ -12,7 +12,7 @@ int       frame_no1,
 const int NO_OF_FRAMES1 = 16, 
           NO_OF_FRAMES2 = 15, 
           NO_OF_FRAMES3 = 14, 
-          NO_OF_FRAMES4 = 49; 
+          NO_OF_FRAMES4 = 13; 
 
 // // dedicated button manager from here ---
 // void back_single_click_handler_tree(ClickRecognizerRef recognizer, void *context) {
@@ -98,6 +98,22 @@ const int animation_images_3[] = {
       RESOURCE_ID_Tree3_14
  };
 
+const int animation_images_4[] = {
+      RESOURCE_ID_Tree4_1,
+      RESOURCE_ID_Tree4_2,
+      RESOURCE_ID_Tree4_3,
+      RESOURCE_ID_Tree4_4,
+      RESOURCE_ID_Tree4_5,
+      RESOURCE_ID_Tree4_6,
+      RESOURCE_ID_Tree4_7,
+      RESOURCE_ID_Tree4_8,
+      RESOURCE_ID_Tree4_9,
+      RESOURCE_ID_Tree4_10,
+      RESOURCE_ID_Tree4_11,
+      RESOURCE_ID_Tree4_12,
+      RESOURCE_ID_Tree4_13
+ };
+
 
 void tree_single_click_handler(ClickRecognizerRef recognizer, void *context)
 {
@@ -147,7 +163,7 @@ static void timer_handler(void *context){
     break;
 
   case 0:
-    treeImage = gbitmap_create_with_resource(animation_images_1[frame_no1]);
+    treeImage = gbitmap_create_with_resource(animation_images_4[frame_no1]);
     break;
   }
   
