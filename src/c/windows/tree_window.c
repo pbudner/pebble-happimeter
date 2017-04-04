@@ -135,41 +135,56 @@ void tree_click_config_provider(void *context){
 static void load_sequence();
 
 static void timer_handler(void *context){
-  if(frame_no1 == NO_OF_FRAMES1){
-  frame_no1= 0;
-  }
-
+int frame_no =0;
+  int NO_OF_FRAMES=0;
   
-  {
-
-    
   if(treeImage !=NULL){
     gbitmap_destroy(treeImage);
     treeImage = NULL;
   }
   
-    switch (counter)
-  {
-  case 1:
-    treeImage = gbitmap_create_with_resource(animation_images_1[frame_no1]);
+  switch (counter){
+    
+    case 1:
+    frame_no = frame_no1;
+    treeImage = gbitmap_create_with_resource(animation_images_1[frame_no]);
+    frame_no1++;
+    NO_OF_FRAMES = NO_OF_FRAMES1;
     break;
-
-  case 2:
-    treeImage = gbitmap_create_with_resource(animation_images_2[frame_no1]);
+    
+        case 2:
+    frame_no = frame_no2;
+    treeImage = gbitmap_create_with_resource(animation_images_2[frame_no]);
+    frame_no2++;
+    NO_OF_FRAMES = NO_OF_FRAMES2;
     break;
-
-  case 3:
-    treeImage = gbitmap_create_with_resource(animation_images_3[frame_no1]);
+    
+        case 3:
+    frame_no = frame_no3;
+     treeImage = gbitmap_create_with_resource(animation_images_3[frame_no]);
+    frame_no3++;
+    NO_OF_FRAMES = NO_OF_FRAMES3;
     break;
-
-  case 0:
-    treeImage = gbitmap_create_with_resource(animation_images_4[frame_no1]);
+    
+        case 4:
+    frame_no = frame_no4;
+    treeImage = gbitmap_create_with_resource(animation_images_4[frame_no]);
+    frame_no4++;
+    NO_OF_FRAMES = NO_OF_FRAMES4;
     break;
+  } 
+  if(frame_no == NO_OF_FRAMES){
+  frame_no = 0;
+    return;
   }
+
+  
+  {
+
   
   bitmap_layer_set_bitmap(treeImageLayer, treeImage);
   layer_mark_dirty(bitmap_layer_get_layer(treeImageLayer));
-  frame_no1++;
+ 
   app_timer_register(80, timer_handler, NULL);
   
   } 
@@ -200,18 +215,26 @@ void tree_window_load(Window *window)
 #ifndef PBL_SDK_3
   window_set_fullscreen(treeWindow, true);
 #endif
-
+APP_LOG(APP_LOG_LEVEL_INFO, "counter is %d", counter);
   if (!persist_exists(TREE_KEY))
   {
+APP_LOG(APP_LOG_LEVEL_INFO, "counter existiert nicht im speicher");
     counter = 1;
     persist_write_int(TREE_KEY, counter);
   }
   else
   {
+APP_LOG(APP_LOG_LEVEL_INFO, "counter existiert");
     counter = persist_read_int(TREE_KEY);
+APP_LOG(APP_LOG_LEVEL_INFO, "counter was %d", counter);
     counter += 1;
+    counter = counter;
+    if(counter > 4) {
+      counter = 1;
+    }
+APP_LOG(APP_LOG_LEVEL_INFO, "#1 counter is %d", counter);
     persist_write_int(TREE_KEY, counter);
-    counter = counter % 4;
+APP_LOG(APP_LOG_LEVEL_INFO, "#2 counter is %d", counter);
   }
 
 
