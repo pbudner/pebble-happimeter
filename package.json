@@ -388,6 +388,84 @@
                     "name": "Tree3_14",
                     "targetPlatforms": null,
                     "type": "bitmap"
+                },
+                {
+                    "file": "images/Tree4_1.png",
+                    "name": "Tree4_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Tree4_2.png",
+                    "name": "Tree4_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Tree4_3.png",
+                    "name": "Tree4_3",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Tree4_4.png",
+                    "name": "Tree4_4",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Tree4_5.png",
+                    "name": "Tree4_5",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Tree4_6.png",
+                    "name": "Tree4_6",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Tree4_7.png",
+                    "name": "Tree4_7",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Tree4_8.png",
+                    "name": "Tree4_8",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Tree4_9.png",
+                    "name": "Tree4_9",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Tree4_10.png",
+                    "name": "Tree4_10",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Tree4_11.png",
+                    "name": "Tree4_11",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Tree4_12.png",
+                    "name": "Tree4_12",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Tree4_13.png",
+                    "name": "Tree4_13",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
                 }
             ]
         },
