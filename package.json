@@ -304,13 +304,7 @@
                     "name": "Alert_Sign_Black_White",
                     "targetPlatforms": null,
                     "type": "bitmap"
-                },
-                {
-                    "file": "images/Tree3_1.png",
-                    "name": "Tree3_1",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
+                }
             ]
         },
         "sdkVersion": "3",
