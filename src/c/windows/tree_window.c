@@ -11,7 +11,7 @@ int       frame_no1,
           frame_no4;
 const int NO_OF_FRAMES1 = 16, 
           NO_OF_FRAMES2 = 15, 
-          NO_OF_FRAMES3 = 49, 
+          NO_OF_FRAMES3 = 14, 
           NO_OF_FRAMES4 = 49; 
 
 // // dedicated button manager from here ---
@@ -81,6 +81,23 @@ const int animation_images_2[] = {
       RESOURCE_ID_Tree2_15
  };
 
+const int animation_images_3[] = {
+      RESOURCE_ID_Tree3_1,
+      RESOURCE_ID_Tree3_2,
+      RESOURCE_ID_Tree3_3,
+      RESOURCE_ID_Tree3_4,
+      RESOURCE_ID_Tree3_5,
+      RESOURCE_ID_Tree3_6,
+      RESOURCE_ID_Tree3_7,
+      RESOURCE_ID_Tree3_8,
+      RESOURCE_ID_Tree3_9,
+      RESOURCE_ID_Tree3_10,
+      RESOURCE_ID_Tree3_11,
+      RESOURCE_ID_Tree3_12,
+      RESOURCE_ID_Tree3_13,
+      RESOURCE_ID_Tree3_14
+ };
+
 
 void tree_single_click_handler(ClickRecognizerRef recognizer, void *context)
 {
@@ -104,7 +121,10 @@ static void load_sequence();
 static void timer_handler(void *context){
   if(frame_no1 == NO_OF_FRAMES1){
   frame_no1= 0;
-  }{
+  }
+
+  
+  {
 
     
   if(treeImage !=NULL){
@@ -123,7 +143,7 @@ static void timer_handler(void *context){
     break;
 
   case 3:
-    treeImage = gbitmap_create_with_resource(animation_images_1[frame_no1]);
+    treeImage = gbitmap_create_with_resource(animation_images_3[frame_no1]);
     break;
 
   case 0:
