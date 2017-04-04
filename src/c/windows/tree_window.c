@@ -9,8 +9,8 @@ int       frame_no1,
           frame_no2, 
           frame_no3,
           frame_no4;
-const int NO_OF_FRAMES1 = 15, 
-          NO_OF_FRAMES2 = 49, 
+const int NO_OF_FRAMES1 = 16, 
+          NO_OF_FRAMES2 = 15, 
           NO_OF_FRAMES3 = 49, 
           NO_OF_FRAMES4 = 49; 
 
@@ -44,8 +44,26 @@ const int NO_OF_FRAMES1 = 15,
 /***********************************
 * Any button single click handler  *
 ***********************************/
-
  const int animation_images_1[] = {
+      RESOURCE_ID_Tree1_1,
+      RESOURCE_ID_Tree1_2,
+      RESOURCE_ID_Tree1_3,
+      RESOURCE_ID_Tree1_4,
+      RESOURCE_ID_Tree1_5,
+      RESOURCE_ID_Tree1_6,
+      RESOURCE_ID_Tree1_7,
+      RESOURCE_ID_Tree1_8,
+      RESOURCE_ID_Tree1_9,
+      RESOURCE_ID_Tree1_10,
+      RESOURCE_ID_Tree1_11,
+      RESOURCE_ID_Tree1_12,
+      RESOURCE_ID_Tree1_13,
+      RESOURCE_ID_Tree1_14,
+      RESOURCE_ID_Tree1_15,
+      RESOURCE_ID_Tree1_16
+ };
+
+const int animation_images_2[] = {
       RESOURCE_ID_Tree2_1,
       RESOURCE_ID_Tree2_2,
       RESOURCE_ID_Tree2_3,
@@ -101,7 +119,7 @@ static void timer_handler(void *context){
     break;
 
   case 2:
-    treeImage = gbitmap_create_with_resource(animation_images_1[frame_no1]);
+    treeImage = gbitmap_create_with_resource(animation_images_2[frame_no1]);
     break;
 
   case 3:
