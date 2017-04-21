@@ -36,8 +36,8 @@ void refresh_menu_image() {
 void smileymatrix_single_up_click_handler(ClickRecognizerRef recognizer, void *context) {
   selectedMatrixOption = selectedMatrixOption - 1;
 
-  if(selectedMatrixOption > 3) {
-    selectedMatrixOption = 0;
+  if(selectedMatrixOption < 0) {
+    selectedMatrixOption = 3;
   }
 
   refresh_menu_image();
@@ -46,8 +46,8 @@ void smileymatrix_single_up_click_handler(ClickRecognizerRef recognizer, void *c
 void smileymatrix_single_down_click_handler(ClickRecognizerRef recognizer, void *context) {
   selectedMatrixOption = selectedMatrixOption + 1;
 
-  if(selectedMatrixOption < 0) {
-    selectedMatrixOption = 3;
+  if(selectedMatrixOption > 3) {
+    selectedMatrixOption = 0;
   }
   
   refresh_menu_image();
