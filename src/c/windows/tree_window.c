@@ -215,26 +215,22 @@ void tree_window_load(Window *window)
 #ifndef PBL_SDK_3
   window_set_fullscreen(treeWindow, true);
 #endif
-APP_LOG(APP_LOG_LEVEL_INFO, "counter is %d", counter);
+
   if (!persist_exists(TREE_KEY))
   {
-APP_LOG(APP_LOG_LEVEL_INFO, "counter existiert nicht im speicher");
     counter = 1;
     persist_write_int(TREE_KEY, counter);
   }
   else
   {
-APP_LOG(APP_LOG_LEVEL_INFO, "counter existiert");
     counter = persist_read_int(TREE_KEY);
-APP_LOG(APP_LOG_LEVEL_INFO, "counter was %d", counter);
     counter += 1;
     counter = counter;
     if(counter > 4) {
       counter = 1;
     }
-APP_LOG(APP_LOG_LEVEL_INFO, "#1 counter is %d", counter);
+
     persist_write_int(TREE_KEY, counter);
-APP_LOG(APP_LOG_LEVEL_INFO, "#2 counter is %d", counter);
   }
 
 

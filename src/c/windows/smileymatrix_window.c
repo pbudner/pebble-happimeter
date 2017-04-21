@@ -54,7 +54,22 @@ void smileymatrix_single_down_click_handler(ClickRecognizerRef recognizer, void 
 }
 
 void smileymatrix_single_click_handler(ClickRecognizerRef recognizer, void *context){
-  window_stack_push(firstquestion_window_get_window(), true); // show the main window
+  switch(selectedMatrixOption) {
+    case 0:
+      setMoodAnswer(1,1)
+      break;
+    case 1:
+      setMoodAnswer(1,0)
+      break;
+    case 2:
+      setMoodAnswer(0,0)
+      break;
+    case 3:
+      setMoodAnswer(0,1)
+      break;
+    }
+
+    window_stack_push(tree_window_get_window(), true);
 }
 
 void smileymatrix_back_click_handler(ClickRecognizerRef recognizer, void *context){
