@@ -31,13 +31,15 @@ static int last_activity = 0;
 HealthMeasure perform_measurement() {
   time_t end = time(NULL);
   time_t start = end - (UPDATE_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE);
+  struct tm * utc_time = gmtime(&end);
+  int time = mktime(utc_time);
 
   // last 15 minutes may not be available
   start -= (15 * SECONDS_PER_MINUTE);
   end -= (15 * SECONDS_PER_MINUTE);
 
   HealthMeasure measure;
-  measure.Time = (int)end; // save the inspected time
+  measure.Time = time; // save the inspected time
 
   // set activity based on the last measurement iteration
   measure.CurrentActivity = last_activity;
