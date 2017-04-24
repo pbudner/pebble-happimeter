@@ -56,16 +56,16 @@ void smileymatrix_single_down_click_handler(ClickRecognizerRef recognizer, void 
 void smileymatrix_single_click_handler(ClickRecognizerRef recognizer, void *context){
   switch(selectedMatrixOption) {
     case 0:
-      setMoodAnswer(1,1)
+      setMoodAnswer(1,1);
       break;
     case 1:
-      setMoodAnswer(1,0)
+      setMoodAnswer(1,0);
       break;
     case 2:
-      setMoodAnswer(0,0)
+      setMoodAnswer(0,0);
       break;
     case 3:
-      setMoodAnswer(0,1)
+      setMoodAnswer(0,1);
       break;
     }
 

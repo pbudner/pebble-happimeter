@@ -1,16 +1,6 @@
-var Clay = require('pebble-clay'); // Import the Clay package
-var clayConfig = require('./config'); // Load our Clay configuration file
-var customClay = require('./custom-clay'); // Load our custom function Clay file
 var messageKeys = require('message_keys'); // Load message keys
 
-// Initialize Clay
-var clay = new Clay(clayConfig, customClay, {
-    'userData': {
-        'serverInfo': localStorage.getItem("happimeter_server_info")
-    }
-});
-
-var url = "http://team9.coins.he-hosting.de/api/";
+var url = "http://pascalbudner.de:8080/v1/";
 var watchToken = "";
 var accountToken = "";
 
@@ -20,38 +10,21 @@ Pebble.addEventListener('ready', function (e) {
     watchToken = Pebble.getWatchToken();
     accountToken = Pebble.getAccountToken();
     console.log('(JS) Happimeter API url: ' + url);
-    console.log('(JS) Watch Token: ' + watchToken);
-    console.log('(JS) Account Token: ' + accountToken);
+});
+
+Pebble.addEventListener('showConfiguration', function() {
+  var url = 'http://team9.coins.he-hosting.de/config/config.html';
+  Pebble.openURL(url);
 });
 
 Pebble.addEventListener('webviewclosed', function (e) {
     if (e && !e.response) {
         return;
     }
-
-    var dict = clay.getSettings(e.response);
-
-    // sign up first and then update user profile data
-    var mail = dict[messageKeys.userinfo_email];
-    console.log("(JS) Connect to mail: " + mail);
-    var request = new XMLHttpRequest();
-    request.onload = function () {
-        var response = JSON.parse(this.responseText);
-        if (response.Status == 0) {
-            console.log('(JS) Error during user signup: ' + response.Result);
-            localStorage.setItem("happimeter_server_info", response.Result);
-        } else {
-            localStorage.setItem("happimeter_server_info", false);
-            // setUserInfo(dict);
-        }
-    };
-    request.open("POST", url + "user/");
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.send(JSON.stringify({
-        'Mail': mail,
-        'Device_ID': watchToken,
-        'Account_ID': accountToken
-    }));
+  
+    response = JSON.parse(e.response);
+    console.log("Set token to " + response.happimeter_token);
+    localStorage.setItem("happimeter_token", response.happimeter_token);
 });
 
 var saveSensorData = function (dict) {
@@ -63,23 +36,26 @@ var saveSensorData = function (dict) {
     }
 
     items.push({
-        'Account_ID': accountToken,
-        'Device_ID': watchToken,
-        'Timestamp': dict.current_time,
-        'Steps': dict.steps,
-        'Activity': dict.activity,
-        'AvgBPM': dict.avg_heart_rate,
-        'acc_avg_x': dict.avg_acc_x,
-        'acc_var_x': dict.var_acc_x,
-        'acc_avg_y': dict.avg_acc_y,
-        'acc_var_y': dict.var_acc_y,
-        'acc_avg_z': dict.avg_acc_z,
-        'acc_var_z': dict.var_acc_z,
-        'VMC': dict.vmc,
-        'avglightlevel': dict.avg_light_level,
-        'PositionLat': dict.lat,
-        'PositionLon': dict.lon,
-        'Altitude': dict.alt
+        'account_id': accountToken,
+        'device_id': watchToken,
+        'timestamp': dict.current_time,
+        'activity': dict.activity,
+        'avg_bpm': dict.avg_heart_rate,
+        'accelerometer': {
+          'avg_x': dict.avg_acc_x,
+          'var_x': dict.var_acc_x,
+          'avg_y': dict.avg_acc_y,
+          'var_y': dict.var_acc_y,
+          'avg_z': dict.avg_acc_z,
+          'var_z': dict.var_acc_z,
+        },
+        'vmc': dict.vmc,
+        'avg_light_level': dict.avg_light_level,
+        'position': {
+          'lat': dict.lat,
+          'lon': dict.lon,
+          'at': dict.alt
+        }
     });
 
     localStorage.setItem("sensorItems", JSON.stringify(items));
@@ -113,7 +89,8 @@ var sendSensorData = function () {
         };
 
         // Send the request
-        request.open("POST", url + "sensor/");
+        request.open("POST", url + "sensors");
+        request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         request.send(JSON.stringify(sensorObj));
     };
@@ -134,13 +111,15 @@ var saveMoodData = function (dict) {
     } else {
         items = JSON.parse(items);
     }
-
+  
+    console.log("Dict is ", dict);
+    
     items.push({
-        'Account_ID': accountToken,
-        'Device_ID': watchToken,
-        'Timestamp': dict.current_time,
-        'Activation': dict.activation,
-        'Pleasant': dict.pleasant
+        'account_id': accountToken,
+        'device_id': watchToken,
+        'timestamp': dict.current_time,
+        'activation': dict.activation,
+        'pleasance': dict.pleasant
     });
 
     localStorage.setItem("moodItems", JSON.stringify(items));
@@ -174,7 +153,9 @@ var sendMoodData = function () {
         };
 
         // Send the request
-        request.open("POST", url + "happiness/");
+        console.log("Auth Header is: Bearer " + localStorage.getItem("happimeter_token"));
+        request.open("POST", url + "moods");
+        request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         request.send(JSON.stringify(moodObj));
     };
@@ -221,31 +202,4 @@ var sendFinishedWithUpload = function () {
     }, function (e) {
         console.log('(JS) Message "finished with upload" failed: ' + JSON.stringify(e));
     });
-};
-
-var settingsChanged = function (mail) {
-    console.log("(JS) Mail is " + mail);
-};
-
-var setUserInfo = function (dict) {
-    var request = new XMLHttpRequest();
-    request.onload = function () {
-        var response = JSON.parse(this.responseText);
-        if (response.Status == 0) {
-            console.log('(JS) Error during updating user profile: ' + response.Result);
-            localStorage.setItem("happimeter_server_info", response.Result);
-        } else {
-            console.log("(JS) Succesfully updated the profile..");
-        }
-    };
-    request.open("POST", url + "userinfo/");
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.send(JSON.stringify({
-        'Account_ID': accountToken,
-        'Name': dict[messageKeys.userinfo_name],
-        'Age': dict[messageKeys.userinfo_age],
-        'Weight': dict[messageKeys.userinfo_weight],
-        'Height': dict[messageKeys.userinfo_height],
-        'Sportiness': dict[messageKeys.userinfo_sportiness]
-    }));
 };
