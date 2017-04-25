@@ -35,7 +35,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     if (window_stack_get_top_window() == missingconfig_window_get_window())
     {
       vibes_double_pulse();                                          // vibrate..
-      window_stack_push(firstquestion_window_get_window(), true);    // show main window
+      window_stack_push(introduction_window_get_window(), true);    // show main window
       window_stack_remove(missingconfig_window_get_window(), false); // remove the missing config window from the stack
     }
   }

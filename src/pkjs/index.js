@@ -24,7 +24,7 @@ Pebble.addEventListener('webviewclosed', function (e) {
   
     response = JSON.parse(e.response);
 
-    if (response.happimeter_token) {
+    if (response.happimeter_token != false && response.happimeter_token != "false") {
         console.log("Set token to " + response.happimeter_token);
         localStorage.setItem("happimeter_token", response.happimeter_token);
         Pebble.sendAppMessage({
@@ -35,7 +35,7 @@ Pebble.addEventListener('webviewclosed', function (e) {
             console.log('(JS) Message "user logged in" failed: ' + JSON.stringify(e));
         });
     } else {
-        onsole.log("Logged out!");
+        console.log("Logged out!");
         localStorage.removeItem("happimeter_token");
         Pebble.sendAppMessage({
             'loggedout': 100 // this says we are logged out
