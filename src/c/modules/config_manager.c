@@ -20,3 +20,10 @@ int is_configured() {
 void set_is_configured(void) {
   persist_write_int(SETTINGS_STORAGE_KEY, 1);
 }
+
+/***********************************
+* Marks the user as not logged in  *
+***********************************/
+void set_is_not_configured(void) {
+  persist_delete(SETTINGS_STORAGE_KEY);
+}

@@ -5,3 +5,4 @@
 
 extern int is_configured();
 extern void set_is_configured(void);
+extern void set_is_not_configured(void);

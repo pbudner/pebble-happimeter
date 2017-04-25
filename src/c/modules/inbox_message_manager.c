@@ -24,9 +24,9 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     }
   }
 
-  // Settings Message
-  Tuple *email_t = dict_find(iter, MESSAGE_KEY_userinfo_email);
-  if (email_t)
+  // Logged in Message
+  Tuple *loggedin_t = dict_find(iter, MESSAGE_KEY_loggedin);
+  if (loggedin_t)
   {
     set_is_configured(); // mark current device as logged in!
     APP_LOG(APP_LOG_LEVEL_DEBUG, "User is logged in now!");
@@ -38,6 +38,17 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
       window_stack_push(firstquestion_window_get_window(), true);    // show main window
       window_stack_remove(missingconfig_window_get_window(), false); // remove the missing config window from the stack
     }
+  }
+
+  // Logged out Message
+  Tuple *loggedout_t = dict_find(iter, MESSAGE_KEY_loggedout);
+  if (loggedout_t)
+  {
+    set_is_not_configured(); // mark current device as logged in!
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "User has been logged out!");
+    vibes_double_pulse();                                        // vibrate..
+    window_stack_pop_all(true);                                  // pop all other windows
+    window_stack_push(missingconfig_window_get_window(), false); // remove the missing config window from the stack
   }
 }
 
