@@ -54,7 +54,7 @@ var saveSensorData = function (dict) {
         'position': {
           'lat': dict.lat,
           'lon': dict.lon,
-          'at': dict.alt
+          'alt': dict.alt
         }
     });
 
@@ -118,6 +118,7 @@ var saveMoodData = function (dict) {
         'account_id': accountToken,
         'device_id': watchToken,
         'timestamp': dict.current_time,
+        'local_timestamp': dict.local_time,
         'activation': dict.activation,
         'pleasance': dict.pleasant
     });

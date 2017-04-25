@@ -9,9 +9,9 @@
     "name": "happimeter",
     "pebble": {
         "capabilities": [
+            "location",
             "configurable",
-            "health",
-            "location"
+            "health"
         ],
         "displayName": "Happimeter",
         "enableMultiJS": true,
@@ -36,7 +36,8 @@
             "pleasant",
             "activation",
             "userinfo_age",
-            "app_callback"
+            "app_callback",
+            "local_time"
         ],
         "projectType": "native",
         "resources": {

@@ -60,10 +60,11 @@ void upload_mood(int pleasant, int activation) {
   AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
   if(result == APP_MSG_OK) {
     time_t current_time = time(NULL);
-    struct tm * utc_time;
-    utc_time = gmtime(&current_time);
-    int time = mktime(utc_time);
-    dict_write_int(out_iter, MESSAGE_KEY_current_time, &time, sizeof(int), true);
+    struct tm * utc_time = gmtime(&current_time);
+    int utc_unix_time = mktime(utc_time);
+    int local_unix_time = (int) current_time;
+    dict_write_int(out_iter, MESSAGE_KEY_current_time, &utc_unix_time, sizeof(int), true);
+    dict_write_int(out_iter, MESSAGE_KEY_local_time, &local_unix_time, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_pleasant, &pleasant, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_activation, &activation, sizeof(int), true);
     result = app_message_outbox_send(); // send this message
