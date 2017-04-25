@@ -23,15 +23,28 @@ Pebble.addEventListener('webviewclosed', function (e) {
     }
   
     response = JSON.parse(e.response);
-    console.log("Set token to " + response.happimeter_token);
-    localStorage.setItem("happimeter_token", response.happimeter_token);
-    Pebble.sendAppMessage({
-        'loggedin': 100 // this says we are logged in
-    }, function () {
-        console.log('(JS) Message "user logged in" sent successfully..');
-    }, function (e) {
-        console.log('(JS) Message "user logged in" failed: ' + JSON.stringify(e));
-    });
+
+    if (response.happimeter_token) {
+        console.log("Set token to " + response.happimeter_token);
+        localStorage.setItem("happimeter_token", response.happimeter_token);
+        Pebble.sendAppMessage({
+            'loggedin': 100 // this says we are logged in
+        }, function () {
+            console.log('(JS) Message "user logged in" sent successfully..');
+        }, function (e) {
+            console.log('(JS) Message "user logged in" failed: ' + JSON.stringify(e));
+        });
+    } else {
+        onsole.log("Logged out!");
+        localStorage.removeItem("happimeter_token");
+        Pebble.sendAppMessage({
+            'loggedout': 100 // this says we are logged out
+        }, function () {
+            console.log('(JS) Message "user logged out" sent successfully..');
+        }, function (e) {
+            console.log('(JS) Message "user logged out" failed: ' + JSON.stringify(e));
+        });
+    }
 });
 
 var saveSensorData = function (dict) {
