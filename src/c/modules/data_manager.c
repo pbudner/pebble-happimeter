@@ -59,10 +59,16 @@ void upload_mood(int pleasant, int activation) {
   app_message_open(64, 256); // open the app message
   AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
   if(result == APP_MSG_OK) {
-    time_t current_time = time(NULL);
-    struct tm * utc_time = gmtime(&current_time);
+    time_t now = time(NULL);
+    struct tm * utc_time = gmtime(&now);
     int utc_unix_time = mktime(utc_time);
-    int local_unix_time = (int) current_time;
+    struct tm * local_time = localtime(&now); 
+    static char time_buffer[] = "-0400";
+    strftime(time_buffer, sizeof(time_buffer), "%z", local_time);
+    double difference_to_utc_in_hours = atoi(time_buffer) / 100.0 + local_time->tm_isdst;
+    int local_unix_time = utc_unix_time + difference_to_utc_in_hours * 60 * 60;
+    APP_LOG(APP_LOG_LEVEL_INFO, "Current time is %d", local_unix_time);
+    APP_LOG(APP_LOG_LEVEL_INFO, "UTC time is %d", utc_unix_time);
     dict_write_int(out_iter, MESSAGE_KEY_current_time, &utc_unix_time, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_local_time, &local_unix_time, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_pleasant, &pleasant, sizeof(int), true);
