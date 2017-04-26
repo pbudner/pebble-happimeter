@@ -28,6 +28,7 @@ void missingconfig_window_load(Window *window){
   emailImage = gbitmap_create_with_resource(RESOURCE_ID_Alert_Sign_Black_White);
   emailImageLayer = bitmap_layer_create(GRect(0,0,144,168));
 
+
   bitmap_layer_set_bitmap(emailImageLayer, emailImage);
   bitmap_layer_set_compositing_mode(emailImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(emailImageLayer));  
