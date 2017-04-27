@@ -3,8 +3,9 @@
 static Window *introWindow;
 static int counter;
 static TextLayer *tree_text_layer;
-// static GBitmap *introImage;
-// static BitmapLayer *introImageLayer;
+static TextLayer *heading_text_layer;
+static GBitmap *smileyImage;
+static BitmapLayer *smileyImageLayer;
 
 void intro_single_click_handler(ClickRecognizerRef recognizer, void *context){
   window_stack_push(smileymatrix_window_get_window(), true); // show the main window
@@ -26,11 +27,17 @@ void intro_click_config_provider(void *context){
 * Sets the text of the intro window*
 ***********************************/
 void set_mood_window_text(int happiness, int activation) {
-  static char buffer[999] = "";
-  counter = persist_exists(TREE_KEY) ? persist_read_int(TREE_KEY) / 4 : 0;
-  snprintf(buffer,  sizeof(buffer), "Prediction of your Activation: %d \nPrediction of your Happiness: %d \nNumber of planted trees: %d", activation, happiness, counter);
-  APP_LOG(APP_LOG_LEVEL_INFO, buffer);
-  text_layer_set_text(tree_text_layer, buffer);
+  if(happiness == -1 && activation == -1) {
+    // show loading image
+  } else if(happiness == -2 && activation == -2) {
+    // show that there is no model
+  } else {
+    // show matching image
+  }
+  
+  smileyImage = gbitmap_create_with_resource(RESOURCE_ID_HappySmiley144x100);
+  bitmap_layer_set_bitmap(smileyImageLayer, smileyImage);
+  layer_mark_dirty(bitmap_layer_get_layer(smileyImageLayer));
 }
 
 /***********************************
@@ -45,15 +52,33 @@ void introduction_window_load(Window *window){
   #endif
 
   GRect bounds = layer_get_bounds(window_layer);
-  const GEdgeInsets label_insets = {.top = 10, .right = 0, .left = 5};
+  
+  // add the smiley image
+  smileyImageLayer = bitmap_layer_create(GRect(0, 25, 144, 120));
+  bitmap_layer_set_compositing_mode(smileyImageLayer, GCompOpSet);
+  layer_add_child(window_layer, bitmap_layer_get_layer(smileyImageLayer));
+  
+  // add the heading
+  const GEdgeInsets label_insets = {.top = 5, .right = 5, .left = 5, .bottom = 5};
+  heading_text_layer = text_layer_create(grect_inset(bounds, label_insets));
+  text_layer_set_background_color(heading_text_layer, GColorClear);
+  text_layer_set_text_alignment(heading_text_layer, GTextAlignmentCenter);
+  text_layer_set_font(heading_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+  text_layer_set_text(heading_text_layer, "Mood Prediction");
+  layer_add_child(window_layer, text_layer_get_layer(heading_text_layer));
+  
+  // add the tree counter
   tree_text_layer = text_layer_create(grect_inset(bounds, label_insets));
   text_layer_set_background_color(tree_text_layer, GColorClear);
-  text_layer_set_text_alignment(tree_text_layer, GTextAlignmentLeft);
-  #if defined(PBL_PLATFORM_EMERY)
-    text_layer_set_font(tree_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
-  #else
-    text_layer_set_font(tree_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
-  #endif
+  text_layer_set_text_alignment(tree_text_layer, GTextAlignmentCenter);
+  text_layer_set_font(tree_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14_BOLD));
+  static char buffer[90] = "";
+  counter = persist_exists(TREE_KEY) ? persist_read_int(TREE_KEY) / 4 : 0;
+  snprintf(buffer,  sizeof(buffer), "Planted trees: %d", counter);
+  text_layer_set_text(tree_text_layer, buffer);
+  GRect frame = layer_get_frame(text_layer_get_layer(tree_text_layer));
+  GSize content = text_layer_get_content_size(tree_text_layer);
+  layer_set_frame(text_layer_get_layer(tree_text_layer), GRect(frame.origin.x, frame.origin.y + (frame.size.h - content.h - 5), frame.size.w, content.h));
   layer_add_child(window_layer, text_layer_get_layer(tree_text_layer));
 
   //set config providers
