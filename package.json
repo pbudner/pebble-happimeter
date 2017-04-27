@@ -39,6 +39,42 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/noMachieneLearning_144x100",
+                    "name": "noMachieneLearning_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/loadingscreen_144x100",
+                    "name": "loadingscreen_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood3_144x100",
+                    "name": "mood3_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood2_144x100",
+                    "name": "mood2_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood1_144x100",
+                    "name": "mood1_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood0_144x100",
+                    "name": "mood0_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/zzz.png",
                     "name": "SLEEP",
                     "targetPlatforms": null,
@@ -449,12 +485,6 @@
                 {
                     "file": "images/Smiley_Icon_1.png",
                     "name": "Smiley_Matrix_1",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/HappySmiley144x100",
-                    "name": "HappySmiley144x100",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
