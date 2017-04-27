@@ -39,6 +39,12 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/HappySmiley144x100",
+                    "name": "HappySmiley144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/zzz.png",
                     "name": "SLEEP",
                     "targetPlatforms": null,
