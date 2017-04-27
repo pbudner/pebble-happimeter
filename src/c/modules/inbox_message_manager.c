@@ -23,6 +23,17 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
       APP_LOG(APP_LOG_LEVEL_INFO, "But we are not finished uploading..");
     }
   }
+  
+  // Mood Message
+  Tuple *happiness_tuple = dict_find(iter, MESSAGE_KEY_pleasant);
+  Tuple *activation_tuple = dict_find(iter, MESSAGE_KEY_activation);
+  if (happiness_tuple && activation_tuple)
+  {
+    int32_t happiness = happiness_tuple->value->int32;
+    int32_t activation = activation_tuple->value->int32;
+    APP_LOG(APP_LOG_LEVEL_INFO, "Received mood Act.: %d Hap.: %d", (int)activation, (int)happiness);
+    set_mood_window_text(happiness, activation);
+  }
 
   // Logged in Message
   Tuple *loggedin_t = dict_find(iter, MESSAGE_KEY_loggedin);

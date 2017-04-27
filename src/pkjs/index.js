@@ -4,12 +4,48 @@ var url = "http://pascalbudner.de:8080/v1/";
 var watchToken = "";
 var accountToken = "";
 
+var retrieve_current_mood = function() {
+  console.log("Sending request...");
+    var request = new XMLHttpRequest();
+    request.onload = function () {
+      var response = JSON.parse(request.responseText);
+      if(response.status == 200) {
+        console.log("Happiness: " + response.happiness);
+        console.log("Activation: " + response.activation);
+        Pebble.sendAppMessage({
+          'pleasant': response.activation,
+          'activation': response.happiness
+        }, function () {
+          console.log('(JS) Message Successfully sent the mood to the watch..');
+        }, function (e) {
+          console.log('(JS) Message Failed to send the mood to the watch: ' + JSON.stringify(e));
+        });
+      } else {
+        console.log("(JS) Did not receive a mood value: " + request.responseText);
+      }
+    };
+    request.onerror = function (e) {
+      console.log("ERROR:",e);
+    };
+    request.open("GET", url + "classifier/prediction");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
+    request.send(null);
+    console.log("Sent request..");
+};
+
 // Listen for when the watchface is opened
 Pebble.addEventListener('ready', function (e) {
     console.log('PebbleKit JS is ready!');
     watchToken = Pebble.getWatchToken();
     accountToken = Pebble.getAccountToken();
     console.log('(JS) Happimeter API url: ' + url);
+    if (localStorage.getItem("happimeter_token") !== null) {
+      console.log("(JS) Retrieve mood.");
+      retrieve_current_mood();
+    } else {
+      console.log("(JS) User is not logged in.");
+    }
 });
 
 Pebble.addEventListener('showConfiguration', function() {
@@ -18,6 +54,7 @@ Pebble.addEventListener('showConfiguration', function() {
 });
 
 Pebble.addEventListener('webviewclosed', function (e) {
+    
     if (e && !e.response) {
         return;
     }
@@ -208,8 +245,8 @@ Pebble.addEventListener('appmessage', function (e) {
             saveSensorData(dict);
             sendSensorData();
         }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 });
-    } else if (dict.activation >= 0) {
-        console.log("(JS) Message contains mood data..");
+    } else if (dict.activation >= 0) 
+        console.log("(JS) Message contains mood data..");{
         saveMoodData(dict);
         sendMoodData();
     }

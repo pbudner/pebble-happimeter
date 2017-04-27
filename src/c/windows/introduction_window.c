@@ -1,8 +1,8 @@
 #include "introduction_window.h"
 
 static Window *introWindow;
-static uint32_t counter;
-static TextLayer *treenum_label_layer;
+static int counter;
+static TextLayer *tree_text_layer;
 // static GBitmap *introImage;
 // static BitmapLayer *introImageLayer;
 
@@ -22,6 +22,16 @@ void intro_click_config_provider(void *context){
   window_single_click_subscribe(BUTTON_ID_BACK, (ClickHandler)intro_back_click_handler);
 }
 
+/***********************************
+* Sets the text of the intro window*
+***********************************/
+void set_mood_window_text(int happiness, int activation) {
+  static char buffer[999] = "";
+  counter = persist_exists(TREE_KEY) ? persist_read_int(TREE_KEY) / 4 : 0;
+  snprintf(buffer,  sizeof(buffer), "Prediction of your Activation: %d \nPrediction of your Happiness: %d \nNumber of planted trees: %d", activation, happiness, counter);
+  APP_LOG(APP_LOG_LEVEL_INFO, buffer);
+  text_layer_set_text(tree_text_layer, buffer);
+}
 
 /***********************************
 * Load event of the window         *
@@ -29,40 +39,27 @@ void intro_click_config_provider(void *context){
 void introduction_window_load(Window *window){
 
   Layer *window_layer = window_get_root_layer(window);
-  static char buf_tree[99] = "Hello, You haven't planted any tree. You can get one after finishing a question-set 4 times. :)";
 
   #ifndef PBL_SDK_3
     window_set_fullscreen(window, true);
   #endif
 
-  //Get the number of the planted tree.
-  counter = persist_exists(TREE_KEY) ? persist_read_int(TREE_KEY) / 4 : 0;
-  if (counter < 1){
-    snprintf(buf_tree,  sizeof(buf_tree), "Hello, You haven't planted any tree. You can get one after finishing a question-set 4 times. :)");
-  } else{
-    snprintf(buf_tree,  sizeof(buf_tree), "Hello, You have planted %ld tree(s). Let's go for a new one. :)", counter);
-  }
-
-  APP_LOG(APP_LOG_LEVEL_INFO, buf_tree);
-
   GRect bounds = layer_get_bounds(window_layer);
   const GEdgeInsets label_insets = {.top = 10, .right = 0, .left = 5};
-  treenum_label_layer = text_layer_create(grect_inset(bounds, label_insets));
-  text_layer_set_text(treenum_label_layer, buf_tree);
-  text_layer_set_background_color(treenum_label_layer, GColorClear);
-  text_layer_set_text_alignment(treenum_label_layer, GTextAlignmentLeft);
+  tree_text_layer = text_layer_create(grect_inset(bounds, label_insets));
+  text_layer_set_background_color(tree_text_layer, GColorClear);
+  text_layer_set_text_alignment(tree_text_layer, GTextAlignmentLeft);
   #if defined(PBL_PLATFORM_EMERY)
-    text_layer_set_font(treenum_label_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+    text_layer_set_font(tree_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   #else
-    text_layer_set_font(treenum_label_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+    text_layer_set_font(tree_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
   #endif
-  layer_add_child(window_layer, text_layer_get_layer(treenum_label_layer));
-
+  layer_add_child(window_layer, text_layer_get_layer(tree_text_layer));
 
   //set config providers
   window_set_click_config_provider(window, intro_click_config_provider);
-  // overwrite default setting for back button
-  // force_back_button(window, firstquestionMenuLayer);
+  
+  set_mood_window_text(-1, -1); // -1 should mean still loading..
 }
 
 /***********************************
@@ -86,7 +83,7 @@ void init_introduction_window(void) {
 * Deinit the window         *
 ***********************************/
 void deinit_introduction_window(void) {
-  text_layer_destroy(treenum_label_layer);
+  text_layer_destroy(tree_text_layer);
   window_destroy(introWindow);
 }
 

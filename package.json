@@ -17,7 +17,6 @@
         "enableMultiJS": true,
         "messageKeys": [
             "current_time",
-            "steps",
             "activity",
             "avg_heart_rate",
             "avg_acc_x",
