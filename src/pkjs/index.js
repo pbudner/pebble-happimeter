@@ -111,8 +111,8 @@ var saveSensorData = function (dict) {
         'position': {
           'lat': dict.lat,
           'lon': dict.lon,
-          'alt': dict.alt
-        }
+          'alt': dict.alt,
+        },
     });
 
     localStorage.setItem("sensorItems", JSON.stringify(items));
@@ -128,6 +128,8 @@ var sendSensorData = function () {
         var sensorObj = items.shift();
         if (!sensorObj)
             return;
+      
+        console.log("Sending sensor obj: ", sensorObj);
 
         // Create the request
         var request = new XMLHttpRequest();
@@ -142,7 +144,10 @@ var sendSensorData = function () {
 
         request.onerror = function (e) {
             console.log('Error during saving sensor data: ' + e);
+            items.push(sensorObj);
+            localStorage.setItem("sensorItems", JSON.stringify(items));
             sendFinishedWithUpload();
+            sendData(items);
         };
 
         // Send the request

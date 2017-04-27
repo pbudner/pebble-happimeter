@@ -64,7 +64,7 @@ static void wakeup_handler(WakeupId id, int32_t reason)
 ***********************************/
 void wakeup_up_single_click_handler(ClickRecognizerRef recognizer, void *context)
 {
-  window_stack_push(firstquestion_window_get_window(), true);
+  window_stack_push(smileymatrix_window_get_window(), true);
 }
 
 /***********************************
@@ -107,12 +107,6 @@ void wakeup_click_config_provider(void *context)
 * Almost Random Wakeup                           *
 ***********************************/
 static void wakeup(){
-
-   // Next occuring (day/hour/minutes)
-  printf("wir sind in der wakeupfunktion");
-
-  //TODO: Ist die tmp 12 oder 24 stunden format? komische Zeiten auf dem emulator
-
   int randomhour_1;
   int randomhour_2;
   int randomhour_3;
@@ -123,19 +117,14 @@ static void wakeup(){
   int randomminute_3 = rand() % 60;
   int randomminute_4 = rand() % 60;
 
-  //https://linux.die.net/man/3/gmtime
-  //actual time
   time_t t = time(0);   // get time now
   struct tm * tmp = localtime( & t );
-  printf("hours is %d\n", tmp->tm_hour);
-  printf("minutes is %d\n", tmp->tm_min);
-
+  
   //First random time: time slot 9-11(:59) o'clock
   while (true){
     if(tmp->tm_hour < 12){
       randomhour_1 = 9;
       randomminute_1 = 0;
-      printf("not random 9-12 %d\n", tmp->tm_hour);
       break;
     }
     //simple way to change the range to be an integer between 0 and n-1 inclusive
@@ -148,7 +137,6 @@ static void wakeup(){
   //Second random time: time slot 12-14(:59) o'clock
    while (true){
      if(tmp->tm_hour < 15 && tmp->tm_hour >= 12){
-      printf("not random 12-15 %d\n", tmp->tm_hour);
       randomhour_2 = 12;
       randomminute_2 = 0;
       break;
@@ -163,7 +151,6 @@ static void wakeup(){
   //Third random time: time slot 15-17(:59) o'clock
    while (true){
      if(tmp->tm_hour < 18 && tmp->tm_hour >= 15){
-      printf("not random 15-18 %d\n", tmp->tm_hour);
       randomhour_3 = 15;
       randomminute_3 = 0;
       break;
@@ -178,7 +165,6 @@ static void wakeup(){
   //Fourth random time: time slot 18-20(:59) o'clock
    while (true){
      if(tmp->tm_hour < 21 && tmp->tm_hour >= 18){
-      printf("not random 18-21 %d\n", tmp->tm_hour);
       randomhour_4 = 18;
       randomminute_4 = 0;
       break;
@@ -189,11 +175,6 @@ static void wakeup(){
       break;
     }
   }
-
-  APP_LOG(APP_LOG_LEVEL_INFO, "%d%d RandomTIME_1 wake_up", randomhour_1, randomminute_1);
-  APP_LOG(APP_LOG_LEVEL_INFO, "%d%d RandomTIME_2 wake_up", randomhour_2, randomminute_2);
-  APP_LOG(APP_LOG_LEVEL_INFO, "%d%d RandomTIME_3 wake_up", randomhour_3, randomminute_3);
-  APP_LOG(APP_LOG_LEVEL_INFO, "%d%d RandomTIME_4 wake_up", randomhour_4, randomminute_4);
 
   time_t timestamp_1 = clock_to_timestamp(TODAY, randomhour_1, randomminute_1);
   time_t timestamp_2 = clock_to_timestamp(TODAY, randomhour_2, randomminute_2);
@@ -216,12 +197,9 @@ static void wakeup(){
   WakeupId id_3 = wakeup_schedule(timestamp_3 , 3 , notify_if_missed);
   WakeupId id_4 = wakeup_schedule(timestamp_4 , 4 , notify_if_missed);
 
-  printf("scheduled!");
-
   // Check the scheduling was successful
    if(id_1 >= 0 && id_2 >= 0 && id_3 >=0 && id_4 >= 0){
      // Persist the ID so that a future launch can query it
-     printf("id is scheduled!");
      const int wakeup_id_key = 43;
      persist_write_int(wakeup_id_key, id_1);
    }
