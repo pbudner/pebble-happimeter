@@ -20,6 +20,12 @@ var retrieve_current_mood = function() {
         }, function (e) {
           console.log('(JS) Message Failed to send the mood to the watch: ' + JSON.stringify(e));
         });
+      } else if(response.status == 400) {
+        console.log("(JS) The model is not trained yet.");
+        Pebble.sendAppMessage({ // (-2,-2) means not trained yet
+          'pleasant': -2, 
+          'activation': -2
+        });
       } else {
         console.log("(JS) Did not receive a mood value: " + request.responseText);
       }

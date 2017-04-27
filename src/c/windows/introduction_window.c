@@ -4,6 +4,7 @@ static Window *introWindow;
 static int counter;
 static TextLayer *tree_text_layer;
 static TextLayer *heading_text_layer;
+static TextLayer *machine_learning_text_layer;
 static GBitmap *smileyImage;
 static BitmapLayer *smileyImageLayer;
 
@@ -28,14 +29,24 @@ void intro_click_config_provider(void *context){
 ***********************************/
 void set_mood_window_text(int happiness, int activation) {
   if(happiness == -1 && activation == -1) {
-    // show loading image
+    // mood has not been loaded yet
+    smileyImage = gbitmap_create_with_resource(RESOURCE_ID_loadingscreen_144x100);
   } else if(happiness == -2 && activation == -2) {
-    // show that there is no model
+    // there is no trained model yet
+    smileyImage = gbitmap_create_with_resource(RESOURCE_ID_noMachieneLearning_144x100);
+    text_layer_set_text(machine_learning_text_layer, "There is no prediction model yet.");
   } else {
-    // show matching image
+    if(happiness == 1 && activation == 1) {
+      smileyImage = gbitmap_create_with_resource(RESOURCE_ID_mood0_144x100);
+    } else if(happiness == 1 && activation == 0) {
+      smileyImage = gbitmap_create_with_resource(RESOURCE_ID_mood1_144x100);
+    } else if(happiness == 0 && activation == 0) {
+      smileyImage = gbitmap_create_with_resource(RESOURCE_ID_mood2_144x100);
+    } else if(happiness == 0 && activation == 1) {
+      smileyImage = gbitmap_create_with_resource(RESOURCE_ID_mood3_144x100);
+    }
   }
   
-  smileyImage = gbitmap_create_with_resource(RESOURCE_ID_HappySmiley144x100);
   bitmap_layer_set_bitmap(smileyImageLayer, smileyImage);
   layer_mark_dirty(bitmap_layer_get_layer(smileyImageLayer));
 }
@@ -54,7 +65,7 @@ void introduction_window_load(Window *window){
   GRect bounds = layer_get_bounds(window_layer);
   
   // add the smiley image
-  smileyImageLayer = bitmap_layer_create(GRect(0, 25, 144, 120));
+  smileyImageLayer = bitmap_layer_create(GRect(0, 20, 144, 120));
   bitmap_layer_set_compositing_mode(smileyImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(smileyImageLayer));
   
@@ -80,6 +91,15 @@ void introduction_window_load(Window *window){
   GSize content = text_layer_get_content_size(tree_text_layer);
   layer_set_frame(text_layer_get_layer(tree_text_layer), GRect(frame.origin.x, frame.origin.y + (frame.size.h - content.h - 5), frame.size.w, content.h));
   layer_add_child(window_layer, text_layer_get_layer(tree_text_layer));
+  
+  // add the need machine learning text layer
+  machine_learning_text_layer = text_layer_create(grect_inset(bounds, label_insets));
+  text_layer_set_background_color(machine_learning_text_layer, GColorClear);
+  text_layer_set_text_alignment(machine_learning_text_layer, GTextAlignmentCenter);
+  text_layer_set_font(machine_learning_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
+  text_layer_set_text(machine_learning_text_layer, "");
+  layer_set_frame(text_layer_get_layer(machine_learning_text_layer), GRect(frame.origin.x, frame.origin.y + (frame.size.h - content.h * 2 - 20), frame.size.w, content.h * 3));
+  layer_add_child(window_layer, text_layer_get_layer(machine_learning_text_layer));
 
   //set config providers
   window_set_click_config_provider(window, intro_click_config_provider);
