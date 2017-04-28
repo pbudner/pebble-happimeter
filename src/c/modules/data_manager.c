@@ -107,7 +107,6 @@ void upload_measure() {
     int vector_magnitude_counts = get_measure(current_measurement_id, 20, false);
     int avg_light_level = get_measure(current_measurement_id, 21, false);
     
-    APP_LOG(APP_LOG_LEVEL_INFO, "Found number of steps %d.", steps);
     APP_LOG(APP_LOG_LEVEL_INFO, "Found light level %d.", avg_light_level);  
     APP_LOG(APP_LOG_LEVEL_INFO, "Found vmc %d.", vector_magnitude_counts);    
     DictionaryIterator *out_iter; // Declare the dictionary's iterator

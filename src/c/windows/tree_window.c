@@ -14,33 +14,6 @@ const int NO_OF_FRAMES1 = 16,
           NO_OF_FRAMES3 = 14, 
           NO_OF_FRAMES4 = 13; 
 
-// // dedicated button manager from here ---
-// void back_single_click_handler_tree(ClickRecognizerRef recognizer, void *context) {
-//   Window *window = (Window *)context;
-//   APP_LOG(APP_LOG_LEVEL_INFO, "Back button is pressed on missingconfig_window. Exiting now!");
-//   window_stack_pop_all(true);
-// }
-//
-// // dedicated button manager from here ---
-// void down_single_click_handler_tree(ClickRecognizerRef recognizer, void *context) {
-//   Window *window = (Window *)context;
-//   APP_LOG(APP_LOG_LEVEL_INFO, "Back button is pressed on missingconfig_window. Exiting now!");
-//   window_stack_pop_all(true);
-// }
-//
-// // dedicated button manager from here ---
-// void select_single_click_handler_tree(ClickRecognizerRef recognizer, void *context) {
-//   Window *window = (Window *)context;
-//   APP_LOG(APP_LOG_LEVEL_INFO, "Back button is pressed on missingconfig_window. Exiting now!");
-//   window_stack_pop_all(true);
-// }
-//
-// // dedicated button manager from here ---
-// void up_single_click_handler_tree(ClickRecognizerRef recognizer, void *context) {
-//   Window *window = (Window *)context;
-//   APP_LOG(APP_LOG_LEVEL_INFO, "Back button is pressed on missingconfig_window. Exiting now!");
-//   window_stack_pop_all(true);
-// }
 /***********************************
 * Any button single click handler  *
 ***********************************/
@@ -225,12 +198,12 @@ void tree_window_load(Window *window)
   {
     counter = persist_read_int(TREE_KEY);
     counter += 1;
-    counter = counter;
+    persist_write_int(TREE_KEY, counter);
+    
     if(counter > 4) {
       counter = 1;
     }
 
-    persist_write_int(TREE_KEY, counter);
   }
 
 

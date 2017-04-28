@@ -79,6 +79,8 @@ Pebble.addEventListener('webviewclosed', function (e) {
         });
     } else {
         console.log("Logged out!");
+        localStorage.removeItem("sensorItems");
+        localStorage.removeItem("moodItems");
         localStorage.removeItem("happimeter_token");
         Pebble.sendAppMessage({
             'loggedout': 100 // this says we are logged out
@@ -222,7 +224,6 @@ var sendMoodData = function () {
         };
 
         // Send the request
-        console.log("Auth Header is: Bearer " + localStorage.getItem("happimeter_token"));
         request.open("POST", url + "moods");
         request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -253,6 +254,9 @@ Pebble.addEventListener('appmessage', function (e) {
             sendSensorData();
         }, function (err) {
             console.log(err);
+            dict.lat = null;
+            dict.lon = null;
+            dict.alt = null;
             saveSensorData(dict);
             sendSensorData();
         }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 });
