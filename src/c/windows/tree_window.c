@@ -199,11 +199,10 @@ void tree_window_load(Window *window)
     counter = persist_read_int(TREE_KEY);
     counter += 1;
     persist_write_int(TREE_KEY, counter);
-    
-    if(counter > 4) {
-      counter = 1;
+    counter = counter % 4;
+    if(counter == 0) {
+      counter = 4;
     }
-
   }
 
 
