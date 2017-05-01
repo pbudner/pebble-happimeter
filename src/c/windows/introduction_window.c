@@ -7,6 +7,8 @@ static TextLayer *heading_text_layer;
 static TextLayer *machine_learning_text_layer;
 static GBitmap *smileyImage;
 static BitmapLayer *smileyImageLayer;
+static ActionBarLayer *s_action_bar_layer;
+static GBitmap *s_tick_bitmap, *s_cross_bitmap/*, *s_sleep_bitmap*/;
 
 void intro_single_click_handler(ClickRecognizerRef recognizer, void *context){
   window_stack_push(smileymatrix_window_get_window(), true); // show the main window
@@ -34,7 +36,7 @@ void set_mood_window_text(int happiness, int activation) {
   } else if(happiness == -2 && activation == -2) {
     // there is no trained model yet
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_noMachieneLearning_144x100);
-    text_layer_set_text(machine_learning_text_layer, "There is no prediction model yet.");
+    text_layer_set_text(machine_learning_text_layer, "More training data is needed.");
   } else {
     if(happiness == 1 && activation == 1) {
       smileyImage = gbitmap_create_with_resource(RESOURCE_ID_mood0_144x100);
@@ -63,18 +65,18 @@ void introduction_window_load(Window *window){
   #endif
 
   GRect bounds = layer_get_bounds(window_layer);
+  const GEdgeInsets label_insets = {.top = 5, .right = ACTION_BAR_WIDTH + 5, .left = 5, .bottom = 5};
   
   // add the smiley image
-  smileyImageLayer = bitmap_layer_create(GRect(0, 20, 144, 120));
+  smileyImageLayer = bitmap_layer_create(GRect(-ACTION_BAR_WIDTH / 2, 20, 144 - ACTION_BAR_WIDTH, 120));
   bitmap_layer_set_compositing_mode(smileyImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(smileyImageLayer));
   
   // add the heading
-  const GEdgeInsets label_insets = {.top = 5, .right = 5, .left = 5, .bottom = 5};
   heading_text_layer = text_layer_create(grect_inset(bounds, label_insets));
   text_layer_set_background_color(heading_text_layer, GColorClear);
   text_layer_set_text_alignment(heading_text_layer, GTextAlignmentCenter);
-  text_layer_set_font(heading_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+  text_layer_set_font(heading_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14_BOLD));
   text_layer_set_text(heading_text_layer, "Mood Prediction");
   layer_add_child(window_layer, text_layer_get_layer(heading_text_layer));
   
@@ -100,8 +102,18 @@ void introduction_window_load(Window *window){
   text_layer_set_text(machine_learning_text_layer, "");
   layer_set_frame(text_layer_get_layer(machine_learning_text_layer), GRect(frame.origin.x, frame.origin.y + (frame.size.h - content.h * 2 - 20), frame.size.w, content.h * 3));
   layer_add_child(window_layer, text_layer_get_layer(machine_learning_text_layer));
+  
+  // add the action menu
+  s_tick_bitmap = gbitmap_create_with_resource(RESOURCE_ID_TICK);
+  s_cross_bitmap = gbitmap_create_with_resource(RESOURCE_ID_CROSS);
+  //s_sleep_bitmap = gbitmap_create_with_resource(RESOURCE_ID_SLEEP);
+  s_action_bar_layer = action_bar_layer_create();
+  action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_tick_bitmap);
+  action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_cross_bitmap);
+  //action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_sleep_bitmap);
+  action_bar_layer_add_to_window(s_action_bar_layer, window);
 
-  //set config providers
+  //set click handler
   window_set_click_config_provider(window, intro_click_config_provider);
   
   set_mood_window_text(-1, -1); // -1 should mean still loading..

@@ -13,8 +13,8 @@ var retrieve_current_mood = function() {
         console.log("Happiness: " + response.happiness);
         console.log("Activation: " + response.activation);
         Pebble.sendAppMessage({
-          'pleasant': response.activation,
-          'activation': response.happiness
+          'pleasant': response.happiness,
+          'activation': response.activation
         }, function () {
           console.log('(JS) Message Successfully sent the mood to the watch..');
         }, function (e) {
