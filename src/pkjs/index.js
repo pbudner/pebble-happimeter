@@ -214,13 +214,14 @@ var sendMoodData = function () {
         request.onload = function () {
             console.log('Got save mood data response: ' + this.responseText);
             localStorage.setItem("moodItems", JSON.stringify(items));
-            // sendFinishedWithUpload();
             sendData(items);
         };
 
         request.onerror = function (e) {
             console.log('Error during saving mood data: ' + e);
-            // sendFinishedWithUpload();
+            items.push(moodObj);
+            localStorage.setItem("moodItems", JSON.stringify(items));
+            sendData(items);
         };
 
         // Send the request

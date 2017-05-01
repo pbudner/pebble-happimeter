@@ -129,6 +129,10 @@ HealthMeasure perform_measurement() {
 * and stores the data in storage   *
 ***********************************/
 void measurement_iteration() {
+  if(is_configured() == 0) {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "App is not configured yet. Thus, ignore measurement iteration.");
+    return;
+  }
   time_t current_time = time(NULL);
   struct tm *local_time = localtime(&current_time);
   

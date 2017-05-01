@@ -18,7 +18,7 @@ int is_configured() {
 * Marks that the user is logged in *
 ***********************************/
 void set_is_configured(void) {
-  persist_write_int(SETTINGS_STORAGE_KEY, 1);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Marked app as configured %d.", persist_write_int(SETTINGS_STORAGE_KEY, 1));
 }
 
 /***********************************
