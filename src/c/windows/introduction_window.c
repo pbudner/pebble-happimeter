@@ -1,28 +1,49 @@
 #include "introduction_window.h"
 
 static Window *introWindow;
-static int counter;
+static int counter, predicted_happiness, predicted_activation;
+static bool hasMachineLearning = false;
 static TextLayer *tree_text_layer;
 static TextLayer *heading_text_layer;
 static TextLayer *machine_learning_text_layer;
 static GBitmap *smileyImage;
 static BitmapLayer *smileyImageLayer;
 static ActionBarLayer *s_action_bar_layer;
-static GBitmap *s_tick_bitmap, *s_cross_bitmap/*, *s_sleep_bitmap*/;
+static GBitmap *s_tick_bitmap, *s_cross_bitmap, *s_go_bitmap;
 
-void intro_single_click_handler(ClickRecognizerRef recognizer, void *context){
-  window_stack_push(smileymatrix_window_get_window(), true); // show the main window
+/***********************************
+* Click handler functions          *
+***********************************/
+void intro_up_click_handler(ClickRecognizerRef recognizer, void *context){
+  if(hasMachineLearning) {
+    setMoodAnswer(predicted_happiness, predicted_activation);
+    window_stack_push(tree_window_get_window(), true);
+  }
 }
+
+void intro_down_click_handler(ClickRecognizerRef recognizer, void *context){
+  if(hasMachineLearning) {
+    window_stack_push(smileymatrix_window_get_window(), true); // show the main window
+  }
+}
+
+void intro_select_click_handler(ClickRecognizerRef recognizer, void *context){
+  if(!hasMachineLearning) {
+    window_stack_push(smileymatrix_window_get_window(), true); // show the main window
+  }
+}
+
 void intro_back_click_handler(ClickRecognizerRef recognizer, void *context){
   window_stack_pop_all(true);
 }
+
 /***********************************
 * Right buttons click config       *
 ***********************************/
 void intro_click_config_provider(void *context){
-  window_single_click_subscribe(BUTTON_ID_UP, (ClickHandler)intro_single_click_handler);
-  window_single_click_subscribe(BUTTON_ID_DOWN, (ClickHandler)intro_single_click_handler);
-  window_single_click_subscribe(BUTTON_ID_SELECT, (ClickHandler)intro_single_click_handler);
+  window_single_click_subscribe(BUTTON_ID_UP, (ClickHandler)intro_up_click_handler);
+  window_single_click_subscribe(BUTTON_ID_DOWN, (ClickHandler)intro_down_click_handler);
+  window_single_click_subscribe(BUTTON_ID_SELECT, (ClickHandler)intro_select_click_handler);
   window_single_click_subscribe(BUTTON_ID_BACK, (ClickHandler)intro_back_click_handler);
 }
 
@@ -30,14 +51,25 @@ void intro_click_config_provider(void *context){
 * Sets the text of the intro window*
 ***********************************/
 void set_mood_window_text(int happiness, int activation) {
+  action_bar_layer_clear_icon (s_action_bar_layer, BUTTON_ID_UP);
+  action_bar_layer_clear_icon (s_action_bar_layer, BUTTON_ID_DOWN);
+  action_bar_layer_clear_icon (s_action_bar_layer, BUTTON_ID_SELECT);
   if(happiness == -1 && activation == -1) {
     // mood has not been loaded yet
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_loadingscreen_144x100);
+    text_layer_set_text(machine_learning_text_layer, "Loading...");
   } else if(happiness == -2 && activation == -2) {
     // there is no trained model yet
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_noMachieneLearning_144x100);
     text_layer_set_text(machine_learning_text_layer, "More training data is needed.");
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_go_bitmap);
   } else {
+    predicted_happiness = happiness;
+    predicted_activation = activation;
+    hasMachineLearning = true;
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_tick_bitmap);
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_cross_bitmap);
+  text_layer_set_text(machine_learning_text_layer, "Is this your current mood?");
     if(happiness == 1 && activation == 1) {
       smileyImage = gbitmap_create_with_resource(RESOURCE_ID_mood0_144x100);
     } else if(happiness == 1 && activation == 0) {
@@ -51,6 +83,7 @@ void set_mood_window_text(int happiness, int activation) {
   
   bitmap_layer_set_bitmap(smileyImageLayer, smileyImage);
   layer_mark_dirty(bitmap_layer_get_layer(smileyImageLayer));
+  layer_mark_dirty(action_bar_layer_get_layer(s_action_bar_layer));
 }
 
 /***********************************
@@ -106,11 +139,8 @@ void introduction_window_load(Window *window){
   // add the action menu
   s_tick_bitmap = gbitmap_create_with_resource(RESOURCE_ID_TICK);
   s_cross_bitmap = gbitmap_create_with_resource(RESOURCE_ID_CROSS);
-  //s_sleep_bitmap = gbitmap_create_with_resource(RESOURCE_ID_SLEEP);
+  s_go_bitmap = gbitmap_create_with_resource(RESOURCE_ID_SLEEP);
   s_action_bar_layer = action_bar_layer_create();
-  action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_tick_bitmap);
-  action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_cross_bitmap);
-  //action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_sleep_bitmap);
   action_bar_layer_add_to_window(s_action_bar_layer, window);
 
   //set click handler
