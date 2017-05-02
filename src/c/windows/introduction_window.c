@@ -2,7 +2,7 @@
 
 static Window *introWindow;
 static int counter, predicted_happiness, predicted_activation;
-static bool hasMachineLearning = false;
+static bool hasMachineLearning = false, canProceedToMood = false;
 static TextLayer *tree_text_layer;
 static TextLayer *heading_text_layer;
 static TextLayer *machine_learning_text_layer;
@@ -28,7 +28,7 @@ void intro_down_click_handler(ClickRecognizerRef recognizer, void *context){
 }
 
 void intro_select_click_handler(ClickRecognizerRef recognizer, void *context){
-  if(!hasMachineLearning) {
+  if(!hasMachineLearning && canProceedToMood) {
     window_stack_push(smileymatrix_window_get_window(), true); // show the main window
   }
 }
@@ -58,15 +58,24 @@ void set_mood_window_text(int happiness, int activation) {
     // mood has not been loaded yet
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_loadingscreen_144x100);
     text_layer_set_text(machine_learning_text_layer, "Loading...");
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_go_bitmap);
   } else if(happiness == -2 && activation == -2) {
     // there is no trained model yet
+    canProceedToMood = true;
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_noMachieneLearning_144x100);
     text_layer_set_text(machine_learning_text_layer, "More training data is needed.");
     action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_go_bitmap);
+  } else if(happiness == -3 && activation == -3 && !hasMachineLearning) {
+    // there is no trained model yet
+    canProceedToMood = false;
+    smileyImage = gbitmap_create_with_resource(RESOURCE_ID_Alert_Sign_Black_White);
+    text_layer_set_text(machine_learning_text_layer, "No connection to the phone.");
+    // action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_go_bitmap);
   } else {
     predicted_happiness = happiness;
     predicted_activation = activation;
     hasMachineLearning = true;
+    canProceedToMood = false;
     action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_tick_bitmap);
     action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_cross_bitmap);
   text_layer_set_text(machine_learning_text_layer, "Is this your current mood?");
@@ -84,6 +93,16 @@ void set_mood_window_text(int happiness, int activation) {
   bitmap_layer_set_bitmap(smileyImageLayer, smileyImage);
   layer_mark_dirty(bitmap_layer_get_layer(smileyImageLayer));
   layer_mark_dirty(action_bar_layer_get_layer(s_action_bar_layer));
+}
+
+/***********************************
+* Show warning message if receiving*
+* the mood takes too long          *
+* Reasons: phone not connected,    *
+* no internet connection           *
+***********************************/
+void message_timeout_callback(void *data) {
+  set_mood_window_text(-3, -3); // this means no internet connection
 }
 
 /***********************************
@@ -139,7 +158,7 @@ void introduction_window_load(Window *window){
   // add the action menu
   s_tick_bitmap = gbitmap_create_with_resource(RESOURCE_ID_TICK);
   s_cross_bitmap = gbitmap_create_with_resource(RESOURCE_ID_CROSS);
-  s_go_bitmap = gbitmap_create_with_resource(RESOURCE_ID_SLEEP);
+  s_go_bitmap = gbitmap_create_with_resource(RESOURCE_ID_NEXT);
   s_action_bar_layer = action_bar_layer_create();
   action_bar_layer_add_to_window(s_action_bar_layer, window);
 
@@ -147,14 +166,20 @@ void introduction_window_load(Window *window){
   window_set_click_config_provider(window, intro_click_config_provider);
   
   set_mood_window_text(-1, -1); // -1 should mean still loading..
+  
+  // set a timer to show a warning message if receiving the mood takes to long
+  app_timer_register(7000, message_timeout_callback, NULL);
 }
 
 /***********************************
 * Unload event of the window       *
 ***********************************/
 void introduction_window_unload(){
-  // bitmap_layer_destroy(introImageLayer);
-  // gbitmap_destroy(introImage);
+  bitmap_layer_destroy(smileyImageLayer);
+  gbitmap_destroy(s_tick_bitmap);
+  gbitmap_destroy(s_cross_bitmap);
+  gbitmap_destroy(s_go_bitmap);
+  action_bar_layer_destroy(s_action_bar_layer);
 }
 
 /***********************************

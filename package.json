@@ -39,6 +39,12 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/Next.png",
+                    "name": "NEXT",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/mood3_144x100.png",
                     "name": "mood3_144x100",
                     "targetPlatforms": null,
