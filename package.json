@@ -39,6 +39,12 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/no_connection.png",
+                    "name": "NO_CONNECTION",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/Next.png",
                     "name": "NEXT",
                     "targetPlatforms": null,

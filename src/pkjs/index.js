@@ -70,6 +70,7 @@ Pebble.addEventListener('webviewclosed', function (e) {
     if (response.happimeter_token != false && response.happimeter_token != "false") {
         console.log("Set token to " + response.happimeter_token);
         localStorage.setItem("happimeter_token", response.happimeter_token);
+        retrieve_current_mood();
         Pebble.sendAppMessage({
             'loggedin': 100 // this says we are logged in
         }, function () {

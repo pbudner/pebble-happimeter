@@ -68,7 +68,7 @@ void set_mood_window_text(int happiness, int activation) {
   } else if(happiness == -3 && activation == -3 && !hasMachineLearning) {
     // there is no trained model yet
     canProceedToMood = false;
-    smileyImage = gbitmap_create_with_resource(RESOURCE_ID_Alert_Sign_Black_White);
+    smileyImage = gbitmap_create_with_resource(RESOURCE_ID_NO_CONNECTION);
     text_layer_set_text(machine_learning_text_layer, "No connection to the phone.");
     // action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_go_bitmap);
   } else {
