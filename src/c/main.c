@@ -6,7 +6,6 @@
 static void init_windows() {
   init_upload_window();
   init_exit_window();
-  init_wakeup_window();
   init_firstquestion_window();
   init_missingconfig_window();
   init_introduction_window();
@@ -20,7 +19,6 @@ static void init_windows() {
 static void deinit_windows() {
   deinit_upload_window();
   deinit_exit_window();
-  deinit_wakeup_window();
   deinit_firstquestion_window();
   deinit_missingconfig_window();
   deinit_tree_window();
@@ -35,6 +33,7 @@ static void init() {
   init_data_manager();
   init_inbox_message_manager();
   init_windows();
+  init_wakeup();
 
   // show login window if the app is not configured yet
   if(is_configured() == 0) {
@@ -47,10 +46,9 @@ static void init() {
     window_stack_push(upload_window_get_window(), true);
   } else if(launch_reason() == APP_LAUNCH_WAKEUP) {
     vibes_double_pulse(); // vibrate..
-    window_stack_push(wakeup_window_get_window(), true); // show the wakeup window
+    window_stack_push(introduction_window_get_window(), true); // show the wakeup window
   } else {
     window_stack_push(introduction_window_get_window(), true);
-    // window_stack_push(firstquestion_window_get_window(), true); // show the main window
   }
 }
 

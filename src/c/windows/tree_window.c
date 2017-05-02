@@ -13,6 +13,7 @@ const int NO_OF_FRAMES1 = 16,
           NO_OF_FRAMES2 = 15, 
           NO_OF_FRAMES3 = 14, 
           NO_OF_FRAMES4 = 13; 
+const int TREE_KEY = 0;
 
 /***********************************
 * Any button single click handler  *
