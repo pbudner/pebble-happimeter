@@ -9,7 +9,7 @@ static TextLayer *machine_learning_text_layer;
 static GBitmap *smileyImage;
 static BitmapLayer *smileyImageLayer;
 static ActionBarLayer *s_action_bar_layer;
-static GBitmap *s_tick_bitmap, *s_cross_bitmap, *s_go_bitmap, *s_zz_bitmap;
+static GBitmap *s_tick_bitmap, *s_cross_bitmap, *s_go_bitmap, *s_zz_bitmap, *s_social_bitmap;
 static const int TREE_KEY = 0;
 
 /***********************************
@@ -73,6 +73,10 @@ void set_mood_window_text(int happiness, int activation) {
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_noMachieneLearning_144x100);
     text_layer_set_text(machine_learning_text_layer, "More training data is needed.");
     action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_go_bitmap);
+    
+    if(launch_reason() != APP_LAUNCH_WAKEUP) {
+      action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_social_bitmap);
+    }
   } else if(happiness == -3 && activation == -3 && !hasMachineLearning) {
     // there is no trained model yet
     canProceedToMood = false;
@@ -85,7 +89,10 @@ void set_mood_window_text(int happiness, int activation) {
     canProceedToMood = false;
     action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_tick_bitmap);
     action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_cross_bitmap);
-  text_layer_set_text(machine_learning_text_layer, "Is this your current mood?");
+    text_layer_set_text(machine_learning_text_layer, "Is this your current mood?");
+    if(launch_reason() != APP_LAUNCH_WAKEUP) {
+      action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_social_bitmap);
+    }
     if(happiness == 1 && activation == 1) {
       smileyImage = gbitmap_create_with_resource(RESOURCE_ID_mood0_144x100);
     } else if(happiness == 1 && activation == 0) {
@@ -167,6 +174,7 @@ void introduction_window_load(Window *window){
   s_cross_bitmap = gbitmap_create_with_resource(RESOURCE_ID_CROSS);
   s_go_bitmap = gbitmap_create_with_resource(RESOURCE_ID_NEXT);
   s_zz_bitmap = gbitmap_create_with_resource(RESOURCE_ID_SLEEP);
+  s_social_bitmap = gbitmap_create_with_resource(RESOURCE_ID_SOCIAL);
   s_action_bar_layer = action_bar_layer_create();
   action_bar_layer_add_to_window(s_action_bar_layer, window);
 
@@ -187,6 +195,8 @@ void introduction_window_unload(){
   gbitmap_destroy(s_tick_bitmap);
   gbitmap_destroy(s_cross_bitmap);
   gbitmap_destroy(s_go_bitmap);
+  gbitmap_destroy(s_zz_bitmap);
+  gbitmap_destroy(s_social_bitmap);
   action_bar_layer_destroy(s_action_bar_layer);
 }
 

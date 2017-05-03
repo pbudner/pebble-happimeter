@@ -39,6 +39,12 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/social.png",
+                    "name": "SOCIAL",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/no_connection.png",
                     "name": "NO_CONNECTION",
                     "targetPlatforms": null,
