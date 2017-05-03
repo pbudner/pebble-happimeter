@@ -191,7 +191,11 @@ var saveMoodData = function (dict) {
         'timestamp': dict.current_time,
         'local_timestamp': dict.local_time,
         'activation': dict.activation,
-        'pleasance': dict.pleasant
+        'pleasance': dict.pleasant,
+        'position': {
+          'lat': dict.lat,
+          'lon': dict.lon
+        },
     });
 
     localStorage.setItem("moodItems", JSON.stringify(items));
