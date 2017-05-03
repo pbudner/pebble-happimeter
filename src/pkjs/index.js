@@ -262,10 +262,22 @@ Pebble.addEventListener('appmessage', function (e) {
             saveSensorData(dict);
             sendSensorData();
         }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 });
-    } else if (dict.activation >= 0) 
-        console.log("(JS) Message contains mood data..");{
-        saveMoodData(dict);
-        sendMoodData();
+    } else if (dict.activation >= 0) {
+        console.log("(JS) Message contains mood data..");
+        navigator.geolocation.getCurrentPosition(function (pos) {
+            dict.lat = pos.coords.latitude;
+            dict.lon = pos.coords.longitude;
+            dict.alt = pos.coords.altitude;
+            saveMoodData(dict);
+            sendMoodData();
+        }, function (err) {
+            console.log(err);
+            dict.lat = null;
+            dict.lon = null;
+            dict.alt = null;
+            saveMoodData(dict);
+            sendMoodData();
+        }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 });
     }
 });
 
