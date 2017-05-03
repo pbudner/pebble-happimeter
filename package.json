@@ -39,6 +39,30 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/mood3_18x18.png",
+                    "name": "mood3_18x18",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood2_18x18.png",
+                    "name": "mood2_18x18",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood1_18x18.png",
+                    "name": "mood1_18x18",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood0_18x18.png",
+                    "name": "mood0_18x18",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/zzz.png",
                     "name": "SLEEP",
                     "targetPlatforms": null,
