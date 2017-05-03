@@ -4,26 +4,31 @@ static Window *friendsWindow;
 static SimpleMenuLayer *s_simple_menu_layer;
 static SimpleMenuSection s_menu_sections[1];
 static SimpleMenuItem s_menu_items[5];
+static GBitmap *s_menu_icon_image;
 
 /***********************************
 * Load event of the window         *
 ***********************************/
 void window_load(Window *window){
   Layer *window_layer = window_get_root_layer(window);int num_a_items = 0;
-
+  s_menu_icon_image = gbitmap_create_with_resource(RESOURCE_ID_SOCIAL);
   s_menu_items[num_a_items++] = (SimpleMenuItem) {
-    .title = "First Item",
+    .title = "Peter Gloor",
+    .subtitle = "pgloor@mit.edu",
+    .icon = s_menu_icon_image,
   };
   s_menu_items[num_a_items++] = (SimpleMenuItem) {
-    .title = "Second Item",
-    .subtitle = "Here's a subtitle",
+    .title = "Joscha Eirich",
+    .subtitle = "jeirich@mit.edu",
+    .icon = s_menu_icon_image,
   };
   s_menu_items[num_a_items++] = (SimpleMenuItem) {
-    .title = "Third Item",
-    .subtitle = "This has an icon",
+    .title = "Pascal Budner",
+    .subtitle = "pbudner@mit.edu",
+    .icon = s_menu_icon_image,
   };
   s_menu_sections[0] = (SimpleMenuSection) {
-    .title = "Friends",
+    .title = "Friends' Mood",
     .num_items = num_a_items,
     .items = s_menu_items,
   };
@@ -38,6 +43,7 @@ void window_load(Window *window){
 ***********************************/
 void window_unload(){
   simple_menu_layer_destroy(s_simple_menu_layer);
+  gbitmap_destroy(s_menu_icon_image);
 }
 
 /***********************************

@@ -39,48 +39,6 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/social.png",
-                    "name": "SOCIAL",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/no_connection.png",
-                    "name": "NO_CONNECTION",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Next.png",
-                    "name": "NEXT",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood3_144x100.png",
-                    "name": "mood3_144x100",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood2_144x100.png",
-                    "name": "mood2_144x100",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood1_144x100.png",
-                    "name": "mood1_144x100",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood0_144x100.png",
-                    "name": "mood0_144x100",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/zzz.png",
                     "name": "SLEEP",
                     "targetPlatforms": null,
@@ -117,8 +75,44 @@
                     "type": "bitmap"
                 },
                 {
+                    "file": "images/social.png",
+                    "name": "SOCIAL",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/no_connection.png",
+                    "name": "NO_CONNECTION",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/noMachieneLearning_144x100",
                     "name": "noMachieneLearning_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood3_144x100.png",
+                    "name": "mood3_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood2_144x100.png",
+                    "name": "mood2_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood1_144x100.png",
+                    "name": "mood1_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood0_144x100.png",
+                    "name": "mood0_144x100",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -503,6 +497,12 @@
                 {
                     "file": "images/Smiley_Icon_1.png",
                     "name": "Smiley_Matrix_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Next.png",
+                    "name": "NEXT",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
