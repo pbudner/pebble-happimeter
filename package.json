@@ -39,6 +39,30 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/mood3_38x38.png",
+                    "name": "mood3_38x38",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood2_38x38.png",
+                    "name": "mood2_38x38",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood1_38x38.png",
+                    "name": "mood1_38x38",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood0_38x38.png",
+                    "name": "mood0_38x38",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/mood3_24x24.png",
                     "name": "mood3_24x24",
                     "targetPlatforms": null,
@@ -59,30 +83,6 @@
                 {
                     "file": "images/mood1_24x24.png",
                     "name": "mood1_24x24",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood3_18x18.png",
-                    "name": "mood3_18x18",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood2_18x18.png",
-                    "name": "mood2_18x18",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood1_18x18.png",
-                    "name": "mood1_18x18",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood0_18x18.png",
-                    "name": "mood0_18x18",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
