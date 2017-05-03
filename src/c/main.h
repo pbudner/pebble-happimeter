@@ -14,5 +14,6 @@
 #include "windows/missingconfig_window.h"
 #include "windows/introduction_window.h"
 #include "windows/smileymatrix_window.h"
+#include "windows/friends_window.h"
 
 #include "windows/firstquestion_window.h"

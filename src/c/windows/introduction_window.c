@@ -16,12 +16,12 @@ static const int TREE_KEY = 0;
 * Click handler functions          *
 ***********************************/
 void intro_up_click_handler(ClickRecognizerRef recognizer, void *context){
-  if(hasMachineLearning) {
-    setMoodAnswer(predicted_happiness, predicted_activation);
-    window_stack_push(tree_window_get_window(), true);
-  } else if(canProceedToMood) {
-    window_stack_push(smileymatrix_window_get_window(), true); // show the main window
-  } 
+  if(launch_reason() == APP_LAUNCH_WAKEUP) {  
+    delay_timer();
+    window_stack_pop_all(true);
+  } else {
+    window_stack_push(friends_window_get_window(), true); // show the friends window
+  }
 }
 
 void intro_down_click_handler(ClickRecognizerRef recognizer, void *context){
@@ -31,10 +31,13 @@ void intro_down_click_handler(ClickRecognizerRef recognizer, void *context){
 }
 
 void intro_select_click_handler(ClickRecognizerRef recognizer, void *context){
-  if(launch_reason() == APP_LAUNCH_WAKEUP) {  
-    delay_timer();
-    window_stack_pop_all(true);
+  if(hasMachineLearning) {
+    setMoodAnswer(predicted_happiness, predicted_activation);
+    window_stack_push(tree_window_get_window(), true);
   }
+  else if(canProceedToMood) {
+    window_stack_push(smileymatrix_window_get_window(), true); // show the main window
+  } 
 }
 
 void intro_back_click_handler(ClickRecognizerRef recognizer, void *context){
@@ -60,7 +63,7 @@ void set_mood_window_text(int happiness, int activation) {
   action_bar_layer_clear_icon (s_action_bar_layer, BUTTON_ID_SELECT);
   
   if(launch_reason() == APP_LAUNCH_WAKEUP) {
-    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_zz_bitmap);
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_zz_bitmap);
   }
   
   if(happiness == -1 && activation == -1) {
@@ -72,10 +75,10 @@ void set_mood_window_text(int happiness, int activation) {
     canProceedToMood = true;
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_noMachieneLearning_144x100);
     text_layer_set_text(machine_learning_text_layer, "More training data is needed.");
-    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_go_bitmap);
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_go_bitmap);
     
     if(launch_reason() != APP_LAUNCH_WAKEUP) {
-      action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_social_bitmap);
+      action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_social_bitmap);
     }
   } else if(happiness == -3 && activation == -3 && !hasMachineLearning) {
     // there is no trained model yet
@@ -87,11 +90,11 @@ void set_mood_window_text(int happiness, int activation) {
     predicted_activation = activation;
     hasMachineLearning = true;
     canProceedToMood = false;
-    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_tick_bitmap);
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_tick_bitmap);
     action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_cross_bitmap);
     text_layer_set_text(machine_learning_text_layer, "Is this your current mood?");
     if(launch_reason() != APP_LAUNCH_WAKEUP) {
-      action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_social_bitmap);
+      action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_social_bitmap);
     }
     if(happiness == 1 && activation == 1) {
       smileyImage = gbitmap_create_with_resource(RESOURCE_ID_mood0_144x100);
