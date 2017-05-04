@@ -250,16 +250,18 @@ var retrieve_and_send_friends = function() {
     console.log('Retrieved friends response: ' + this.responseText);
     var response = JSON.parse(this.responseText);
     if(response.status == 200) {
-      var friends = response.friends;
+      var friends = response.friends.slice(0,9);
       var send_friend = function(friends) {
         if(friends.length >= 1) {
           var friend = friends.shift();
           var happiness = friend.user.mood.pleasance;
           var activation = friend.user.mood.activation;
+          var name = friend.user.name;
+          name = name === null ? "" : name;
           happiness = happiness === null ? -1 : happiness;
           activation = activation === null ? -1 : activation;
           Pebble.sendAppMessage({
-              'friend_name': friend.user.name,
+              'friend_name': name,
               'friend_mail': friend.user.mail,
               'pleasant': happiness,
               'activation': activation,

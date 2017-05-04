@@ -1,3 +1,4 @@
+#pragma once
 #include <pebble.h>
 #include "../modules/data_manager.h"
 

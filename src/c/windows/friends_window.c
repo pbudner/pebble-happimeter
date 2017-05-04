@@ -10,6 +10,8 @@ static GBitmap *s_menu_icon_image_1_1;
 static GBitmap *s_menu_icon_image_1_0;
 static GBitmap *s_menu_icon_image_0_1;
 static GBitmap *s_menu_icon_image_0_0;
+static GBitmap *loadingImage;
+static BitmapLayer *loadingImageLayer;
 static int num_a_items = 0;
 
 /***********************************
@@ -19,6 +21,9 @@ void add_friend(char *mail, char *name, int32_t happiness, int32_t activation) {
   snprintf(s_mail_buffer[num_a_items], sizeof(s_mail_buffer[num_a_items]), "%s", mail);
   snprintf(s_name_buffer[num_a_items], sizeof(s_name_buffer[num_a_items]), "%s", name);
   APP_LOG(APP_LOG_LEVEL_INFO, "Received friend %s", mail);
+  
+  bitmap_layer_set_bitmap(loadingImageLayer, NULL);
+  layer_mark_dirty(bitmap_layer_get_layer(loadingImageLayer));
   
   GBitmap *icon = NULL;
   
@@ -66,13 +71,24 @@ void window_load(Window *window){
   GRect bounds = layer_get_frame(window_layer);
   s_simple_menu_layer = simple_menu_layer_create(bounds, window, s_menu_sections, 1, NULL);
   layer_add_child(window_layer, simple_menu_layer_get_layer(s_simple_menu_layer));
+  
+  // add loading image
+  
+  loadingImage = gbitmap_create_with_resource(RESOURCE_ID_loadingscreen_144x100);
+  loadingImageLayer = bitmap_layer_create(GRect(0, 5, 144, 120));
+  bitmap_layer_set_compositing_mode(loadingImageLayer, GCompOpSet);
+  layer_add_child(window_layer, bitmap_layer_get_layer(loadingImageLayer));
+  bitmap_layer_set_bitmap(loadingImageLayer, loadingImage);
+  layer_mark_dirty(bitmap_layer_get_layer(loadingImageLayer));
 }
 
 /***********************************
 * Unload event of the window       *
 ***********************************/
 void window_unload(){
+  bitmap_layer_destroy(loadingImageLayer);
   simple_menu_layer_destroy(s_simple_menu_layer);
+  gbitmap_destroy(loadingImage);
   gbitmap_destroy(s_menu_icon_image_1_1);
   gbitmap_destroy(s_menu_icon_image_1_0);
   gbitmap_destroy(s_menu_icon_image_0_0);

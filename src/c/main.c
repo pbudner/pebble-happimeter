@@ -5,8 +5,6 @@
 ***********************************/
 static void init_windows() {
   init_upload_window();
-  init_exit_window();
-  init_firstquestion_window();
   init_missingconfig_window();
   init_introduction_window();
   init_smileymatrix_window();
@@ -19,8 +17,6 @@ static void init_windows() {
 ***********************************/
 static void deinit_windows() {
   deinit_upload_window();
-  deinit_exit_window();
-  deinit_firstquestion_window();
   deinit_missingconfig_window();
   deinit_tree_window();
   deinit_introduction_window();
