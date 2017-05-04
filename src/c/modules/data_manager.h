@@ -15,3 +15,4 @@ extern void setMoodAnswer(int _pleasant, int _activation);
 extern int getPleasant();
 extern int getActivation();
 extern void received_finished_upload();
+extern void request_friends();

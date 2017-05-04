@@ -37,6 +37,26 @@ void received_finished_upload() {
   upload_measure();
 }
 
+/**********************************
+* Requests the friends list       *
+**********************************/
+void request_friends() {
+  DictionaryIterator *out_iter;
+  app_message_open(64, 256); // open the app message
+  AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
+  if(result == APP_MSG_OK) {
+    dict_write_cstring(out_iter, MESSAGE_KEY_friend_mail, "request");
+    result = app_message_outbox_send(); // send this message
+    if(result != APP_MSG_OK) {
+      APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the request friend outbox: %d", (int)result);
+    } else {
+      APP_LOG(APP_LOG_LEVEL_INFO, "Succesfully sent the request friend outbox: %d", (int)result);
+    }
+  } else {
+    APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the request friends outbox: %d", (int)result);
+  }
+}
+
 /***********************************
 * Checks whether the entire data   *
 * uploading process is finished.   * 

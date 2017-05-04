@@ -16,9 +16,9 @@ var retrieve_current_mood = function() {
           'pleasant': response.happiness,
           'activation': response.activation
         }, function () {
-          console.log('(JS) Message Successfully sent the mood to the watch..');
+          console.log('(JS) Message successfully sent the mood to the watch..');
         }, function (e) {
-          console.log('(JS) Message Failed to send the mood to the watch: ' + JSON.stringify(e));
+          console.log('(JS) Message failed to send the mood to the watch: ' + JSON.stringify(e));
         });
       } else if(response.status == 400) {
         console.log("(JS) The model is not trained yet.");
@@ -244,6 +244,48 @@ var sendMoodData = function () {
     }
 };
 
+var retrieve_and_send_friends = function() {
+  var request = new XMLHttpRequest();
+  request.onload = function () {
+    console.log('Retrieved friends response: ' + this.responseText);
+    var response = JSON.parse(this.responseText);
+    if(response.status == 200) {
+      var friends = response.friends;
+      var send_friend = function(friends) {
+        if(friends.length >= 1) {
+          var friend = friends.shift();
+          var happiness = friend.user.mood.pleasance;
+          var activation = friend.user.mood.activation;
+          happiness = happiness === null ? -1 : happiness;
+          activation = activation === null ? -1 : activation;
+          Pebble.sendAppMessage({
+              'friend_name': friend.user.name,
+              'friend_mail': friend.user.mail,
+              'pleasant': happiness,
+              'activation': activation,
+          }, function () {
+              console.log('(JS) Message containing friends data successfully sent..');
+              send_friend(friends);
+          }, function (e) {
+              console.log('(JS) Message containing friends data failed: ' + JSON.stringify(e));
+          });
+        }
+      };
+      send_friend(friends);
+    }
+  };
+
+  request.onerror = function (e) {
+    console.log('Error during retrieving friends data: ' + e);
+  };
+
+  // Send the request
+  request.open("GET", url + "friends");
+  request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
+  request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  request.send(null);
+};
+
 // Listen for when an AppMessage is received
 Pebble.addEventListener('appmessage', function (e) {
     var dict = e.payload; // Get the dictionary from the message
@@ -282,6 +324,9 @@ Pebble.addEventListener('appmessage', function (e) {
             saveMoodData(dict);
             sendMoodData();
         }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 });
+    } else if (dict.friend_mail == "request") {
+        console.log("(JS) Pebble requested friend list..");
+        retrieve_and_send_friends();
     }
 });
 

@@ -20,6 +20,7 @@ void intro_up_click_handler(ClickRecognizerRef recognizer, void *context){
     delay_timer();
     window_stack_pop_all(true);
   } else {
+    request_friends();
     window_stack_push(friends_window_get_window(), true); // show the friends window
   }
 }

@@ -68,7 +68,7 @@ void init_upload_window(void) {
 
   // set a timer to show a warning message if the upload takes to long
   // normally the app gets closed as soon as the upload is finished!
-  app_timer_register(5000, upload_timeout_callback, NULL);
+  app_timer_register(10000, upload_timeout_callback, NULL);
 }
 
 /***********************************

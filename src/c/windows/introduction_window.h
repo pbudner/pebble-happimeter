@@ -1,6 +1,7 @@
 #include <pebble.h>
 #include "smileymatrix_window.h"
 #include "friends_window.h"
+#include "../modules/data_manager.h"
 
 extern void init_introduction_window(void);
 extern void deinit_introduction_window(void);

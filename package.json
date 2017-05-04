@@ -33,59 +33,13 @@
             "activation",
             "userinfo_age",
             "app_callback",
-            "local_time"
+            "local_time",
+            "friend_mail",
+            "friend_name"
         ],
         "projectType": "native",
         "resources": {
             "media": [
-                {
-                    "file": "images/mood3_38x38.png",
-                    "name": "mood3_38x38",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood2_38x38.png",
-                    "name": "mood2_38x38",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood1_38x38.png",
-                    "name": "mood1_38x38",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood0_38x38.png",
-                    "name": "mood0_38x38",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood3_24x24.png",
-                    "name": "mood3_24x24",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood2_24x24.png",
-                    "name": "mood2_24x24",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood0_24x24.png",
-                    "name": "mood0_24x24",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood1_24x24.png",
-                    "name": "mood1_24x24",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
                 {
                     "file": "images/zzz.png",
                     "name": "SLEEP",
@@ -141,8 +95,32 @@
                     "type": "bitmap"
                 },
                 {
+                    "file": "images/mood3_38x38.png",
+                    "name": "mood3_38x38",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood3_24x24.png",
+                    "name": "mood3_24x24",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/mood3_144x100.png",
                     "name": "mood3_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood2_38x38.png",
+                    "name": "mood2_38x38",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood2_24x24.png",
+                    "name": "mood2_24x24",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -153,8 +131,32 @@
                     "type": "bitmap"
                 },
                 {
+                    "file": "images/mood1_38x38.png",
+                    "name": "mood1_38x38",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood1_24x24.png",
+                    "name": "mood1_24x24",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/mood1_144x100.png",
                     "name": "mood1_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood0_38x38.png",
+                    "name": "mood0_38x38",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood0_24x24.png",
+                    "name": "mood0_24x24",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },

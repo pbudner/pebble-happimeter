@@ -3,30 +3,31 @@
 static Window *friendsWindow;
 static SimpleMenuLayer *s_simple_menu_layer;
 static SimpleMenuSection s_menu_sections[1];
-static SimpleMenuItem s_menu_items[5];
+static SimpleMenuItem s_menu_items[10];
 static GBitmap *s_menu_icon_image;
+static int num_a_items = 0;
+
+void add_friend(char *mail, char *name, int32_t happiness, int32_t activation) {
+  /*static char s_mail_buffer[1024];
+  snprintf(s_mail_buffer, sizeof(s_mail_buffer), "%s", mail);
+  static char s_name_buffer[1024];
+  snprintf(s_name_buffer, sizeof(s_name_buffer), "%s", name);*/
+  APP_LOG(APP_LOG_LEVEL_INFO, "Received friend %s", mail);
+    
+  /*s_menu_items[num_a_items++] = (SimpleMenuItem) {
+    .title = s_name_buffer,
+    .subtitle = s_mail_buffer,
+    .icon = s_menu_icon_image,
+  };*/
+}
 
 /***********************************
 * Load event of the window         *
 ***********************************/
 void window_load(Window *window){
-  Layer *window_layer = window_get_root_layer(window);int num_a_items = 0;
-  s_menu_icon_image = gbitmap_create_with_resource(RESOURCE_ID_SOCIAL);
-  s_menu_items[num_a_items++] = (SimpleMenuItem) {
-    .title = "Peter Gloor",
-    .subtitle = "pgloor@mit.edu",
-    .icon = s_menu_icon_image,
-  };
-  s_menu_items[num_a_items++] = (SimpleMenuItem) {
-    .title = "Joscha Eirich",
-    .subtitle = "jeirich@mit.edu",
-    .icon = s_menu_icon_image,
-  };
-  s_menu_items[num_a_items++] = (SimpleMenuItem) {
-    .title = "Pascal Budner",
-    .subtitle = "pbudner@mit.edu",
-    .icon = s_menu_icon_image,
-  };
+  Layer *window_layer = window_get_root_layer(window);
+  s_menu_icon_image = gbitmap_create_with_resource(RESOURCE_ID_mood0_38x38);
+  
   s_menu_sections[0] = (SimpleMenuSection) {
     .title = "Friends' Mood",
     .num_items = num_a_items,

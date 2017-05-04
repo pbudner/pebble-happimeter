@@ -5,6 +5,7 @@
 #include "../windows/missingconfig_window.h"
 #include "../windows/firstquestion_window.h"
 #include "../windows/introduction_window.h"
+#include "../windows/friends_window.h"
 
 extern void init_inbox_message_manager(void);
 extern void deinit_inbox_message_manager(void);
