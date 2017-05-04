@@ -8,17 +8,26 @@ static GBitmap *s_menu_icon_image;
 static int num_a_items = 0;
 
 void add_friend(char *mail, char *name, int32_t happiness, int32_t activation) {
-  /*static char s_mail_buffer[1024];
+  static char s_mail_buffer[1024];
   snprintf(s_mail_buffer, sizeof(s_mail_buffer), "%s", mail);
   static char s_name_buffer[1024];
-  snprintf(s_name_buffer, sizeof(s_name_buffer), "%s", name);*/
+  snprintf(s_name_buffer, sizeof(s_name_buffer), "%s", name);
   APP_LOG(APP_LOG_LEVEL_INFO, "Received friend %s", mail);
     
-  /*s_menu_items[num_a_items++] = (SimpleMenuItem) {
+  s_menu_items[num_a_items++] = (SimpleMenuItem) {
     .title = s_name_buffer,
     .subtitle = s_mail_buffer,
     .icon = s_menu_icon_image,
-  };*/
+  };
+  
+  s_menu_sections[0] = (SimpleMenuSection) {
+    .title = "Friends' Mood",
+    .num_items = num_a_items,
+    .items = s_menu_items,
+  };
+  
+  MenuLayer *s_menu_layer = simple_menu_layer_get_menu_layer(s_simple_menu_layer);
+  menu_layer_reload_data(s_menu_layer);
 }
 
 /***********************************
@@ -26,14 +35,7 @@ void add_friend(char *mail, char *name, int32_t happiness, int32_t activation) {
 ***********************************/
 void window_load(Window *window){
   Layer *window_layer = window_get_root_layer(window);
-  s_menu_icon_image = gbitmap_create_with_resource(RESOURCE_ID_mood0_38x38);
-  
-  s_menu_sections[0] = (SimpleMenuSection) {
-    .title = "Friends' Mood",
-    .num_items = num_a_items,
-    .items = s_menu_items,
-  };
-
+  s_menu_icon_image = gbitmap_create_with_resource(RESOURCE_ID_mood0_24x24);
   GRect bounds = layer_get_frame(window_layer);
   s_simple_menu_layer = simple_menu_layer_create(bounds, window, s_menu_sections, 1, NULL);
   layer_add_child(window_layer, simple_menu_layer_get_layer(s_simple_menu_layer));
