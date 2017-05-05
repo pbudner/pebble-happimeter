@@ -2,7 +2,7 @@
 
 static Window *introWindow;
 static int counter, predicted_happiness, predicted_activation;
-static bool hasMachineLearning = false, canProceedToMood = false, hasInternetConnection = false;
+static bool hasMachineLearning = false, canProceedToMood = false, hasInternetConnection = false, hasReceivedResult = false;
 static TextLayer *tree_text_layer;
 static TextLayer *heading_text_layer;
 static TextLayer *machine_learning_text_layer;
@@ -61,6 +61,10 @@ void intro_click_config_provider(void *context){
 * Sets the text of the intro window*
 ***********************************/
 void set_mood_window_text(int happiness, int activation) {
+  if(hasReceivedResult) {
+    return;
+  }
+  
   action_bar_layer_clear_icon(s_action_bar_layer, BUTTON_ID_UP);
   action_bar_layer_clear_icon(s_action_bar_layer, BUTTON_ID_DOWN);
   action_bar_layer_clear_icon(s_action_bar_layer, BUTTON_ID_SELECT);
@@ -76,8 +80,10 @@ void set_mood_window_text(int happiness, int activation) {
     text_layer_set_text(machine_learning_text_layer, "Loading...");
   } else if(happiness == -2 && activation == -2) {
     // there is no trained model yet
+    hasReceivedResult = true;
     canProceedToMood = true;
     hasInternetConnection = true;
+    hasMachineLearning = false;
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_noMachieneLearning_144x100);
     text_layer_set_text(machine_learning_text_layer, "More training data is needed.");
     action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_go_bitmap);
@@ -85,13 +91,15 @@ void set_mood_window_text(int happiness, int activation) {
     if(launch_reason() != APP_LAUNCH_WAKEUP) {
       action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_social_bitmap);
     }
-  } else if(happiness == -3 && activation == -3 && !hasMachineLearning) {
+  } else if(happiness == -3 && activation == -3) {
     // there is no trained model yet
+    hasReceivedResult = true;
     canProceedToMood = false;
     hasInternetConnection = false;
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_NO_CONNECTION);
     text_layer_set_text(machine_learning_text_layer, "No connection to the phone.");
   } else {
+    hasReceivedResult = true;
     hasInternetConnection = true;
     predicted_happiness = happiness;
     predicted_activation = activation;
@@ -191,10 +199,12 @@ void introduction_window_load(Window *window){
   //set click handler
   window_set_click_config_provider(window, intro_click_config_provider);
   
-  set_mood_window_text(-1, -1); // -1 should mean still loading..
-  
-  // set a timer to show a warning message if receiving the mood takes to long
-  app_timer_register(7000, message_timeout_callback, NULL);
+  if(!hasReceivedResult) {
+    set_mood_window_text(-1, -1); // -1 should mean still loading..
+    
+    // set a timer to show a warning message if receiving the mood takes to long
+    app_timer_register(7000, message_timeout_callback, NULL);
+  }
 }
 
 /***********************************

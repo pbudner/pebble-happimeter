@@ -8,6 +8,7 @@ static int selectedMatrixOption = 0;
 void refresh_menu_image() {
   if(smileyMatrixImage != NULL) {
     gbitmap_destroy(smileyMatrixImage);
+    smileyMatrixImage = NULL;
   }
 
   switch (selectedMatrixOption)
@@ -73,7 +74,8 @@ void smileymatrix_single_click_handler(ClickRecognizerRef recognizer, void *cont
 }
 
 void smileymatrix_back_click_handler(ClickRecognizerRef recognizer, void *context){
-  window_stack_pop_all(true);
+  //window_stack_pop_all(true);
+  window_stack_pop(true);
 }
 
 /***********************************
@@ -111,6 +113,7 @@ void smileymatrix_window_load(Window *window){
 void smileymatrix_window_unload(){
   bitmap_layer_destroy(smileyMatrixImageLayer);
   gbitmap_destroy(smileyMatrixImage);
+  smileyMatrixImage = NULL;
 }
 
 /***********************************
