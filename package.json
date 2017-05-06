@@ -41,96 +41,6 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/activation2_pleasance2.png",
-                    "name": "activation2_pleasance2",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/activation2_pleasance1.png",
-                    "name": "activation2_pleasance1",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/activation2_pleasance0.png",
-                    "name": "activation2_pleasance0",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/activation1_pleasance2.png",
-                    "name": "activation1_pleasance2",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/activation1_pleasance1.png",
-                    "name": "activation1_pleasance1",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/activation1_pleasance0.png",
-                    "name": "activation1_pleasance0",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/activation0_pleasance2.png",
-                    "name": "activation0_pleasance2",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/activation0_pleasance1.png",
-                    "name": "activation0_pleasance1",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/activation0_pleasance0.png",
-                    "name": "activation0_pleasance0",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/checkbox1.png",
-                    "name": "checkbox1",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/checkbox2.png",
-                    "name": "checkbox2",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/checkbox3.png",
-                    "name": "checkbox3",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/checkboxsmiley_sad.png",
-                    "name": "checkboxsmiley_sad",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/checkboxsmiley_neutral.png",
-                    "name": "checkboxsmiley_neutral",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/checkboxsmiley_happy.png",
-                    "name": "checkboxsmiley_happy",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/zzz.png",
                     "name": "SLEEP",
                     "targetPlatforms": null,
@@ -181,6 +91,78 @@
                 {
                     "file": "images/noMachieneLearning_144x100",
                     "name": "noMachieneLearning_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood3_38x38.png",
+                    "name": "mood3_38x38",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood3_24x24.png",
+                    "name": "mood3_24x24",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood3_144x100.png",
+                    "name": "mood3_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood2_38x38.png",
+                    "name": "mood2_38x38",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood2_24x24.png",
+                    "name": "mood2_24x24",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood2_144x100.png",
+                    "name": "mood2_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood1_38x38.png",
+                    "name": "mood1_38x38",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood1_24x24.png",
+                    "name": "mood1_24x24",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood1_144x100.png",
+                    "name": "mood1_144x100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood0_38x38.png",
+                    "name": "mood0_38x38",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood0_24x24.png",
+                    "name": "mood0_24x24",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mood0_144x100.png",
+                    "name": "mood0_144x100",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -541,6 +523,30 @@
                 {
                     "file": "images/Tree1_1.png",
                     "name": "Tree1_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Smiley_Icon_4.png",
+                    "name": "Smiley_Matrix_4",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Smiley_Icon_3.png",
+                    "name": "Smiley_Matrix_3",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Smiley_Icon_2.png",
+                    "name": "Smiley_Matrix_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Smiley_Icon_1.png",
+                    "name": "Smiley_Matrix_1",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
