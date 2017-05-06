@@ -1,6 +1,6 @@
 var messageKeys = require('message_keys'); // Load message keys
 
-var url = "http://pascalbudner.de:8080/v1/";
+var url = "http://52.57.71.49:8080/v1/";
 var watchToken = "";
 var accountToken = "";
 
