@@ -8,6 +8,7 @@
 
 typedef struct {
     int Time;
+    int LocalTime;
     int Steps;
     int CurrentActivity;
     int AverageLightLevel;

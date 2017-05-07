@@ -115,7 +115,7 @@ void upload_measure() {
 
     // receive all measurement data and delete them
     int current_time = get_measure(current_measurement_id, 10, false);
-    int steps = get_measure(current_measurement_id, 11, false);
+    int local_unix_time = get_measure(current_measurement_id, 11, false);
     int activity = get_measure(current_measurement_id, 12, false);
     int avg_heart_rate = get_measure(current_measurement_id, 13, false);
     int avg_acc_x = get_measure(current_measurement_id, 14, false);
@@ -134,7 +134,7 @@ void upload_measure() {
     AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
     if(result == APP_MSG_OK) {
       dict_write_int(out_iter, MESSAGE_KEY_current_time, &current_time, sizeof(int), true);
-      //dict_write_int(out_iter, MESSAGE_KEY_steps, &steps, sizeof(int), true);
+      dict_write_int(out_iter, MESSAGE_KEY_local_time, &local_unix_time, sizeof(int), true);
       dict_write_int(out_iter, MESSAGE_KEY_activity, &activity, sizeof(int), true);
       dict_write_int(out_iter, MESSAGE_KEY_avg_heart_rate, &avg_heart_rate, sizeof(int), true);
       dict_write_int(out_iter, MESSAGE_KEY_avg_acc_x, &avg_acc_x, sizeof(int), true);

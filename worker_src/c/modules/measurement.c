@@ -29,18 +29,28 @@ static int last_activity = 0;
 * and returns them in a struct     *
 ***********************************/
 HealthMeasure perform_measurement() {
+  HealthMeasure measure;
   time_t end = time(NULL);
   time_t start = end - (UPDATE_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE);
   struct tm * utc_time = gmtime(&end);
-  int time = mktime(utc_time);
 
   // last 15 minutes may not be available
   start -= (15 * SECONDS_PER_MINUTE);
   end -= (15 * SECONDS_PER_MINUTE);
 
-  HealthMeasure measure;
-  measure.Time = time; // save the inspected time
-
+  int utc_unix_time = mktime(utc_time);
+  struct tm * local_time = localtime(&end); 
+  static char time_buffer[] = "-0400";
+  strftime(time_buffer, sizeof(time_buffer), "%z", local_time);
+  double difference_to_utc_in_hours = atoi(time_buffer) / 100.0 + local_time->tm_isdst;
+  int local_unix_time = utc_unix_time + difference_to_utc_in_hours * 60 * 60;
+  APP_LOG(APP_LOG_LEVEL_INFO, "Current time is %d", local_unix_time);
+  APP_LOG(APP_LOG_LEVEL_INFO, "UTC time is %d", utc_unix_time);
+  
+  // save the utc and local time of the current measurement
+  measure.Time = utc_unix_time;
+  measure.LocalTime = local_unix_time;
+  
   // set activity based on the last measurement iteration
   measure.CurrentActivity = last_activity;
 
@@ -146,9 +156,9 @@ void measurement_iteration() {
     int data_set_id = get_last_measure_id() + 1;
     APP_LOG(APP_LOG_LEVEL_INFO, "Data Set ID: %d", data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Time: %d", measure.Time);
+    APP_LOG(APP_LOG_LEVEL_INFO, "LocalTime: %d", measure.LocalTime);
     APP_LOG(APP_LOG_LEVEL_INFO, "Saved Time: %d", save_measure(10, measure.Time, data_set_id));
-    APP_LOG(APP_LOG_LEVEL_INFO, "Steps: %d", measure.Steps);
-    save_measure(11, measure.Steps, data_set_id);
+    save_measure(11, measure.LocalTime, data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Activity: %d", measure.CurrentActivity);
     save_measure(12, measure.CurrentActivity, data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Avg. Heart Rate: %d", measure.AverageHeartRate);
