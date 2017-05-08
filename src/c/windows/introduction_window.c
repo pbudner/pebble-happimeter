@@ -254,7 +254,11 @@ void introduction_window_load(Window *window){
 ***********************************/
 void introduction_window_unload(){
   bitmap_layer_destroy(smileyImageLayer);
+  bitmap_layer_destroy(activationImageLayer);
+  bitmap_layer_destroy(happinessImageLayer);
   gbitmap_destroy(smileyImage);
+  gbitmap_destroy(happinessImage);
+  gbitmap_destroy(activationImage);
   gbitmap_destroy(s_tick_bitmap);
   gbitmap_destroy(s_cross_bitmap);
   gbitmap_destroy(s_go_bitmap);

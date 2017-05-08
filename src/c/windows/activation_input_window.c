@@ -1,8 +1,8 @@
-#include "activation_input_window.h"
+#include "happiness_input_window.h"
 
 static Window *activationWindow;
-static GBitmap *optionImage;
-static BitmapLayer *optionImageLayer;
+static GBitmap *optionImage, *smileyImage;
+static BitmapLayer *optionImageLayer, *smileyImageLayer;
 static TextLayer *heading_text_layer;
 static ActionBarLayer *s_action_bar_layer;
 static GBitmap *s_more_bitmap, *s_less_bitmap, *s_go_bitmap;
@@ -13,24 +13,55 @@ void refresh_activation_image() {
     gbitmap_destroy(optionImage);
     optionImage = NULL;
   }
+  
+  if(smileyImage != NULL) {
+    gbitmap_destroy(smileyImage);
+    smileyImage = NULL;
+  }
+  
+  int happiness = getPleasant();
 
   switch (activation)
   {
     case 0:
       optionImage = gbitmap_create_with_resource(RESOURCE_ID_activation_0);
+      if(happiness == 0) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_0_h_0);
+      } else if(happiness == 1) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_0_h_1);
+      } else if(happiness == 2) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_0_h_2);
+      }
       break;
     case 1:
       optionImage = gbitmap_create_with_resource(RESOURCE_ID_activation_1);
+      if(happiness == 0) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_1_h_0);
+      } else if(happiness == 1) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_1_h_1);
+      } else if(happiness == 2) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_1_h_2);
+      }
       break;
     case 2:
       optionImage = gbitmap_create_with_resource(RESOURCE_ID_activation_2);
+      if(happiness == 0) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_2_h_0);
+      } else if(happiness == 1) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_2_h_1);
+      } else if(happiness == 2) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_2_h_2);
+      }
       break;
     default:
       optionImage = NULL;
+      smileyImage = NULL;
   }
 
   bitmap_layer_set_bitmap(optionImageLayer, optionImage);
   layer_mark_dirty(bitmap_layer_get_layer(optionImageLayer));
+  bitmap_layer_set_bitmap(smileyImageLayer, smileyImage);
+  layer_mark_dirty(bitmap_layer_get_layer(smileyImageLayer));
 
 }
 
@@ -45,11 +76,6 @@ void activation_single_up_click_handler(ClickRecognizerRef recognizer, void *con
 }
 
 void activation_single_down_click_handler(ClickRecognizerRef recognizer, void *context) {
-  setActivation(activation);
-  window_stack_push(tree_window_get_window(), true);
-}
-
-void activation_single_click_handler(ClickRecognizerRef recognizer, void *context){
   activation--;
 
   if(activation < 0) {
@@ -57,6 +83,11 @@ void activation_single_click_handler(ClickRecognizerRef recognizer, void *contex
   }
   
   refresh_activation_image();
+}
+
+void activation_single_click_handler(ClickRecognizerRef recognizer, void *context){
+  setActivation(activation);
+  window_stack_push(tree_window_get_window(), true);
 }
 
 void activation_back_click_handler(ClickRecognizerRef recognizer, void *context){
@@ -81,9 +112,13 @@ void activation_window_load(Window *window){
   
   // init window
   Layer *window_layer = window_get_root_layer(window);
-  optionImageLayer = bitmap_layer_create(GRect(0, 0, 144 - ACTION_BAR_WIDTH, 168));
+  optionImageLayer = bitmap_layer_create(GRect(0, 168 - 75, 144 - ACTION_BAR_WIDTH, 70));
   bitmap_layer_set_compositing_mode(optionImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(optionImageLayer));
+  
+  smileyImageLayer = bitmap_layer_create(GRect(-ACTION_BAR_WIDTH / 2, 0, 144 - ACTION_BAR_WIDTH, 168));
+  bitmap_layer_set_compositing_mode(smileyImageLayer, GCompOpSet);
+  layer_add_child(window_layer, bitmap_layer_get_layer(smileyImageLayer));
   
   // add heading
   GRect bounds = layer_get_bounds(window_layer);
@@ -102,8 +137,8 @@ void activation_window_load(Window *window){
   s_action_bar_layer = action_bar_layer_create();
   action_bar_layer_add_to_window(s_action_bar_layer, window);
   action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_more_bitmap);
-  action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_less_bitmap);
-  action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_go_bitmap);
+  action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_less_bitmap);
+  action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_go_bitmap);
   
   // refresh the shown image
   refresh_activation_image();
@@ -117,8 +152,11 @@ void activation_window_load(Window *window){
 ***********************************/
 void activation_window_unload(){
   bitmap_layer_destroy(optionImageLayer);
+  bitmap_layer_destroy(smileyImageLayer);
   gbitmap_destroy(optionImage);
+  gbitmap_destroy(smileyImage);
   optionImage = NULL;
+  smileyImage = NULL;
 }
 
 /***********************************
