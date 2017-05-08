@@ -1,7 +1,7 @@
 #include "introduction_window.h"
 
 static Window *introWindow;
-static int counter, predicted_happiness, predicted_activation;
+static int predicted_happiness, predicted_activation;
 static bool hasMachineLearning = false, canProceedToMood = false, hasInternetConnection = false, hasReceivedResult = false;
 static TextLayer *tree_text_layer;
 static TextLayer *heading_text_layer;
@@ -10,7 +10,6 @@ static GBitmap *smileyImage, *activationImage, *happinessImage;
 static BitmapLayer *smileyImageLayer, *activationImageLayer, *happinessImageLayer;
 static ActionBarLayer *s_action_bar_layer;
 static GBitmap *s_tick_bitmap, *s_cross_bitmap, *s_go_bitmap, *s_zz_bitmap, *s_social_bitmap;
-static const int TREE_KEY = 0;
 
 /***********************************
 * Click handler functions          *
@@ -30,9 +29,7 @@ void intro_up_click_handler(ClickRecognizerRef recognizer, void *context){
 void intro_down_click_handler(ClickRecognizerRef recognizer, void *context){
   if(hasMachineLearning) {
     window_stack_push(happiness_input_window_get_window(), true); // show the main window
-  } else if(canProceedToMood) {
-    window_stack_push(happiness_input_window_get_window(), true); // show the main window
-  } 
+  }
 }
 
 void intro_select_click_handler(ClickRecognizerRef recognizer, void *context){
@@ -40,7 +37,9 @@ void intro_select_click_handler(ClickRecognizerRef recognizer, void *context){
     setHappiness(predicted_happiness);
     setActivation(predicted_activation);
     window_stack_push(tree_window_get_window(), true);
-  }
+  } else if(canProceedToMood) {
+    window_stack_push(happiness_input_window_get_window(), true); // show the main window
+  } 
 }
 
 void intro_back_click_handler(ClickRecognizerRef recognizer, void *context){
@@ -86,7 +85,7 @@ void set_mood_window_text(int happiness, int activation) {
     hasMachineLearning = false;
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_noMachieneLearning_144x100);
     text_layer_set_text(machine_learning_text_layer, "More training data is needed.");
-    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_go_bitmap);
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_go_bitmap);
     
     if(launch_reason() != APP_LAUNCH_WAKEUP) {
       action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_social_bitmap);
