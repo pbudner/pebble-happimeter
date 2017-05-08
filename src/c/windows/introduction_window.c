@@ -6,8 +6,8 @@ static bool hasMachineLearning = false, canProceedToMood = false, hasInternetCon
 static TextLayer *tree_text_layer;
 static TextLayer *heading_text_layer;
 static TextLayer *machine_learning_text_layer;
-static GBitmap *smileyImage;
-static BitmapLayer *smileyImageLayer;
+static GBitmap *smileyImage, *activationImage, *happinessImage;
+static BitmapLayer *smileyImageLayer, *activationImageLayer, *happinessImageLayer;
 static ActionBarLayer *s_action_bar_layer;
 static GBitmap *s_tick_bitmap, *s_cross_bitmap, *s_go_bitmap, *s_zz_bitmap, *s_social_bitmap;
 static const int TREE_KEY = 0;
@@ -29,18 +29,18 @@ void intro_up_click_handler(ClickRecognizerRef recognizer, void *context){
 
 void intro_down_click_handler(ClickRecognizerRef recognizer, void *context){
   if(hasMachineLearning) {
-    window_stack_push(smileymatrix_window_get_window(), true); // show the main window
-  }
+    window_stack_push(happiness_input_window_get_window(), true); // show the main window
+  } else if(canProceedToMood) {
+    window_stack_push(happiness_input_window_get_window(), true); // show the main window
+  } 
 }
 
 void intro_select_click_handler(ClickRecognizerRef recognizer, void *context){
   if(hasMachineLearning) {
-    setMoodAnswer(predicted_happiness, predicted_activation);
+    setHappiness(predicted_happiness);
+    setActivation(predicted_activation);
     window_stack_push(tree_window_get_window(), true);
   }
-  else if(canProceedToMood) {
-    window_stack_push(smileymatrix_window_get_window(), true); // show the main window
-  } 
 }
 
 void intro_back_click_handler(ClickRecognizerRef recognizer, void *context){
@@ -86,7 +86,7 @@ void set_mood_window_text(int happiness, int activation) {
     hasMachineLearning = false;
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_noMachieneLearning_144x100);
     text_layer_set_text(machine_learning_text_layer, "More training data is needed.");
-    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_go_bitmap);
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_go_bitmap);
     
     if(launch_reason() != APP_LAUNCH_WAKEUP) {
       action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_social_bitmap);
@@ -108,22 +108,68 @@ void set_mood_window_text(int happiness, int activation) {
     action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_tick_bitmap);
     action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_cross_bitmap);
     text_layer_set_text(machine_learning_text_layer, "Is this your current mood?");
+    
     if(launch_reason() != APP_LAUNCH_WAKEUP) {
       action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_social_bitmap);
     }
-    if(happiness == 1 && activation == 1) {
-      smileyImage = gbitmap_create_with_resource(RESOURCE_ID_mood0_144x100);
-    } else if(happiness == 1 && activation == 0) {
-      smileyImage = gbitmap_create_with_resource(RESOURCE_ID_mood1_144x100);
-    } else if(happiness == 0 && activation == 0) {
-      smileyImage = gbitmap_create_with_resource(RESOURCE_ID_mood2_144x100);
-    } else if(happiness == 0 && activation == 1) {
-      smileyImage = gbitmap_create_with_resource(RESOURCE_ID_mood3_144x100);
+    
+    // change the frame of the smiley image layer
+    Layer *window_layer = window_get_root_layer(introWindow);
+    GRect bounds = layer_get_bounds(window_layer);
+    GRect newBounds = GRect(-ACTION_BAR_WIDTH / 2, 15, 144 - ACTION_BAR_WIDTH, 100);
+    layer_set_frame(bitmap_layer_get_layer(smileyImageLayer), newBounds);
+    
+    if(activation == 0) {
+      if(happiness == 0) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_0_h_0);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_0_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_0_small);
+      } else if(happiness == 1) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_0_h_1);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_0_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_1_small);
+      } else if(happiness == 2) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_0_h_2);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_0_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_2_small);
+      }
+    } else if(activation == 1) {
+      if(happiness == 0) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_1_h_0);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_1_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_0_small);
+      } else if(happiness == 1) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_1_h_1);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_1_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_1_small);
+      } else if(happiness == 2) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_1_h_2);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_1_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_2_small);
+      }
+    } else if(activation == 2) {
+      if(happiness == 0) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_2_h_0);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_2_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_0_small);
+      } else if(happiness == 1) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_2_h_1);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_2_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_1_small);
+      } else if(happiness == 2) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_2_h_2);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_2_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_2_small);
+      }
     }
   }
   
   bitmap_layer_set_bitmap(smileyImageLayer, smileyImage);
+  bitmap_layer_set_bitmap(activationImageLayer, activationImage);
+  bitmap_layer_set_bitmap(happinessImageLayer, happinessImage);
   layer_mark_dirty(bitmap_layer_get_layer(smileyImageLayer));
+  layer_mark_dirty(bitmap_layer_get_layer(activationImageLayer));
+  layer_mark_dirty(bitmap_layer_get_layer(happinessImageLayer));
   layer_mark_dirty(action_bar_layer_get_layer(s_action_bar_layer));
 }
 
@@ -156,6 +202,14 @@ void introduction_window_load(Window *window){
   bitmap_layer_set_compositing_mode(smileyImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(smileyImageLayer));
   
+  happinessImageLayer = bitmap_layer_create(GRect(0, 65, (144 - ACTION_BAR_WIDTH) / 2, 90));
+  bitmap_layer_set_compositing_mode(happinessImageLayer, GCompOpSet);
+  layer_add_child(window_layer, bitmap_layer_get_layer(happinessImageLayer));
+  
+  activationImageLayer = bitmap_layer_create(GRect((144 - ACTION_BAR_WIDTH) / 2, 65, (144 - ACTION_BAR_WIDTH) / 2, 90));
+  bitmap_layer_set_compositing_mode(activationImageLayer, GCompOpSet);
+  layer_add_child(window_layer, bitmap_layer_get_layer(activationImageLayer));
+  
   // add the heading
   heading_text_layer = text_layer_create(grect_inset(bounds, label_insets));
   text_layer_set_background_color(heading_text_layer, GColorClear);
@@ -165,26 +219,14 @@ void introduction_window_load(Window *window){
   layer_add_child(window_layer, text_layer_get_layer(heading_text_layer));
   
   // add the tree counter
-  tree_text_layer = text_layer_create(grect_inset(bounds, label_insets));
-  text_layer_set_background_color(tree_text_layer, GColorClear);
-  text_layer_set_text_alignment(tree_text_layer, GTextAlignmentCenter);
-  text_layer_set_font(tree_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14_BOLD));
-  static char buffer[90] = "";
-  counter = persist_exists(TREE_KEY) ? persist_read_int(TREE_KEY) / 4 : 0;
-  snprintf(buffer,  sizeof(buffer), "Planted trees: %d", counter);
-  text_layer_set_text(tree_text_layer, buffer);
-  GRect frame = layer_get_frame(text_layer_get_layer(tree_text_layer));
-  GSize content = text_layer_get_content_size(tree_text_layer);
-  layer_set_frame(text_layer_get_layer(tree_text_layer), GRect(frame.origin.x, frame.origin.y + (frame.size.h - content.h - 5), frame.size.w, content.h));
-  layer_add_child(window_layer, text_layer_get_layer(tree_text_layer));
-  
-  // add the need machine learning text layer
   machine_learning_text_layer = text_layer_create(grect_inset(bounds, label_insets));
   text_layer_set_background_color(machine_learning_text_layer, GColorClear);
   text_layer_set_text_alignment(machine_learning_text_layer, GTextAlignmentCenter);
   text_layer_set_font(machine_learning_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
-  text_layer_set_text(machine_learning_text_layer, "");
-  layer_set_frame(text_layer_get_layer(machine_learning_text_layer), GRect(frame.origin.x, frame.origin.y + (frame.size.h - content.h * 2 - 20), frame.size.w, content.h * 3));
+  text_layer_set_text(machine_learning_text_layer, "Loading..");
+  GRect frame = layer_get_frame(text_layer_get_layer(machine_learning_text_layer));
+  GSize content = text_layer_get_content_size(machine_learning_text_layer);
+  layer_set_frame(text_layer_get_layer(machine_learning_text_layer), GRect(frame.origin.x, frame.origin.y + (frame.size.h - (content.h * 2) - 5), frame.size.w, content.h * 2 + 5));
   layer_add_child(window_layer, text_layer_get_layer(machine_learning_text_layer));
   
   // add the action menu

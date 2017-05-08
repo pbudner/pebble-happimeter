@@ -7,10 +7,16 @@ static bool wait_for_upload_finish = true;
 static bool handled_all_data_items = false;
 
 /***********************************
-* Sets the users mood answer       *
+* Sets the users happiness answer  *
 ***********************************/
-void setMoodAnswer(int _pleasant, int _activation) {
+void setHappiness(int _pleasant) {
   pleasant = _pleasant;
+}
+
+/***********************************
+* Sets the users activation answer *
+***********************************/
+void setActivation(int _activation) {
   activation = _activation;
 }
 

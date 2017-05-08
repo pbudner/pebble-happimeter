@@ -1,6 +1,6 @@
 #pragma once
 #include <pebble.h>
-#include "smileymatrix_window.h"
+#include "happiness_input_window.h"
 #include "friends_window.h"
 #include "../modules/data_manager.h"
 #include "../modules/wakeup_manager.h"

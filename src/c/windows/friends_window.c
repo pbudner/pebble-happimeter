@@ -64,10 +64,10 @@ void window_load(Window *window){
   
   // add the layers to the window
   Layer *window_layer = window_get_root_layer(window);
-  s_menu_icon_image_1_1 = gbitmap_create_with_resource(RESOURCE_ID_mood0_24x24);
+ /* s_menu_icon_image_1_1 = gbitmap_create_with_resource(RESOURCE_ID_mood0_24x24);
   s_menu_icon_image_1_0 = gbitmap_create_with_resource(RESOURCE_ID_mood1_24x24);
   s_menu_icon_image_0_0 = gbitmap_create_with_resource(RESOURCE_ID_mood2_24x24);
-  s_menu_icon_image_0_1 = gbitmap_create_with_resource(RESOURCE_ID_mood3_24x24);
+  s_menu_icon_image_0_1 = gbitmap_create_with_resource(RESOURCE_ID_mood3_24x24);*/
   GRect bounds = layer_get_frame(window_layer);
   s_simple_menu_layer = simple_menu_layer_create(bounds, window, s_menu_sections, 1, NULL);
   layer_add_child(window_layer, simple_menu_layer_get_layer(s_simple_menu_layer));

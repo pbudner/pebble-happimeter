@@ -7,33 +7,35 @@ var accountToken = "";
 var retrieve_current_mood = function() {
   console.log("Sending request...");
     var request = new XMLHttpRequest();
-    request.onload = function () {
-      var response = JSON.parse(request.responseText);
-      if(response.status == 200) {
-        console.log("Happiness: " + response.happiness);
-        console.log("Activation: " + response.activation);
-        Pebble.sendAppMessage({
-          'pleasant': response.happiness,
-          'activation': response.activation
-        }, function () {
-          console.log('(JS) Message successfully sent the mood to the watch..');
-        }, function (e) {
-          console.log('(JS) Message failed to send the mood to the watch: ' + JSON.stringify(e));
-        });
-      } else if(response.status == 400) {
-        console.log("(JS) The model is not trained yet.");
-        Pebble.sendAppMessage({ // (-2,-2) means not trained yet
-          'pleasant': -2, 
-          'activation': -2
-        });
-      } else {
-        console.log("(JS) Did not receive a mood value: " + request.responseText);
+    request.onreadystatechange = function () {
+      if(request.status == 200) {
+        var response = JSON.parse(request.responseText);
+        if(response.status == 200) {
+          console.log("Happiness: " + response.happiness);
+          console.log("Activation: " + response.activation);
+          Pebble.sendAppMessage({
+            'pleasant': response.happiness,
+            'activation': response.activation
+          }, function () {
+            console.log('(JS) Message successfully sent the mood to the watch..');
+          }, function (e) {
+            console.log('(JS) Message failed to send the mood to the watch: ' + JSON.stringify(e));
+          });
+        } else if(response.status == 400) {
+          console.log("(JS) The model is not trained yet.");
+          Pebble.sendAppMessage({ // (-2,-2) means not trained yet
+            'pleasant': -2, 
+            'activation': -2
+          });
+        } else {
+          console.log("(JS) Did not receive a mood value: " + request.responseText);
+        }
       }
     };
     request.onerror = function (e) {
       console.log("ERROR:",e);
     };
-    request.open("GET", url + "classifier/prediction");
+    request.open("GET", url + "classifier/prediction", false);
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
     request.send(null);
@@ -105,6 +107,7 @@ var saveSensorData = function (dict) {
         'account_id': accountToken,
         'device_id': watchToken,
         'timestamp': dict.current_time,
+        'local_timestamp': dict.local_time,
         'activity': dict.activity,
         'avg_bpm': dict.avg_heart_rate,
         'accelerometer': {

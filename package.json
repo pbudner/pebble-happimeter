@@ -41,6 +41,144 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/happiness_2_small.png",
+                    "name": "happiness_2_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/happiness_1_small.png",
+                    "name": "happiness_1_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/happiness_0_small.png",
+                    "name": "happiness_0_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/activation_2_small.png",
+                    "name": "activation_2_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/activation_1_small.png",
+                    "name": "activation_1_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/activation_0_small.png",
+                    "name": "activation_0_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/activation_2.png",
+                    "name": "activation_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/activation_1.png",
+                    "name": "activation_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/activation_0.png",
+                    "name": "activation_0",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/happiness_2.png",
+                    "name": "happiness_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/happiness_0.png",
+                    "name": "happiness_0",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/happiness_1.png",
+                    "name": "happiness_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/less.png",
+                    "name": "less",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/more.png",
+                    "name": "more",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_2_h_2.png",
+                    "name": "a_2_h_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_2_h_1.png",
+                    "name": "a_2_h_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_2_h_0.png",
+                    "name": "a_2_h_0",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_1_h_2.png",
+                    "name": "a_1_h_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_1_h_1.png",
+                    "name": "a_1_h_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_1_h_0.png",
+                    "name": "a_1_h_0",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_0_h_2.png",
+                    "name": "a_0_h_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_0_h_1.png",
+                    "name": "a_0_h_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_0_h_0.png",
+                    "name": "a_0_h_0",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/zzz.png",
                     "name": "SLEEP",
                     "targetPlatforms": null,
@@ -91,78 +229,6 @@
                 {
                     "file": "images/noMachieneLearning_144x100",
                     "name": "noMachieneLearning_144x100",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood3_38x38.png",
-                    "name": "mood3_38x38",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood3_24x24.png",
-                    "name": "mood3_24x24",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood3_144x100.png",
-                    "name": "mood3_144x100",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood2_38x38.png",
-                    "name": "mood2_38x38",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood2_24x24.png",
-                    "name": "mood2_24x24",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood2_144x100.png",
-                    "name": "mood2_144x100",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood1_38x38.png",
-                    "name": "mood1_38x38",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood1_24x24.png",
-                    "name": "mood1_24x24",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood1_144x100.png",
-                    "name": "mood1_144x100",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood0_38x38.png",
-                    "name": "mood0_38x38",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood0_24x24.png",
-                    "name": "mood0_24x24",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/mood0_144x100.png",
-                    "name": "mood0_144x100",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -523,30 +589,6 @@
                 {
                     "file": "images/Tree1_1.png",
                     "name": "Tree1_1",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Smiley_Icon_4.png",
-                    "name": "Smiley_Matrix_4",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Smiley_Icon_3.png",
-                    "name": "Smiley_Matrix_3",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Smiley_Icon_2.png",
-                    "name": "Smiley_Matrix_2",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/Smiley_Icon_1.png",
-                    "name": "Smiley_Matrix_1",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },

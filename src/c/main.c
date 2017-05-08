@@ -7,7 +7,8 @@ static void init_windows() {
   init_upload_window();
   init_missingconfig_window();
   init_introduction_window();
-  init_smileymatrix_window();
+  init_happiness_input_window();
+  init_activation_input_window();
   init_tree_window(); //since we have memory issues, tree window only gets initiated on call.
   init_friends_window();
 }
@@ -20,7 +21,8 @@ static void deinit_windows() {
   deinit_missingconfig_window();
   deinit_tree_window();
   deinit_introduction_window();
-  deinit_smileymatrix_window();
+  deinit_happiness_input_window();
+  deinit_activation_input_window();
   deinit_friends_window();
 }
 
