@@ -2,7 +2,7 @@
 
 static Window *upload_window;
 static TextLayer *upload_window_text_layer;
-static char *info_message = "Please keep your Watch connected to your Phone and the Pebble App opened on your Phone! Otherwise we cannot receive your research data..";
+static char *info_message = "Please keep your Watch connected and the Pebble App opened on your Phone! Otherwise we cannot receive your research data..";
 
 
 /***********************************

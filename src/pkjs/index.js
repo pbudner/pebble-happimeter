@@ -102,12 +102,16 @@ var saveSensorData = function (dict) {
     } else {
         items = JSON.parse(items);
     }
+  
+    var currentTime = dict.current_time;
+    var d = new Date();
+    var hour_difference = d.getTimezoneOffset(); // UTC time offset
+    var localTime = currentTime - hour_difference * 60;
 
     items.push({
-        'account_id': accountToken,
         'device_id': watchToken,
-        'timestamp': dict.current_time,
-        'local_timestamp': dict.local_time,
+        'timestamp': currentTime,
+        'local_timestamp': localTime,
         'activity': dict.activity,
         'avg_bpm': dict.avg_heart_rate,
         'accelerometer': {

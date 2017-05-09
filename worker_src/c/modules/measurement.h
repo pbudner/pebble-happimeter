@@ -4,12 +4,10 @@
 #include "storage.h"
 
 #define UPDATE_INTERVAL_IN_MINUTES 15
-#define HEART_RATE_THRESHOLD 20
+#define HEART_RATE_THRESHOLD 40
 
 typedef struct {
     int Time;
-    int LocalTime;
-    int Steps;
     int CurrentActivity;
     int AverageLightLevel;
     int AverageHeartRate;

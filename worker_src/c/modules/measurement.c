@@ -39,17 +39,10 @@ HealthMeasure perform_measurement() {
   end -= (15 * SECONDS_PER_MINUTE);
 
   int utc_unix_time = mktime(utc_time);
-  struct tm * local_time = localtime(&end); 
-  static char time_buffer[] = "-0400";
-  strftime(time_buffer, sizeof(time_buffer), "%z", local_time);
-  double difference_to_utc_in_hours = atoi(time_buffer) / 100.0 + local_time->tm_isdst;
-  int local_unix_time = utc_unix_time + difference_to_utc_in_hours * 60 * 60;
-  APP_LOG(APP_LOG_LEVEL_INFO, "Current time is %d", local_unix_time);
   APP_LOG(APP_LOG_LEVEL_INFO, "UTC time is %d", utc_unix_time);
   
   // save the utc and local time of the current measurement
   measure.Time = utc_unix_time;
-  measure.LocalTime = local_unix_time;
   
   // set activity based on the last measurement iteration
   measure.CurrentActivity = last_activity;
@@ -57,18 +50,18 @@ HealthMeasure perform_measurement() {
   // get the current activity
   HealthActivityMask currentActivities = health_service_peek_current_activities();
   if(currentActivities & HealthActivityNone) {
-    last_activity = 0; // none
+    last_activity = 2; // none
   }
   else if ((currentActivities & HealthActivitySleep) || (currentActivities & HealthActivityRestfulSleep)) {
-    last_activity = 1; // sleep
+    last_activity = 0; // sleep
   }
   else if ((currentActivities & HealthActivityWalk) && !(currentActivities & HealthActivityRun)) {
-    last_activity = 2; // walk
+    last_activity = 3; // walk
   }
   else if (currentActivities & HealthActivityRun) {
-    last_activity = 3; // run
+    last_activity = 4; // run
   } else {
-    last_activity = 4; // generic
+    last_activity = 1; // generic
   }
 
   // use last calculated average and variance
@@ -97,13 +90,11 @@ HealthMeasure perform_measurement() {
     APP_LOG(APP_LOG_LEVEL_INFO, "Num records: %d", (int)num_records);
 
     int number_of_valid_bpm = 0;
-    measure.Steps = 0;
     measure.AverageLightLevel = 0;
     measure.AverageHeartRate = 0;
     measure.VectorMagnitudeCounts = 0;
     for (uint32_t i = 0; i < num_records; i++)
     {
-      measure.Steps += (int)minute_data[i].steps;
       measure.AverageLightLevel += (int)minute_data[i].light;
       measure.VectorMagnitudeCounts += (int)minute_data[i].vmc;
       int heart_rate = (int)minute_data[i].heart_rate_bpm;
@@ -156,29 +147,27 @@ void measurement_iteration() {
     int data_set_id = get_last_measure_id() + 1;
     APP_LOG(APP_LOG_LEVEL_INFO, "Data Set ID: %d", data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Time: %d", measure.Time);
-    APP_LOG(APP_LOG_LEVEL_INFO, "LocalTime: %d", measure.LocalTime);
     APP_LOG(APP_LOG_LEVEL_INFO, "Saved Time: %d", save_measure(10, measure.Time, data_set_id));
-    save_measure(11, measure.LocalTime, data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Activity: %d", measure.CurrentActivity);
-    save_measure(12, measure.CurrentActivity, data_set_id);
+    save_measure(11, measure.CurrentActivity, data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Avg. Heart Rate: %d", measure.AverageHeartRate);
-    save_measure(13, measure.AverageHeartRate, data_set_id);
+    save_measure(12, measure.AverageHeartRate, data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Acc X: %d", measure.AverageAccX);
-    save_measure(14, measure.AverageAccX, data_set_id);
+    save_measure(13, measure.AverageAccX, data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Var X: %d", measure.VarianceAccX);
-    save_measure(15, measure.VarianceAccX, data_set_id);
+    save_measure(14, measure.VarianceAccX, data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Acc Y: %d", measure.AverageAccY);
-    save_measure(16, measure.AverageAccY, data_set_id);
+    save_measure(15, measure.AverageAccY, data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Var Y: %d", measure.VarianceAccY);
-    save_measure(17, measure.VarianceAccY, data_set_id);
+    save_measure(16, measure.VarianceAccY, data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Acc Z: %d", measure.AverageAccZ);
-    save_measure(18, measure.AverageAccZ, data_set_id);
+    save_measure(17, measure.AverageAccZ, data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Var Z: %d", measure.VarianceAccZ);
-    save_measure(19, measure.VarianceAccZ, data_set_id);
+    save_measure(18, measure.VarianceAccZ, data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "VMC: %d", measure.VectorMagnitudeCounts);
-    save_measure(20, measure.VectorMagnitudeCounts, data_set_id);
+    save_measure(19, measure.VectorMagnitudeCounts, data_set_id);
     APP_LOG(APP_LOG_LEVEL_INFO, "Avg. Light: %d", measure.AverageLightLevel);
-    save_measure(21, measure.AverageLightLevel, data_set_id);
+    save_measure(20, measure.AverageLightLevel, data_set_id);
 
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Measurement iteration finished.");
   }
