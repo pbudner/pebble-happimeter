@@ -41,6 +41,60 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/a_2_h_2_small.png",
+                    "name": "a_2_h_2_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_2_h_1_small.png",
+                    "name": "a_2_h_1_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_2_h_0_small.png",
+                    "name": "a_2_h_0_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_1_h_2_small.png",
+                    "name": "a_1_h_2_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_1_h_1_small.png",
+                    "name": "a_1_h_1_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_1_h_0_small.png",
+                    "name": "a_1_h_0_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_0_h_2_small.png",
+                    "name": "a_0_h_2_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_0_h_1_small.png",
+                    "name": "a_0_h_1_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/a_0_h_0_small.png",
+                    "name": "a_0_h_0_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/happiness_2_small.png",
                     "name": "happiness_2_small",
                     "targetPlatforms": null,
