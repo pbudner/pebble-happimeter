@@ -274,7 +274,20 @@ var retrieve_and_send_friends = function() {
               'activation': activation,
           }, function () {
               console.log('(JS) Message containing friends data successfully sent..');
-              send_friend(friends);
+              if(friends.length >= 1) {
+                send_friend(friends);
+              }
+          }, function (e) {
+              console.log('(JS) Message containing friends data failed: ' + JSON.stringify(e));
+          });
+        } else {
+          Pebble.sendAppMessage({
+              'friend_name': "na",
+              'friend_mail': "na",
+              'pleasant': -10,
+              'activation': -10,
+          }, function () {
+              console.log('(JS) Message containing friends data successfully sent..');
           }, function (e) {
               console.log('(JS) Message containing friends data failed: ' + JSON.stringify(e));
           });

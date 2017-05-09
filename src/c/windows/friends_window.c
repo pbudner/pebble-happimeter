@@ -22,23 +22,42 @@ void add_friend(char *mail, char *name, int32_t happiness, int32_t activation) {
   bitmap_layer_set_bitmap(loadingImageLayer, NULL);
   layer_mark_dirty(bitmap_layer_get_layer(loadingImageLayer));
   
-  GBitmap *icon = NULL;
-  
-  if(happiness == 1 && activation == 1) {
-    icon = s_menu_icon_image_1_1;
-  } else if(happiness == 1 && activation == 0) {
-    icon = s_menu_icon_image_1_0;
-  } else if(happiness == 0 && activation == 0) {
-    icon = s_menu_icon_image_0_0;
-  } else if(happiness == 0 && activation == 1) {
-    icon = s_menu_icon_image_0_1;
-  } 
-  
-  s_menu_items[num_a_items] = (SimpleMenuItem) {
-    .title = s_name_buffer[num_a_items],
-    .subtitle = s_mail_buffer[num_a_items],
-    .icon = icon,
-  };
+  if(happiness == -10) {
+    s_menu_items[num_a_items] = (SimpleMenuItem) {
+      .title = "No friends, yet",
+      .subtitle = "Add friends via the website or the smartphone app.",
+      .icon = NULL,
+    };
+  } else {
+
+    GBitmap *icon = NULL;
+    
+    if(activation == 0 && happiness == 0) {
+      icon = s_menu_icon_image_0_0;
+    } else if(activation == 0 && happiness == 1) {
+      icon = s_menu_icon_image_0_1;
+    } else if(activation == 0 && happiness == 2) {
+      icon = s_menu_icon_image_0_2;
+    } else if(activation == 1 && happiness == 0) {
+      icon = s_menu_icon_image_1_0;
+    } else if(activation == 1 && happiness == 1) {
+      icon = s_menu_icon_image_1_1;
+    } else if(activation == 1 && happiness == 2) {
+      icon = s_menu_icon_image_1_2;
+    } else if(activation == 2 && happiness == 0) {
+      icon = s_menu_icon_image_2_0;
+    } else if(activation == 2 && happiness == 1) {
+      icon = s_menu_icon_image_2_1;
+    } else if(activation == 2 && happiness == 2) {
+      icon = s_menu_icon_image_2_2;
+    }
+    
+    s_menu_items[num_a_items] = (SimpleMenuItem) {
+      .title = s_name_buffer[num_a_items],
+      .subtitle = s_mail_buffer[num_a_items],
+      .icon = icon,
+    };
+  }
   
   num_a_items++;
   s_menu_sections[0] = (SimpleMenuSection) {
