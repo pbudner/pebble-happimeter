@@ -3,7 +3,9 @@
 static Window *treeWindow;
 static GBitmap *treeImage = NULL;
 static BitmapLayer *treeImageLayer;
+static TextLayer *tree_text_layer;
 static uint32_t counter = 1;
+static int tree_counter;
 
 int       frame_no1, 
           frame_no2, 
@@ -209,10 +211,29 @@ void tree_window_load(Window *window)
 
 
   // Loads a png Image from ressources
-  treeImageLayer = bitmap_layer_create(bounds);
-
-  //bitmap_layer_set_bitmap(treeImageLayer, treeImage);
-  //bitmap_layer_set_compositing_mode(treeImageLayer, GCompOpSet);
+  int topMargin = 0;
+  if(counter == 1) {
+    topMargin = -5;
+  }
+  
+  GEdgeInsets label_insets = {.top = topMargin, .right = 0, .left = 0, .bottom = 15};
+  treeImageLayer = bitmap_layer_create(grect_inset(bounds, label_insets));
+  
+  // add the tree counter
+  GEdgeInsets tree_label_insets = {.top = 0, .right = 0, .left = 0, .bottom = 0};
+  tree_text_layer = text_layer_create(grect_inset(bounds, tree_label_insets));
+  text_layer_set_background_color(tree_text_layer, GColorClear);
+  text_layer_set_text_alignment(tree_text_layer, GTextAlignmentCenter);
+  text_layer_set_font(tree_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14_BOLD));
+  static char buffer[90] = "";
+  tree_counter = persist_exists(TREE_KEY) ? persist_read_int(TREE_KEY) / 4 : 0;
+  snprintf(buffer,  sizeof(buffer), "Planted trees: %d", tree_counter);
+  text_layer_set_text(tree_text_layer, buffer);
+  GRect frame = layer_get_frame(text_layer_get_layer(tree_text_layer));
+  GSize content = text_layer_get_content_size(tree_text_layer);
+  layer_set_frame(text_layer_get_layer(tree_text_layer), GRect(frame.origin.x, frame.origin.y + (frame.size.h - content.h - 5), frame.size.w, content.h));
+  layer_add_child(window_layer, text_layer_get_layer(tree_text_layer));
+  
   layer_add_child(window_layer, bitmap_layer_get_layer(treeImageLayer));
   load_sequence();
 
