@@ -127,7 +127,7 @@ void activation_window_load(Window *window){
   text_layer_set_background_color(heading_text_layer, GColorClear);
   text_layer_set_text_alignment(heading_text_layer, GTextAlignmentCenter);
   text_layer_set_font(heading_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
-  text_layer_set_text(heading_text_layer, "How activated do you feel?");
+  text_layer_set_text(heading_text_layer, "How active do you feel?");
   layer_add_child(window_layer, text_layer_get_layer(heading_text_layer));
   
   // add the menu
