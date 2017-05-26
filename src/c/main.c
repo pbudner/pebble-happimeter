@@ -43,7 +43,7 @@ static void init() {
 
   // do something based on the launch reason
   if(launch_reason() == APP_LAUNCH_WORKER) {
-    window_stack_push(upload_window_get_window(), true);
+    window_stack_push(upload_window_get_window(), false);
   } else if(launch_reason() == APP_LAUNCH_WAKEUP) {
     vibes_double_pulse(); // vibrate..
     window_stack_push(introduction_window_get_window(), true); // show the wakeup window

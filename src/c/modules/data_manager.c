@@ -72,8 +72,10 @@ void check_whether_upload_process_is_finished() {
   APP_LOG(APP_LOG_LEVEL_INFO, "Handled all data items: %d", handled_all_data_items);
 
   if(!wait_for_upload_finish && handled_all_data_items) {
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "Exit app, since upload process finished.");
-    window_stack_pop_all(true);
+    if(window_stack_get_top_window() == upload_window_get_window()) {
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "Exit app, since upload process finished.");
+      window_stack_pop_all(false);
+    }
   }
 }
 

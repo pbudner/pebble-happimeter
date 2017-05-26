@@ -35,8 +35,8 @@ HealthMeasure perform_measurement() {
   struct tm * utc_time = gmtime(&end);
 
   // last 15 minutes may not be available
-  start -= (15 * SECONDS_PER_MINUTE);
-  end -= (15 * SECONDS_PER_MINUTE);
+  /*start -= (15 * SECONDS_PER_MINUTE);
+  end -= (15 * SECONDS_PER_MINUTE);*/
 
   int utc_unix_time = mktime(utc_time);
   APP_LOG(APP_LOG_LEVEL_INFO, "UTC time is %d", utc_unix_time);
@@ -50,7 +50,7 @@ HealthMeasure perform_measurement() {
   // get the current activity
   HealthActivityMask currentActivities = health_service_peek_current_activities();
   if(currentActivities & HealthActivityNone) {
-    last_activity = 2; // none
+    last_activity = 1; // none
   }
   else if ((currentActivities & HealthActivitySleep) || (currentActivities & HealthActivityRestfulSleep)) {
     last_activity = 0; // sleep
@@ -61,7 +61,7 @@ HealthMeasure perform_measurement() {
   else if (currentActivities & HealthActivityRun) {
     last_activity = 4; // run
   } else {
-    last_activity = 1; // generic
+    last_activity = 2; // generic
   }
 
   // use last calculated average and variance
@@ -104,8 +104,10 @@ HealthMeasure perform_measurement() {
       }
     }
 
+    measure.VectorMagnitudeCounts = measure.VectorMagnitudeCounts / num_records;
     measure.AverageLightLevel = measure.AverageLightLevel / num_records;
     measure.AverageHeartRate =  measure.AverageHeartRate / number_of_valid_bpm;
+    measure.AverageHeartRate = (int)health_service_peek_current_value(HealthMetricHeartRateRawBPM);
 
     // free the array
     free(minute_data);

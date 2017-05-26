@@ -3,7 +3,7 @@
 #include <pebble_worker.h>
 #include "storage.h"
 
-#define UPDATE_INTERVAL_IN_MINUTES 15
+#define UPDATE_INTERVAL_IN_MINUTES 2
 #define HEART_RATE_THRESHOLD 40
 
 typedef struct {
