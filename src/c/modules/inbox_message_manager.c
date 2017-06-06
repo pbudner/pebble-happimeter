@@ -1,5 +1,21 @@
 #include "inbox_message_manager.h"
 
+static void set_upload_mode(bool live) {
+  APP_LOG(APP_LOG_LEVEL_INFO, "Set upload mode to %d...", live);
+  if(live) {
+    AppWorkerMessage message = {
+      .data0 = 1888, // this is the code that says --> set to live mode
+    };
+    app_worker_send_message(SOURCE_FOREGROUND, &message);
+  } else {
+    AppWorkerMessage message = {
+      .data0 = 1889, // this is the code that says --> set to hourly mode
+    };
+    app_worker_send_message(SOURCE_FOREGROUND, &message);
+  }
+  APP_LOG(APP_LOG_LEVEL_INFO, "Sent mode change to background worker...");
+}  
+
 /***********************************
 * Proccesses recevied app messages *
 * from JavaScript. Either from up- *
@@ -79,6 +95,22 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     vibes_double_pulse();                                        // vibrate..
     window_stack_pop_all(true);                                  // pop all other windows
     window_stack_push(missingconfig_window_get_window(), false); // remove the missing config window from the stack
+  }
+  
+  Tuple *live_mode_t = dict_find(iter, MESSAGE_KEY_live_mode);
+  if (live_mode_t)
+  {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Enable live mode..");
+    set_upload_mode(true);
+    vibes_double_pulse(); // vibrate..
+  }
+  
+  Tuple *hourly_mode_t = dict_find(iter, MESSAGE_KEY_hourly_mode);
+  if (hourly_mode_t)
+  {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Disable live mode..");
+    set_upload_mode(false);
+    vibes_double_pulse(); // vibrate..
   }
 }
 

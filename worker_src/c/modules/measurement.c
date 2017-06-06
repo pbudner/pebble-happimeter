@@ -1,5 +1,7 @@
 #include "measurement.h"
 
+int UPDATE_INTERVAL_IN_MINUTES = 2;
+
 /***********************************
 * Used for calc. online variance   *
 ***********************************/

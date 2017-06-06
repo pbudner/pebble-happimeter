@@ -1,5 +1,7 @@
 #include "notification_sender.h"
 
+int UPLOAD_INTERVAL_IN_MINUTES = 60;
+
 /***********************************
 * Checks whether it is time to     *
 * upload the saved data to the     *

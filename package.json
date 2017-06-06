@@ -35,7 +35,9 @@
             "app_callback",
             "local_time",
             "friend_mail",
-            "friend_name"
+            "friend_name",
+            "live_mode",
+            "hourly_mode"
         ],
         "projectType": "native",
         "resources": {

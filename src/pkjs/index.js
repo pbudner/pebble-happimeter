@@ -101,31 +101,47 @@ Pebble.addEventListener('webviewclosed', function (e) {
         console.log("(JS Hue) Removed connection to bridge.");
         localStorage.removeItem("happimeter_hue_username");
       }
-    } else {
-      if (response.happimeter_token != false && response.happimeter_token != "false") {
-          console.log("(JS) Set login token to " + response.happimeter_token);
-          localStorage.setItem("happimeter_token", response.happimeter_token);
-          retrieve_current_mood();
-          Pebble.sendAppMessage({
-              'loggedin': 100 // this says we are logged in
-          }, function () {
-              console.log('(JS) Message "user logged in" sent successfully..');
-          }, function (e) {
-              console.log('(JS) Message "user logged in" failed: ' + JSON.stringify(e));
-          });
-      } else {
-          console.log("Logged out!");
-          localStorage.removeItem("sensorItems");
-          localStorage.removeItem("moodItems");
-          localStorage.removeItem("happimeter_token");
-          Pebble.sendAppMessage({
-              'loggedout': 100 // this says we are logged out
-          }, function () {
-              console.log('(JS) Message "user logged out" sent successfully..');
-          }, function (e) {
-              console.log('(JS) Message "user logged out" failed: ' + JSON.stringify(e));
-          });
-      }
+    } else if (response.happimeter_token && (response.happimeter_token != false && response.happimeter_token != "false")) {
+      console.log("(JS) Set login token to " + response.happimeter_token);
+      localStorage.setItem("happimeter_token", response.happimeter_token);
+      retrieve_current_mood();
+      Pebble.sendAppMessage({
+        'loggedin': 100 // this says we are logged in
+      }, function () {
+        console.log('(JS) Message "user logged in" sent successfully..');
+      }, function (e) {
+        console.log('(JS) Message "user logged in" failed: ' + JSON.stringify(e));
+      });
+    } else if (response.happimeter_token) {
+      console.log("(JS) Logged out!");
+      localStorage.removeItem("sensorItems");
+      localStorage.removeItem("moodItems");
+      localStorage.removeItem("happimeter_token");
+      Pebble.sendAppMessage({
+        'loggedout': 100 // this says we are logged out
+      }, function () {
+        console.log('(JS) Message "user logged out" sent successfully..');
+      }, function (e) {
+        console.log('(JS) Message "user logged out" failed: ' + JSON.stringify(e));
+      });
+    } else if(response.happimeter_live && (response.happimeter_live != "false" && response.happimeter_live != false)) {
+      console.log("(JS) Set mode to live mode..");
+      Pebble.sendAppMessage({
+        'live_mode': 100
+      }, function () {
+        console.log('(JS) Message "live mode enabled" sent successfully..');
+      }, function (e) {
+        console.log('(JS) Message "live mode enabled" failed: ' + JSON.stringify(e));
+      });
+    } else if(response.happimeter_live) {
+      console.log("(JS) Set mode to hourly mode..");
+      Pebble.sendAppMessage({
+        'hourly_mode': 100
+      }, function () {
+        console.log('(JS) Message "live mode disabled" sent successfully..');
+      }, function (e) {
+        console.log('(JS) Message "live mode disabled" failed: ' + JSON.stringify(e));
+      });
     }
 });
 
