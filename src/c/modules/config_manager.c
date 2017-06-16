@@ -26,4 +26,9 @@ void set_is_configured(void) {
 ***********************************/
 void set_is_not_configured(void) {
   persist_delete(SETTINGS_STORAGE_KEY);
+  
+  // also clear all the old data..
+  for(int i = 0; i < 100000000; i++) {
+    persist_delete(i);
+  }
 }

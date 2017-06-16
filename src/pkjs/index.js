@@ -362,7 +362,7 @@ var retrieve_and_send_friends = function() {
 Pebble.addEventListener('appmessage', function (e) {
     var dict = e.payload; // Get the dictionary from the message
     console.log('(JS) Got message: ' + JSON.stringify(dict));
-    if (dict.vmc >= 0) {
+    if (dict.vmc) {
         console.log("(JS) Message contains sensor data..");
 
         // Request current position
@@ -380,7 +380,7 @@ Pebble.addEventListener('appmessage', function (e) {
             saveSensorData(dict);
             sendSensorData();
         }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 });
-    } else if (dict.activation >= 0) {
+    } else if (dict.activation) {
         console.log("(JS) Message contains mood data..");
         navigator.geolocation.getCurrentPosition(function (pos) {
             dict.lat = pos.coords.latitude;
