@@ -94,7 +94,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     APP_LOG(APP_LOG_LEVEL_DEBUG, "User has been logged out!");
     vibes_double_pulse();                                        // vibrate..
     window_stack_pop_all(true);                                  // pop all other windows
-    window_stack_push(missingconfig_window_get_window(), false); // remove the missing config window from the stack
+    window_stack_push(missingconfig_window_get_window(), false); // push the missing config window from the stack
   }
   
   Tuple *live_mode_t = dict_find(iter, MESSAGE_KEY_live_mode);
