@@ -21,3 +21,4 @@ extern int getActivation();
 extern void received_finished_upload();
 extern void request_friends();
 extern void request_mood();
+extern void ping_js();

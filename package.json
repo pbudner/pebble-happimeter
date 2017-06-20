@@ -39,7 +39,8 @@
             "live_mode",
             "hourly_mode",
             "retrieve_mood",
-            "js_ready"
+            "js_ready",
+            "ping"
         ],
         "projectType": "native",
         "resources": {

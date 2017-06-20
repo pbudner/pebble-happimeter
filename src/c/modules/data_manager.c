@@ -92,6 +92,26 @@ void request_mood() {
   }
 }
 
+/**********************************
+* Pings the javascript app        *
+**********************************/
+void ping_js() {
+  DictionaryIterator *out_iter;
+  app_message_open(64, 256); // open the app message
+  AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
+  if(result == APP_MSG_OK) {
+    dict_write_cstring(out_iter, MESSAGE_KEY_ping, "1");
+    result = app_message_outbox_send();
+    if(result != APP_MSG_OK) {
+      APP_LOG(APP_LOG_LEVEL_ERROR, "Error pinging the javascript app: %d", (int)result);
+    } else {
+      APP_LOG(APP_LOG_LEVEL_INFO, "Succesfully pinged the javacsript app: %d", (int)result);
+    }
+  } else {
+    APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the outbox to ping the javascript app: %d", (int)result);
+  }
+}
+
 /***********************************
 * Checks whether the entire data   *
 * uploading process is finished.   * 
@@ -206,8 +226,12 @@ bool upload_iteration() {
   open_upload_data_task = false;
   int lastId = get_last_measure_id();
   if(lastId == 0) {
-    APP_LOG(APP_LOG_LEVEL_ERROR, "There is no data in the storage to upload!!");
+    APP_LOG(APP_LOG_LEVEL_ERROR, "There is no data in the storage to upload. Thus, exiting app.");
     handled_all_data_items = true;
+    if(window_stack_get_top_window() == upload_window_get_window()) {
+      window_stack_pop_all(false);
+    }
+    
     return false;
   } else {
     APP_LOG(APP_LOG_LEVEL_INFO, "Last inserted id is %d.", lastId);
@@ -228,6 +252,7 @@ void worker_message_handler(uint16_t type, AppWorkerMessage *message) {
     if(action == 4711) {
       APP_LOG(APP_LOG_LEVEL_DEBUG, "Received the uploading task. Thus, uploading the data saved on storage..");
       if(!is_js_ready()) {
+        ping_js();
         open_upload_data_task = true;
       } else {
         upload_iteration();
