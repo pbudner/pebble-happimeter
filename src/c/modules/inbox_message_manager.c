@@ -114,6 +114,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
   Tuple *js_ready_t = dict_find(iter, MESSAGE_KEY_js_ready);
   if(js_ready_t) {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Received a JS is ready message..");
+    mark_js_ready();
     if(is_open_upload_task()) {
       APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) An pending upload task was open. Sending sensor data..");
       upload_iteration();

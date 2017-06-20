@@ -227,7 +227,11 @@ void worker_message_handler(uint16_t type, AppWorkerMessage *message) {
     int action = message->data0;
     if(action == 4711) {
       APP_LOG(APP_LOG_LEVEL_DEBUG, "Received the uploading task. Thus, uploading the data saved on storage..");
-      open_upload_data_task = true;
+      if(!is_js_ready()) {
+        open_upload_data_task = true;
+      } else {
+        upload_iteration();
+      }
     }
   }
 }

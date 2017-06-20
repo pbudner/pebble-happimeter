@@ -1,5 +1,18 @@
 #include "config_manager.h"
 
+static bool js_ready = false;
+
+/***********************************
+* Mark that JS is ready            *
+***********************************/
+void mark_js_ready() {
+  js_ready = true;
+}
+
+bool is_js_ready() {
+  return js_ready;
+}
+
 /***********************************
 * Checks whether user is logged in *
 ***********************************/

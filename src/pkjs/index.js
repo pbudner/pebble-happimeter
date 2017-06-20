@@ -39,7 +39,7 @@ Pebble.addEventListener('showConfiguration', function() {
   }
   
   var live = localStorage.getItem("happimeter_live");
-  if(hue !== null) {
+  if(live !== null) {
     config.live = live;
   }
   
@@ -108,7 +108,7 @@ Pebble.addEventListener('webviewclosed', function (e) {
           'hourly_mode': 100
         }, function () {
           console.log('(JS) Message "live mode disabled" sent successfully..');
-          localStorage.setItem("happimeter_live", false);
+          localStorage.removeItem("happimeter_live");
         }, function (e) {
           console.log('(JS) Message "live mode disabled" failed: ' + JSON.stringify(e));
         });

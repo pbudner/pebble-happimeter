@@ -2,6 +2,7 @@
 #include <pebble.h>
 #include "measurement_storage.h"
 #include "../windows/upload_data_window.h"
+#include "config_manager.h"
 
 #define SOURCE_FOREGROUND  0
 #define SOURCE_BACKGROUND  2
