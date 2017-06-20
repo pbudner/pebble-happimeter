@@ -9,6 +9,7 @@ static void worker_message_handler(uint16_t type, AppWorkerMessage *message)
       APP_LOG(APP_LOG_LEVEL_INFO, "(Pebble BW) Enable live mode..");
       persist_write_int(LIVE_MODE_STORAGE_KEY, 1);
       UPLOAD_INTERVAL_IN_MINUTES = 2;
+      UPDATE_INTERVAL_IN_MINUTES = 2;
       return;
     }
     
@@ -16,6 +17,7 @@ static void worker_message_handler(uint16_t type, AppWorkerMessage *message)
       APP_LOG(APP_LOG_LEVEL_INFO, "(Pebble BW) Enable hourly mode..");
       persist_delete(LIVE_MODE_STORAGE_KEY);
       UPLOAD_INTERVAL_IN_MINUTES = 60;
+      UPDATE_INTERVAL_IN_MINUTES = 15;
       return;
     }
   }

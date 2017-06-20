@@ -189,6 +189,8 @@ void upload_measure() {
     app_message_open(64, 512); // open the app message
     AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
     if(result == APP_MSG_OK) {
+      // go to next dataset
+      current_measurement_id++;
       dict_write_int(out_iter, MESSAGE_KEY_current_time, &current_time, sizeof(int), true);
       dict_write_int(out_iter, MESSAGE_KEY_activity, &activity, sizeof(int), true);
       dict_write_int(out_iter, MESSAGE_KEY_avg_heart_rate, &avg_heart_rate, sizeof(int), true);
@@ -208,10 +210,11 @@ void upload_measure() {
     } else {
       // the outbox cannot be used right now
       APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the outbox: %d", (int)result);
+      if(result == APP_MSG_BUSY) {
+        APP_LOG(APP_LOG_LEVEL_ERROR, "Retry in 2 seconds");
+        app_timer_register(2000, upload_measure, NULL);
+      }
     }
-
-    // go to next dataset
-    current_measurement_id++;
   } else {
     handled_all_data_items = true;
     APP_LOG(APP_LOG_LEVEL_INFO, "Did not find any further dataset.. Thus, finished processing data (last id was %d)", (current_measurement_id - 1));

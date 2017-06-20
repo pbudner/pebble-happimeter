@@ -21,9 +21,11 @@ static void init() {
   if(persist_exists(LIVE_MODE_STORAGE_KEY)) {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble BW) Live mode is enabled..");
     UPLOAD_INTERVAL_IN_MINUTES = 2;
+    UPDATE_INTERVAL_IN_MINUTES = 2;
   } else {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble BW) Live mode is disabled..");
     UPLOAD_INTERVAL_IN_MINUTES = 60;
+    UPDATE_INTERVAL_IN_MINUTES = 15;
   }
   
   init_measurement();

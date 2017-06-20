@@ -9,6 +9,7 @@
 
 extern bool is_open_upload_task();
 extern void init_data_manager(void);
+extern bool upload_iteration();
 extern void upload_mood(int pleasant, int activation);
 extern void upload_measure();
 extern void outbox_sent_handler(DictionaryIterator *iter, void *context);
