@@ -46,8 +46,10 @@ static void init() {
     window_stack_push(upload_window_get_window(), false);
   } else if(launch_reason() == APP_LAUNCH_WAKEUP) {
     vibes_double_pulse(); // vibrate..
+    request_mood();
     window_stack_push(introduction_window_get_window(), true); // show the wakeup window
   } else {
+    request_mood();
     window_stack_push(introduction_window_get_window(), true);
   }
 }

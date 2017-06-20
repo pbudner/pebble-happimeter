@@ -37,7 +37,9 @@
             "friend_mail",
             "friend_name",
             "live_mode",
-            "hourly_mode"
+            "hourly_mode",
+            "retrieve_mood",
+            "js_ready"
         ],
         "projectType": "native",
         "resources": {

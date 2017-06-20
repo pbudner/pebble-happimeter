@@ -244,7 +244,7 @@ void introduction_window_load(Window *window){
     set_mood_window_text(-1, -1); // -1 should mean still loading..
     
     // set a timer to show a warning message if receiving the mood takes to long
-    app_timer_register(7000, message_timeout_callback, NULL);
+    app_timer_register(10000, message_timeout_callback, NULL);
   }
 }
 

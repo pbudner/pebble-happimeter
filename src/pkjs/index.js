@@ -4,83 +4,26 @@ var url = "https://api.happimeter.org/v1/";
 var watchToken = "";
 var accountToken = "";
 
-var SetPhilipsHue = function(happiness, activation) {
-  var username = localStorage.getItem("happimeter_hue_username");
-  if(username) {
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-      if(request.status == 200) {
-        var response = JSON.parse(request.responseText);
-        if(response.length > 0) {
-          var ip = response[0].internalipaddress;
-          var request_2 = new XMLHttpRequest();
-          console.log("(JS Hue) API URL is " + "http://" + ip + "/api/" + username + "/lights/5/state");
-          request_2.open("PUT", "http://" + ip + "/api/" + username + "/lights/5/state", false);
-          request_2.send(JSON.stringify({ "on": true, "ct": 160 + parseInt(340 * happiness / 3), "bri": parseInt(250 * activation / 3) }));
-        } else {
-          console.log("(JS Hue) Could not find a bridge in the network.");
-        }
-      }
-    };
-    request.open("GET", "https://www.meethue.com/api/nupnp", false);
-    request.send(null);
-  }
-};
-
-var retrieve_current_mood = function() {
-  console.log("Sending request...");
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-      if(request.status == 200) {
-        var response = JSON.parse(request.responseText);
-        if(response.status == 200) {
-          console.log("Happiness: " + response.happiness);
-          console.log("Activation: " + response.activation);
-          Pebble.sendAppMessage({
-            'pleasant': response.happiness,
-            'activation': response.activation
-          }, function () {
-            console.log('(JS) Message successfully sent the mood to the watch..');
-          }, function (e) {
-            console.log('(JS) Message failed to send the mood to the watch: ' + JSON.stringify(e));
-          });
-          
-          SetPhilipsHue(response.happiness, response.activation);
-        } else if(response.status == 400) {
-          console.log("(JS) The model is not trained yet.");
-          Pebble.sendAppMessage({ // (-2,-2) means not trained yet
-            'pleasant': -2, 
-            'activation': -2
-          });
-        } else {
-          console.log("(JS) Did not receive a mood value: " + request.responseText);
-        }
-      }
-    };
-    request.onerror = function (e) {
-      console.log("ERROR:",e);
-    };
-    request.open("GET", url + "classifier/prediction", false);
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
-    request.send(null);
-    console.log("Sent request..");
-};
-
-// Listen for when the watchface is opened
+// listen until javascript is ready
 Pebble.addEventListener('ready', function (e) {
     console.log('PebbleKit JS is ready!');
     watchToken = Pebble.getWatchToken();
     accountToken = Pebble.getAccountToken();
     console.log('(JS) Happimeter API url: ' + url);
-    if (localStorage.getItem("happimeter_token") !== null) {
-      console.log("(JS) Retrieve mood.");
-      retrieve_current_mood();
-    } else {
+    Pebble.sendAppMessage({
+      'js_ready': 1
+    }, function () {
+      console.log('(JS) Sent that JS is ready..');
+    }, function (e) {
+      console.log('(JS) Failed to send that JS is ready: ' + JSON.stringify(e));
+    });
+  
+    if (localStorage.getItem("happimeter_token") === null) {
       console.log("(JS) User is not logged in.");
     }
 });
 
+// listen for when configuration page should be opened
 Pebble.addEventListener('showConfiguration', function() {
   var url = 'https://www.happimeter.org/config/#';
   var config = {};
@@ -104,6 +47,7 @@ Pebble.addEventListener('showConfiguration', function() {
   Pebble.openURL(url);
 });
 
+// listen for when configuration page is closed
 Pebble.addEventListener('webviewclosed', function (e) {
     
     if (e && !e.response) {
@@ -172,6 +116,72 @@ Pebble.addEventListener('webviewclosed', function (e) {
     }
 });
 
+// set the philips hue lights
+var SetPhilipsHue = function(happiness, activation) {
+  var username = localStorage.getItem("happimeter_hue_username");
+  if(username) {
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+      if(request.status == 200) {
+        var response = JSON.parse(request.responseText);
+        if(response.length > 0) {
+          var ip = response[0].internalipaddress;
+          var request_2 = new XMLHttpRequest();
+          console.log("(JS Hue) API URL is " + "http://" + ip + "/api/" + username + "/lights/5/state");
+          request_2.open("PUT", "http://" + ip + "/api/" + username + "/lights/5/state", false);
+          request_2.send(JSON.stringify({ "on": true, "ct": 160 + parseInt(340 * happiness / 3), "bri": parseInt(250 * activation / 3) }));
+        } else {
+          console.log("(JS Hue) Could not find a bridge in the network.");
+        }
+      }
+    };
+    request.open("GET", "https://www.meethue.com/api/nupnp", false);
+    request.send(null);
+  }
+};
+
+// retrieve the current mood and send it to the watch
+var retrieve_current_mood = function() {
+  console.log("Sending request...");
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+      if(request.status == 200) {
+        var response = JSON.parse(request.responseText);
+        if(response.status == 200) {
+          console.log("Happiness: " + response.happiness);
+          console.log("Activation: " + response.activation);
+          Pebble.sendAppMessage({
+            'pleasant': response.happiness,
+            'activation': response.activation
+          }, function () {
+            console.log('(JS) Message successfully sent the mood to the watch..');
+          }, function (e) {
+            console.log('(JS) Message failed to send the mood to the watch: ' + JSON.stringify(e));
+          });
+          
+          SetPhilipsHue(response.happiness, response.activation);
+        } else if(response.status == 400) {
+          console.log("(JS) The model is not trained yet.");
+          Pebble.sendAppMessage({ // (-2,-2) means not trained yet
+            'pleasant': -2, 
+            'activation': -2
+          });
+        } else {
+          console.log("(JS) Did not receive a mood value: " + request.responseText);
+        }
+      }
+    };
+    request.onerror = function (e) {
+      console.log("ERROR:",e);
+    };
+    request.open("GET", url + "classifier/prediction", false);
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
+    request.send(null);
+    console.log("Sent request..");
+};
+
+// send a message to the watch that the upload is finished
 var sendFinishedWithUpload = function () {
     Pebble.sendAppMessage({
         'app_callback': 100 // this says finished with upload
@@ -182,6 +192,7 @@ var sendFinishedWithUpload = function () {
     });
 };
 
+// save the sensor data on the phone
 var saveSensorData = function (dict) {
     var items = localStorage.getItem("sensorItems");
     if (!items) {
@@ -221,6 +232,7 @@ var saveSensorData = function (dict) {
     localStorage.setItem("sensorItems", JSON.stringify(items));
 };
 
+// send saved sensor data from the phone to the API
 var sendSensorData = function () {
     var items = localStorage.getItem("sensorItems");
     if (!items) {
@@ -268,6 +280,7 @@ var sendSensorData = function () {
     }
 };
 
+// save mood data on the phone
 var saveMoodData = function (dict) {
     var items = localStorage.getItem("moodItems");
     console.log("(JS) Got mood items:", items);
@@ -295,6 +308,7 @@ var saveMoodData = function (dict) {
     localStorage.setItem("moodItems", JSON.stringify(items));
 };
 
+// send the saved mood data from the phone to the API
 var sendMoodData = function () {
     var items = localStorage.getItem("moodItems");
     if (!items) {
@@ -338,6 +352,7 @@ var sendMoodData = function () {
     }
 };
 
+// retrieve and send the friends of the current user
 var retrieve_and_send_friends = function() {
   var request = new XMLHttpRequest();
   request.onload = function () {
@@ -395,14 +410,12 @@ var retrieve_and_send_friends = function() {
   request.send(null);
 };
 
-// Listen for when an AppMessage is received
+// listen for AppMessages from the watch
 Pebble.addEventListener('appmessage', function (e) {
     var dict = e.payload; // Get the dictionary from the message
     console.log('(JS) Got message: ' + JSON.stringify(dict));
     if ("vmc" in dict) {
         console.log("(JS) Message contains sensor data..");
-
-        // Request current position
         navigator.geolocation.getCurrentPosition(function (pos) {
             dict.lat = pos.coords.latitude;
             dict.lon = pos.coords.longitude;
@@ -436,5 +449,8 @@ Pebble.addEventListener('appmessage', function (e) {
     } else if (dict.friend_mail == "request") {
         console.log("(JS) Pebble requested friend list..");
         retrieve_and_send_friends();
+    } else if ("retrieve_mood" in dict) {
+      console.log("(JS) Message contains request to retrieve the current mood..");
+      retrieve_current_mood();
     }
 });

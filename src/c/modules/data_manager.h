@@ -6,6 +6,7 @@
 #define SOURCE_FOREGROUND  0
 #define SOURCE_BACKGROUND  2
 
+extern bool is_open_upload_task();
 extern void init_data_manager(void);
 extern void upload_mood(int pleasant, int activation);
 extern void upload_measure();
@@ -18,3 +19,4 @@ extern int getPleasant();
 extern int getActivation();
 extern void received_finished_upload();
 extern void request_friends();
+extern void request_mood();

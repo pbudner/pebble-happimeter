@@ -5,6 +5,15 @@ static int pleasant; // saving pleasing answer
 static int activation; // saving pleasing answer
 static bool wait_for_upload_finish = true;
 static bool handled_all_data_items = false;
+static bool open_upload_data_task = false;
+
+/***********************************
+* Returns weather an open upload   *
+* data task is pending.            *
+***********************************/
+bool is_open_upload_task() {
+  return open_upload_data_task;
+}
 
 /***********************************
 * Sets the users happiness answer  *
@@ -60,6 +69,26 @@ void request_friends() {
     }
   } else {
     APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the request friends outbox: %d", (int)result);
+  }
+}
+
+/**********************************
+* Requests the mood               *
+**********************************/
+void request_mood() {
+  DictionaryIterator *out_iter;
+  app_message_open(64, 256); // open the app message
+  AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
+  if(result == APP_MSG_OK) {
+    dict_write_cstring(out_iter, MESSAGE_KEY_retrieve_mood, "1");
+    result = app_message_outbox_send();
+    if(result != APP_MSG_OK) {
+      APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the mood request outbox: %d", (int)result);
+    } else {
+      APP_LOG(APP_LOG_LEVEL_INFO, "Succesfully sent the mood request outbox: %d", (int)result);
+    }
+  } else {
+    APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the mood request outbox: %d", (int)result);
   }
 }
 
@@ -174,6 +203,7 @@ void upload_measure() {
 * Executes the upload iteration    *
 ***********************************/
 bool upload_iteration() {
+  open_upload_data_task = false;
   int lastId = get_last_measure_id();
   if(lastId == 0) {
     APP_LOG(APP_LOG_LEVEL_ERROR, "There is no data in the storage to upload!!");
@@ -197,7 +227,7 @@ void worker_message_handler(uint16_t type, AppWorkerMessage *message) {
     int action = message->data0;
     if(action == 4711) {
       APP_LOG(APP_LOG_LEVEL_DEBUG, "Received the uploading task. Thus, uploading the data saved on storage..");
-      upload_iteration();
+      open_upload_data_task = true;
     }
   }
 }

@@ -78,10 +78,8 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     // if currently the app is blocked, go to main window
     if (window_stack_get_top_window() == missingconfig_window_get_window())
     {
-      vibes_double_pulse();                                          // vibrate..
+      vibes_double_pulse(); // vibrate..
       window_stack_pop_all(true);
-      /*window_stack_push(introduction_window_get_window(), true);    // show main window
-      window_stack_remove(missingconfig_window_get_window(), false);*/ // remove the missing config window from the stack
     }
     return;
   }
@@ -111,6 +109,18 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Disable live mode..");
     set_upload_mode(false);
     vibes_double_pulse(); // vibrate..
+  }
+  
+  Tuple *js_ready_t = dict_find(iter, MESSAGE_KEY_js_ready);
+  if(js_ready_t) {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Received a JS is ready message..");
+    if(is_open_upload_task()) {
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) An pending upload task was open. Sending sensor data..");
+      upload_iteration();
+    } else {
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Requesting the mood..");
+      request_mood();
+    }
   }
 }
 
