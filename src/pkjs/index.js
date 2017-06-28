@@ -25,7 +25,7 @@ Pebble.addEventListener('ready', function (e) {
 
 // listen for when configuration page should be opened
 Pebble.addEventListener('showConfiguration', function() {
-  var url = 'https://www.happimeter.org/config/#';
+  var url = 'http://www.happimeter.org/config/#';
   var config = {};
   
   var mail = localStorage.getItem("happimeter_mail");
