@@ -2,7 +2,7 @@
 
 static Window *upload_window;
 static TextLayer *upload_window_text_layer;
-static char *info_message = "Please keep your watch connected via Bluetooth and the official Pebble App opened on your phone. Otherwise we cannot receive your research data.";
+static char *info_message = "Please keep your watch via Bluetooth connected to your phone. Otherwise we cannot receive your research data. More info: happimeter.org/faq";
 static TextLayer *timeLayer;
 static GRect textFrame = {.origin = {.x = 0, .y = 10}, .size = {.w = 144, .h = 168}};
 static GRect clockFrame = {.origin = {.x = 5, .y = 95}, .size = {.w = 144-10, .h = 168-95}};
