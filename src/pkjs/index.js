@@ -25,7 +25,7 @@ Pebble.addEventListener('ready', function (e) {
 
 // listen for when configuration page should be opened
 Pebble.addEventListener('showConfiguration', function() {
-  var url = 'http://www.happimeter.org/config/#';
+  var url = 'http://config.happimeter.org/#';
   var config = {};
   
   var mail = localStorage.getItem("happimeter_mail");
@@ -58,10 +58,12 @@ Pebble.addEventListener('webviewclosed', function (e) {
     if ("happimeter_hue_username" in response) {
       if(response.happimeter_hue_username !== false && response.happimeter_hue_username != "false") { 
         localStorage.setItem("happimeter_hue_username", response.happimeter_hue_username);
-        console.log("(JS Hue) Added connection to bridge.");
+        localStorage.setItem("happimeter_hue_group", response.happimeter_hue_group);
+        console.log("(JS Hue) Added connection to bridge (username: "+response.happimeter_hue_username+", lightgroup: "+response.happimeter_hue_group+").");
       } else {
         console.log("(JS Hue) Removed connection to bridge.");
         localStorage.removeItem("happimeter_hue_username");
+        localStorage.removeItem("happimeter_hue_group");
       }
     } else if ("happimeter_token" in response) {
       if(response.happimeter_token !== false && response.happimeter_token != "false") {
@@ -119,6 +121,7 @@ Pebble.addEventListener('webviewclosed', function (e) {
 // set the philips hue lights
 var SetPhilipsHue = function(happiness, activation) {
   var username = localStorage.getItem("happimeter_hue_username");
+  var lightgroup = localStorage.getItem("happimeter_hue_group");
   if(username) {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
@@ -127,9 +130,9 @@ var SetPhilipsHue = function(happiness, activation) {
         if(response.length > 0) {
           var ip = response[0].internalipaddress;
           var request_2 = new XMLHttpRequest();
-          console.log("(JS Hue) API URL is " + "http://" + ip + "/api/" + username + "/lights/5/state");
-          request_2.open("PUT", "http://" + ip + "/api/" + username + "/lights/5/state", false);
-          request_2.send(JSON.stringify({ "on": true, "ct": 160 + parseInt(340 * happiness / 3), "bri": parseInt(250 * activation / 3) }));
+          console.log("(JS Hue) API URL is " + "http://" + ip + "/api/" + username + "/groups/"+lightgroup+"/action");
+          request_2.open("PUT", "http://" + ip + "/api/" + username + "/groups/"+lightgroup+"/action", false);
+          request_2.send(JSON.stringify({ "ct": 160 + parseInt(340 * happiness / 3), "bri": parseInt(250 * activation / 3) }));
         } else {
           console.log("(JS Hue) Could not find a bridge in the network.");
         }
