@@ -132,7 +132,16 @@ var SetPhilipsHue = function(happiness, activation) {
           var request_2 = new XMLHttpRequest();
           console.log("(JS Hue) API URL is " + "http://" + ip + "/api/" + username + "/groups/"+lightgroup+"/action");
           request_2.open("PUT", "http://" + ip + "/api/" + username + "/groups/"+lightgroup+"/action", false);
-          request_2.send(JSON.stringify({ "ct": 160 + parseInt(340 * happiness / 3), "bri": parseInt(250 * activation / 3) }));
+          var brigthness = parseInt(250 * activation / 2);
+          var hue = 0;
+          if(happiness == 0) {
+            hue = 65527; // red
+          } else if(happiness == 1) {
+            hue = 25653; // green
+          } else if(happiness == 2) {
+            hue = 15646; // yellow
+          }
+          request_2.send(JSON.stringify({ "hue": hue, "bri": brigthness }));
         } else {
           console.log("(JS Hue) Could not find a bridge in the network.");
         }
