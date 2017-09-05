@@ -179,12 +179,13 @@ void tree_window_load(Window *window)
 {
   
   
-  int _activation, _pleasant;
+  int _activation, _pleasant, _creativity;
   _activation = getActivation();
   _pleasant = getPleasant();
+  _creativity = getCreativity();
 
   
-  upload_mood(_pleasant, _activation);
+  upload_mood(_pleasant, _activation, _creativity);
   Layer *window_layer = window_get_root_layer(window);
      GRect bounds = layer_get_bounds(window_layer);
 

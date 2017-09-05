@@ -311,12 +311,13 @@ var saveMoodData = function (dict) {
         'local_timestamp': dict.local_time,
         'activation': dict.activation,
         'pleasance': dict.pleasant,
+        'creativity': dict.creativity,
         'position': {
           'lat': dict.lat,
           'lon': dict.lon
         },
     });
-
+    console.log(JSON.stringify(items));
     localStorage.setItem("moodItems", JSON.stringify(items));
 };
 
@@ -355,7 +356,7 @@ var sendMoodData = function () {
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         request.send(JSON.stringify(moodObj));
     };
-    
+    console.log(items);
     items = JSON.parse(items);
     if (!(!items) && items.length > 0) {
         sendData(items);

@@ -87,7 +87,7 @@ void activation_single_down_click_handler(ClickRecognizerRef recognizer, void *c
 
 void activation_single_click_handler(ClickRecognizerRef recognizer, void *context){
   setActivation(activation);
-  window_stack_push(tree_window_get_window(), true);
+  window_stack_push(creativity_input_window_get_next_window(), true);
 }
 
 void activation_back_click_handler(ClickRecognizerRef recognizer, void *context){

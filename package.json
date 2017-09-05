@@ -40,11 +40,48 @@
             "hourly_mode",
             "retrieve_mood",
             "js_ready",
-            "ping"
+            "ping",
+            "creativity"
         ],
         "projectType": "native",
         "resources": {
             "media": [
+                {
+                    "file": "images/generic_0.png",
+                    "name": "generic_0",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/generic_0_small.png",
+                    "name": "generic_0_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/generic_1.png",
+                    "name": "generic_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/generic_1_small.png",
+                    "name": "generic_1_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/generic_2.png",
+                    "name": "generic_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/generic_2_small.png",
+                    "name": "generic_2_small",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
                 {
                     "file": "images/zzz.png",
                     "name": "SLEEP",

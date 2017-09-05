@@ -3,6 +3,7 @@
 static int current_measurement_id = 0;
 static int pleasant; // saving pleasing answer
 static int activation; // saving pleasing answer
+static int creativity; // saving creativity answer
 static bool wait_for_upload_finish = true;
 static bool handled_all_data_items = false;
 static bool open_upload_data_task = false;
@@ -20,6 +21,13 @@ bool is_open_upload_task() {
 ***********************************/
 void setHappiness(int _pleasant) {
   pleasant = _pleasant;
+}
+
+/***********************************
+* Sets the users creativity answer  *
+***********************************/
+void setCreativity(int _creativity) {
+  creativity = _creativity;
 }
 
 /***********************************
@@ -41,6 +49,13 @@ int getPleasant() {
 ***********************************/
 int getActivation() {
   return activation;
+}
+
+/***********************************
+* Returns the creativity answer.   *
+***********************************/
+int getCreativity() {
+  return creativity;
 }
 
 /***********************************
@@ -131,7 +146,7 @@ void check_whether_upload_process_is_finished() {
 /***********************************
 * Uploads the mood dataset.        *
 ***********************************/
-void upload_mood(int pleasant, int activation) {
+void upload_mood(int pleasant, int activation, int creativity) {
   DictionaryIterator *out_iter;
   app_message_open(64, 256); // open the app message
   AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
@@ -150,6 +165,7 @@ void upload_mood(int pleasant, int activation) {
     dict_write_int(out_iter, MESSAGE_KEY_local_time, &local_unix_time, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_pleasant, &pleasant, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_activation, &activation, sizeof(int), true);
+    dict_write_int(out_iter, MESSAGE_KEY_creativity, &creativity, sizeof(int), true);
     result = app_message_outbox_send(); // send this message
     if(result != APP_MSG_OK) {
       APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the mood outbox: %d", (int)result);
