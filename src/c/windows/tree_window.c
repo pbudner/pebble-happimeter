@@ -180,12 +180,21 @@ void tree_window_load(Window *window)
   
   
   int _activation, _pleasant, _creativity;
+  uint8_t _genericValues[5];
   _activation = getActivation();
   _pleasant = getPleasant();
   _creativity = getCreativity();
+  
+  for (int i = 0; i < 5;i++) {
+    if (i < getNumberOfGenericQuestions()) {
+      _genericValues[i] = getGenericValue(i);  
+    } else {
+      _genericValues[i] = 99;
+    }
+  }
 
   
-  upload_mood(_pleasant, _activation, _creativity);
+  upload_mood(_pleasant, _activation, _creativity,_genericValues);
   Layer *window_layer = window_get_root_layer(window);
      GRect bounds = layer_get_bounds(window_layer);
 

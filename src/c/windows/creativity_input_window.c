@@ -1,16 +1,16 @@
 #include "creativity_input_window.h"
 
 static Window *creativityWindow;
-static Window *creativityWindows[10];
-static bool initializedWindows[10];
-static GBitmap *optionImage[10];
-static BitmapLayer *optionImageLayer[10];
-static TextLayer *heading_text_layer[10];
-static ActionBarLayer *s_action_bar_layer[10];
-static GBitmap *s_more_bitmap[10], *s_less_bitmap[10], *s_go_bitmap[10];
-static int value[10] = {1,1,1,1,1,1,1,1,1,1};
+static Window *creativityWindows[5];
+static bool initializedWindows[5];
+static GBitmap *optionImage[5];
+static BitmapLayer *optionImageLayer[5];
+static TextLayer *heading_text_layer[5];
+static ActionBarLayer *s_action_bar_layer[5];
+static GBitmap *s_more_bitmap[5], *s_less_bitmap[5], *s_go_bitmap[5];
+static int value[5] = {1,1,1,1,1};
 
-static int currentIndex = 0;
+static int currentIndex = -1;
 
 void refresh_creativity_image() {
   if(optionImage != NULL) {
@@ -58,8 +58,7 @@ void creativity_single_down_click_handler(ClickRecognizerRef recognizer, void *c
 }
 
 void creativity_single_click_handler(ClickRecognizerRef recognizer, void *context){
-  setCreativity(value[currentIndex]);
-  currentIndex = currentIndex + 1;
+  setGenericValue(currentIndex, value[currentIndex]);
   window_stack_push(creativity_input_window_get_next_window(), true);
 }
 
@@ -97,7 +96,8 @@ void creativity_window_load(Window *window){
   text_layer_set_background_color(heading_text_layer[currentIndex], GColorClear);
   text_layer_set_text_alignment(heading_text_layer[currentIndex], GTextAlignmentCenter);
   text_layer_set_font(heading_text_layer[currentIndex], fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
-  text_layer_set_text(heading_text_layer[currentIndex], "How creative do you feel?");
+  char* tmp = getGenericDescription(currentIndex);
+  text_layer_set_text(heading_text_layer[currentIndex], tmp);
   layer_add_child(window_layer, text_layer_get_layer(heading_text_layer[currentIndex]));
   
   // add the menu
@@ -143,6 +143,12 @@ void deinit_creativity_input_window(void) {
   window_destroy(creativityWindow);
 }
 
+void deinit_creativity_input_windows(void) {
+  for (int i = 0; i < getNumberOfGenericQuestions(); i++) {
+    window_destroy(creativityWindows[i]);
+  }
+}
+
 /***********************************
 * Returns the window handle        *
 ***********************************/
@@ -151,6 +157,12 @@ Window *creativity_input_window_get_window(void) {
 }
 
 Window *creativity_input_window_get_next_window(void) {
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "currentIndex is %d", currentIndex);
+  currentIndex = currentIndex + 1;
+  if (getNumberOfGenericQuestions() <= currentIndex) {
+    return tree_window_get_window();
+  }
+  
   if (!initializedWindows[currentIndex]) {
     creativityWindows[currentIndex] =  window_create();
     window_set_background_color(creativityWindows[currentIndex], GColorWhite);

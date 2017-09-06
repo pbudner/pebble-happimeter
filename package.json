@@ -41,7 +41,15 @@
             "retrieve_mood",
             "js_ready",
             "ping",
-            "creativity"
+            "creativity",
+            "retrieve_generic_question",
+            "generic_question_desciption_1",
+            "generic_question_desciption_2",
+            "generic_question_desciption_3",
+            "generic_question_desciption_4",
+            "generic_question_desciption_5",
+            "generic_question_count",
+            "generic_values"
         ],
         "projectType": "native",
         "resources": {

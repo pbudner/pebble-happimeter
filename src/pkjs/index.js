@@ -312,6 +312,8 @@ var saveMoodData = function (dict) {
         'activation': dict.activation,
         'pleasance': dict.pleasant,
         'creativity': dict.creativity,
+        'generic_values': dict.generic_values,
+        'generic_question_count': dict.generic_question_count,
         'position': {
           'lat': dict.lat,
           'lon': dict.lon
@@ -423,6 +425,39 @@ var retrieve_and_send_friends = function() {
   request.send(null);
 };
 
+
+var retrieve_generic_quenstions = function() {
+  
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if(request.status == 200) {
+      var response = JSON.parse(request.responseText);
+      
+      Pebble.sendAppMessage({
+        'generic_question_desciption_1': response.questions[0],
+        'generic_question_desciption_2': response.questions[1],
+        'generic_question_desciption_3': response.questions[2],
+        'generic_question_desciption_4': response.questions[3],
+        'generic_question_desciption_5': response.questions[4],
+        'generic_question_count': response.questions.length,
+      }, function () {
+        console.log('(JS) Message successfully sent the generic questions to the watch..');
+      }, function (e) {
+        console.log('(JS) Message failed to send the generic questions to the watch: ' + JSON.stringify(e));
+      });
+
+      }
+    };
+    request.onerror = function (e) {
+      console.log("ERROR:",e);
+    };
+    request.open("GET", url + "moods/genericquestions", false);
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
+    request.send(null);  
+};
+
+
 // listen for AppMessages from the watch
 Pebble.addEventListener('appmessage', function (e) {
     var dict = e.payload; // Get the dictionary from the message
@@ -465,5 +500,9 @@ Pebble.addEventListener('appmessage', function (e) {
     } else if ("retrieve_mood" in dict) {
       console.log("(JS) Message contains request to retrieve the current mood..");
       retrieve_current_mood();
+    } 
+    if ("retrieve_generic_question" in dict) {
+      console.log("(JS) Message contains request to retrieve the retrieve_generic_questionss..");
+      retrieve_generic_quenstions();
     }
 });
