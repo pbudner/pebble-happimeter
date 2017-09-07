@@ -36,7 +36,7 @@ void intro_select_click_handler(ClickRecognizerRef recognizer, void *context){
   if(hasMachineLearning) {
     setHappiness(predicted_happiness);
     setActivation(predicted_activation);
-    window_stack_push(tree_window_get_window(), true);
+    window_stack_push(creativity_input_window_get_next_window(), true);
   } else if(canProceedToMood) {
     window_stack_push(happiness_input_window_get_window(), true); // show the main window
   } 

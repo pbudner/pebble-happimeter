@@ -40,7 +40,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     }
     return;
   }
-  
+  Tuple *generic_question_count_tuple = dict_find(iter, MESSAGE_KEY_generic_question_count);
   Tuple *happiness_tuple = dict_find(iter, MESSAGE_KEY_pleasant);
   Tuple *activation_tuple = dict_find(iter, MESSAGE_KEY_activation);
   Tuple *mail_tuple = dict_find(iter, MESSAGE_KEY_friend_mail);
@@ -67,7 +67,38 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     }
     return;
   }
-
+  if (generic_question_count_tuple) {
+    APP_LOG(APP_LOG_LEVEL_INFO, "Received questions %d", generic_question_count_tuple->value->int32);
+    if(window_stack_get_top_window() == introduction_window_get_window()) {
+      int32_t generic_question_count = generic_question_count_tuple->value->int32;
+      setNumberOfGenericQuestions(generic_question_count);
+      Tuple *generic_question_1 = dict_find(iter, MESSAGE_KEY_generic_question_desciption_1);
+      Tuple *generic_question_2 = dict_find(iter, MESSAGE_KEY_generic_question_desciption_2);
+      Tuple *generic_question_3 = dict_find(iter, MESSAGE_KEY_generic_question_desciption_3);
+      Tuple *generic_question_4 = dict_find(iter, MESSAGE_KEY_generic_question_desciption_4);
+      Tuple *generic_question_5 = dict_find(iter, MESSAGE_KEY_generic_question_desciption_5);
+      
+      if (generic_question_1) {
+        APP_LOG(APP_LOG_LEVEL_INFO, "Received question1 %s", generic_question_1->value->cstring);
+        setGenericDescription(0, generic_question_1->value->cstring);
+      }
+      if (generic_question_2) {
+        setGenericDescription(1, generic_question_2->value->cstring);
+      }
+      if (generic_question_3) {
+        setGenericDescription(2, generic_question_3->value->cstring);
+      }
+      if (generic_question_4) {
+        setGenericDescription(3, generic_question_4->value->cstring);
+      }
+      if (generic_question_5) {
+        setGenericDescription(4, generic_question_5->value->cstring);
+      }
+    }
+  }
+  
+  
+  
   // Logged in Message
   Tuple *loggedin_t = dict_find(iter, MESSAGE_KEY_loggedin);
   if (loggedin_t)
@@ -121,6 +152,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     } else {
       APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Requesting the mood..");
       request_mood();
+      //request_generic_questions();
     }
   }
 }

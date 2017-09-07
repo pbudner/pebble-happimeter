@@ -3,6 +3,12 @@
 static int current_measurement_id = 0;
 static int pleasant; // saving pleasing answer
 static int activation; // saving pleasing answer
+static int creativity; // saving creativity answer
+
+static int numberOfGenericQuestions = 0;
+static int genericValues[10]; //values of the generic sampling windows
+static char genericDescriptions[10][255]; //the descriptinos for the generic sampling windows
+
 static bool wait_for_upload_finish = true;
 static bool handled_all_data_items = false;
 static bool open_upload_data_task = false;
@@ -20,6 +26,33 @@ bool is_open_upload_task() {
 ***********************************/
 void setHappiness(int _pleasant) {
   pleasant = _pleasant;
+}
+
+/***********************************
+* Sets the users answer to the     *
+* generic question with id = index *
+***********************************/
+void setGenericValue(int index, int value) {
+  genericValues[index] = value;
+}
+
+void setNumberOfGenericQuestions(int number) {
+  numberOfGenericQuestions = number;
+}
+
+/***********************************
+* Sets the users answer to the     *
+* generic question with id = index *
+***********************************/
+void setGenericDescription(int index, char value[255]) {
+  strcpy(genericDescriptions[index], value);
+}
+
+/***********************************
+* Sets the users creativity answer  *
+***********************************/
+void setCreativity(int _creativity) {
+  creativity = _creativity;
 }
 
 /***********************************
@@ -41,6 +74,33 @@ int getPleasant() {
 ***********************************/
 int getActivation() {
   return activation;
+}
+
+/***********************************
+* Returns the creativity answer.   *
+***********************************/
+int getCreativity() {
+  return creativity;
+}
+
+/***********************************
+* Gets the users answer to the     *
+* generic question with id = index *
+***********************************/
+int getGenericValue(int index) {
+  return genericValues[index];
+}
+
+int getNumberOfGenericQuestions() {
+  return numberOfGenericQuestions;
+}
+
+/***********************************
+* Sets the users answer to the     *
+* generic question with id = index *
+***********************************/
+char* getGenericDescription(int index) {
+  return genericDescriptions[index];
 }
 
 /***********************************
@@ -81,6 +141,7 @@ void request_mood() {
   AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
   if(result == APP_MSG_OK) {
     dict_write_cstring(out_iter, MESSAGE_KEY_retrieve_mood, "1");
+    dict_write_cstring(out_iter, MESSAGE_KEY_retrieve_generic_question, "1");
     result = app_message_outbox_send();
     if(result != APP_MSG_OK) {
       APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the mood request outbox: %d", (int)result);
@@ -91,6 +152,7 @@ void request_mood() {
     APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the mood request outbox: %d", (int)result);
   }
 }
+
 
 /**********************************
 * Pings the javascript app        *
@@ -131,8 +193,10 @@ void check_whether_upload_process_is_finished() {
 /***********************************
 * Uploads the mood dataset.        *
 ***********************************/
-void upload_mood(int pleasant, int activation) {
+void upload_mood(int pleasant, int activation, int creativity, uint8_t genericValues[5]) {
   DictionaryIterator *out_iter;
+  int _numberOfgenericValues = getNumberOfGenericQuestions();
+    
   app_message_open(64, 256); // open the app message
   AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
   if(result == APP_MSG_OK) {
@@ -150,6 +214,8 @@ void upload_mood(int pleasant, int activation) {
     dict_write_int(out_iter, MESSAGE_KEY_local_time, &local_unix_time, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_pleasant, &pleasant, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_activation, &activation, sizeof(int), true);
+    dict_write_int(out_iter, MESSAGE_KEY_generic_question_count, &_numberOfgenericValues, sizeof(int), true);
+    dict_write_data(out_iter, MESSAGE_KEY_generic_values, genericValues, sizeof(uint8_t) * 5);
     result = app_message_outbox_send(); // send this message
     if(result != APP_MSG_OK) {
       APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the mood outbox: %d", (int)result);

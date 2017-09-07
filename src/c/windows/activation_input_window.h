@@ -2,6 +2,7 @@
 #include <pebble.h>
 #include "../modules/data_manager.h"
 #include "tree_window.h"
+#include "creativity_input_window.h"
 
 extern void init_activation_input_window(void);
 extern void deinit_activation_input_window(void);

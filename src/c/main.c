@@ -9,6 +9,7 @@ static void init_windows() {
   init_introduction_window();
   init_happiness_input_window();
   init_activation_input_window();
+  init_creativity_input_window();
   init_tree_window(); //since we have memory issues, tree window only gets initiated on call.
   init_friends_window();
 }
@@ -23,6 +24,8 @@ static void deinit_windows() {
   deinit_introduction_window();
   deinit_happiness_input_window();
   deinit_activation_input_window();
+  deinit_creativity_input_window();
+  deinit_creativity_input_windows();
   deinit_friends_window();
 }
 
@@ -48,9 +51,11 @@ static void init() {
     if(launch_reason() == APP_LAUNCH_WAKEUP) {
       vibes_double_pulse(); // vibrate..
       request_mood();
+      //request_generic_questions();
       window_stack_push(introduction_window_get_window(), true); // show the wakeup window
     } else {
       request_mood();
+      //request_generic_questions();
       window_stack_push(introduction_window_get_window(), true);
     }
   }
