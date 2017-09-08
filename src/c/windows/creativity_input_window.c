@@ -159,7 +159,8 @@ Window *creativity_input_window_get_window(void) {
 Window *creativity_input_window_get_next_window(void) {
   APP_LOG(APP_LOG_LEVEL_DEBUG, "currentIndex is %d", currentIndex);
   currentIndex = currentIndex + 1;
-  if (getNumberOfGenericQuestions() <= currentIndex) {
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Show generic questions is %d", persist_exists(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY));
+  if (!persist_exists(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY) || getNumberOfGenericQuestions() <= currentIndex) {
     return tree_window_get_window();
   }
   

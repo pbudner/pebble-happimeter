@@ -126,6 +126,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     window_stack_push(missingconfig_window_get_window(), false); // push the missing config window from the stack
   }
   
+  // Live Mode vs. Hourly Mode
   Tuple *live_mode_t = dict_find(iter, MESSAGE_KEY_live_mode);
   if (live_mode_t)
   {
@@ -142,6 +143,24 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     vibes_double_pulse(); // vibrate..
   }
   
+  // Generic Questions Settings
+  Tuple *show_generic_questions_mode_t = dict_find(iter, MESSAGE_KEY_show_general_questions);
+  if (show_generic_questions_mode_t)
+  {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Show generic questions mode..");
+    persist_write_int(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY, 1);
+    vibes_double_pulse(); // vibrate..
+  }
+  
+  Tuple *hide_generic_questions_mode_t = dict_find(iter, MESSAGE_KEY_hide_general_questions);
+  if (hide_generic_questions_mode_t)
+  {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Hide generic questions mode..");
+    persist_delete(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY);
+    vibes_double_pulse(); // vibrate..
+  }
+  
+  // JS is ready
   Tuple *js_ready_t = dict_find(iter, MESSAGE_KEY_js_ready);
   if(js_ready_t) {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Received a JS is ready message..");
