@@ -140,7 +140,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
   {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Disable live mode..");
     set_upload_mode(false);
-    vibes_double_pulse(); // vibrate..
+    vibes_short_pulse(); // vibrate..
   }
   
   // Generic Questions Settings
@@ -157,7 +157,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
   {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Hide generic questions mode..");
     persist_delete(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY);
-    vibes_double_pulse(); // vibrate..
+    vibes_short_pulse(); // vibrate..
   }
   
   // JS is ready

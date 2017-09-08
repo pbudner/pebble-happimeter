@@ -94,6 +94,7 @@ Pebble.addEventListener('webviewclosed', function (e) {
           localStorage.removeItem("happimeter_token");
           localStorage.removeItem("happimeter_mail");
           localStorage.removeItem("happimeter_live");
+          localStorage.removeItem("happimeter_show_general_questions");
         }, function (e) {
           console.log('(JS) Message "user logged out" failed: ' + JSON.stringify(e));
         });
@@ -121,7 +122,7 @@ Pebble.addEventListener('webviewclosed', function (e) {
         });
       }
     } else if("happimeter_show_general_questions" in response) {
-      if (response.show_general_questions != "false" && response.show_general_questions !== false) {
+      if (response.happimeter_show_general_questions != "false" && response.happimeter_show_general_questions !== false) {
         console.log("(JS) Show general questions mode..");
         Pebble.sendAppMessage({
           'show_general_questions': 100
@@ -134,7 +135,7 @@ Pebble.addEventListener('webviewclosed', function (e) {
       } else {
         console.log("(JS) Set mode to not show general questions mode..");
         Pebble.sendAppMessage({
-          'hide_general_qustions': 100
+          'hide_general_questions': 100
         }, function () {
           console.log('(JS) Message "show general questions mode disabled" sent successfully..');
           localStorage.removeItem("happimeter_show_general_questions");

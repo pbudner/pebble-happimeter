@@ -12,6 +12,10 @@ static int value[5] = {1,1,1,1,1};
 
 static int currentIndex = -1;
 
+void reset_generic_question_counter() {
+  currentIndex = -1;
+}
+
 void refresh_creativity_image() {
   if(optionImage != NULL) {
     gbitmap_destroy(optionImage[currentIndex]);

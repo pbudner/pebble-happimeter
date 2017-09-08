@@ -226,6 +226,9 @@ void upload_mood(int pleasant, int activation, int creativity, uint8_t genericVa
     // the outbox cannot be used right now
     APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the mood outbox: %d", (int)result);
   }
+  
+  // reset the counter for the generic questions
+  reset_generic_question_counter();
 }
 
 /***********************************
