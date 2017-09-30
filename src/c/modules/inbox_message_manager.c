@@ -149,6 +149,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
   {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Show generic questions mode..");
     persist_write_int(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY, 1);
+    request_generic_questions();
     vibes_double_pulse(); // vibrate..
   }
   

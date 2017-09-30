@@ -32,3 +32,4 @@ extern void received_finished_upload();
 extern void request_friends();
 extern void request_mood();
 extern void ping_js();
+extern void request_generic_questions();
