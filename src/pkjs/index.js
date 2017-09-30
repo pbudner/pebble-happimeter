@@ -160,16 +160,39 @@ var SetPhilipsHue = function(happiness, activation) {
           var request_2 = new XMLHttpRequest();
           console.log("(JS Hue) API URL is " + "http://" + ip + "/api/" + username + "/groups/"+lightgroup+"/action");
           request_2.open("PUT", "http://" + ip + "/api/" + username + "/groups/"+lightgroup+"/action", false);
-          var brigthness = parseInt(250 * activation / 2);
-          var hue = 0;
-          if(happiness == 0) {
-            hue = 65527; // red
-          } else if(happiness == 1) {
-            hue = 25653; // green
-          } else if(happiness == 2) {
-            hue = 15646; // yellow
+          var brigthness = 250;
+          var x = 0;
+          var y = 0;
+          if (happiness == 2 && activation == 2) {
+            x = 0.3664211182481677;
+            y = 0.43373521075020305;
+          } else if(happiness == 2 && activation == 1) {
+            x = 0.6412284187421379;
+            y = 0.3353234676945936;
+          } else if(happiness == 2 && activation == 0) {
+            x = 0.5809241995073342;
+            y = 0.2697768194115517;
+          } else if(happiness == 1 && activation == 2) {
+            x = 0.33649454170095267;
+            y = 0.37464845490729193;
+          } else if(happiness == 1 && activation == 1) {
+            x = 0.32272672086556803;
+            y = 0.3290229095590793;
+          } else if(happiness == 1 && activation == 0) {
+            x = 0.172616103214012;
+            y = 0.05108838222345197;
+          } else if(happiness == 0 && activation == 2) {
+            x = 0.2693852552307843;
+            y = 0.22766417142964726;
+          } else if(happiness == 0 && activation == 1) {
+            x = 0.4362344376516375;
+            y = 0.18945691223968855;
+          } else if(happiness == 0 && activation == 0) {
+            x = 0.2834359366816283;
+            y = 0.10972421908809096;
           }
-          request_2.send(JSON.stringify({ "hue": hue, "bri": brigthness }));
+          
+          request_2.send(JSON.stringify({ "xy": [x, y], "bri": brigthness }));
         } else {
           console.log("(JS Hue) Could not find a bridge in the network.");
         }
@@ -199,7 +222,7 @@ var retrieve_current_mood = function() {
             console.log('(JS) Message failed to send the mood to the watch: ' + JSON.stringify(e));
           });
           
-          SetPhilipsHue(response.happiness, response.activation);
+          // SetPhilipsHue(response.happiness, response.activation);
         } else if(response.status == 400) {
           console.log("(JS) The model is not trained yet.");
           Pebble.sendAppMessage({ // (-2,-2) means not trained yet
@@ -331,6 +354,8 @@ var saveMoodData = function (dict) {
     }
   
     console.log("Dict is ", dict);
+  
+    SetPhilipsHue(dict.pleasant, dict.activation);
     
     items.push({
         'account_id': accountToken,
