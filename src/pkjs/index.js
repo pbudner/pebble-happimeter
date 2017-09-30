@@ -398,6 +398,7 @@ var saveMoodData = function (dict) {
         'creativity': dict.creativity,
         'generic_values': dict.generic_values,
         'generic_question_count': dict.generic_question_count,
+        'generic_question_group': localStorage.getItem("happimeter_show_general_questions2") == "true" ? 1 : 0,
         'position': {
           'lat': dict.lat,
           'lon': dict.lon
