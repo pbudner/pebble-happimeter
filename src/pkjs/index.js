@@ -48,6 +48,11 @@ Pebble.addEventListener('showConfiguration', function() {
     config.show_general_questions = show_general_questions;
   }
   
+  var show_general_questions2 = localStorage.getItem("happimeter_show_general_questions2");
+  if(show_general_questions2 !== null) {
+    config.show_general_questions2 = show_general_questions2;
+  }
+  
   url += encodeURIComponent(JSON.stringify(config));
   Pebble.openURL(url);
 });
@@ -129,6 +134,7 @@ Pebble.addEventListener('webviewclosed', function (e) {
         }, function () {
           console.log('(JS) Message "general questions mode enabled" sent successfully..');
           localStorage.setItem("happimeter_show_general_questions", true);
+          localStorage.setItem("happimeter_show_general_questions2", false);
         }, function (e) {
           console.log('(JS) Message "Show general questions mode enabled" failed: ' + JSON.stringify(e));
         });
@@ -139,6 +145,31 @@ Pebble.addEventListener('webviewclosed', function (e) {
         }, function () {
           console.log('(JS) Message "show general questions mode disabled" sent successfully..');
           localStorage.removeItem("happimeter_show_general_questions");
+          localStorage.removeItem("happimeter_show_general_questions2");
+        }, function (e) {
+          console.log('(JS) Message "show general questions mode disabled" failed: ' + JSON.stringify(e));
+        });
+      }
+    } else if("happimeter_show_general_questions2" in response) {
+      if (response.happimeter_show_general_questions2 != "false" && response.happimeter_show_general_questions2 !== false) {
+        console.log("(JS) Show general questions 2 mode..");
+        Pebble.sendAppMessage({
+          'show_general_questions': 100
+        }, function () {
+          console.log('(JS) Message "general questions mode enabled" sent successfully..');
+          localStorage.setItem("happimeter_show_general_questions", false);
+          localStorage.setItem("happimeter_show_general_questions2", true);
+        }, function (e) {
+          console.log('(JS) Message "Show general questions mode enabled" failed: ' + JSON.stringify(e));
+        });
+      } else {
+        console.log("(JS) Set mode to not show general questions mode..");
+        Pebble.sendAppMessage({
+          'hide_general_questions': 100
+        }, function () {
+          console.log('(JS) Message "show general questions mode disabled" sent successfully..');
+          localStorage.removeItem("happimeter_show_general_questions");
+          localStorage.removeItem("happimeter_show_general_questions2");
         }, function (e) {
           console.log('(JS) Message "show general questions mode disabled" failed: ' + JSON.stringify(e));
         });
@@ -504,7 +535,11 @@ var retrieve_generic_quenstions = function() {
     request.onerror = function (e) {
       console.log("ERROR:",e);
     };
-    request.open("GET", url + "moods/genericquestions", false);
+    var group_id = 0;
+    if(localStorage.getItem("happimeter_show_general_questions2") == "true") {
+      group_id = 1;
+    }
+    request.open("GET", url + "moods/genericquestions/" + group_id, false);
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
     request.send(null);  
