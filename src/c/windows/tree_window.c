@@ -177,7 +177,11 @@ static void load_sequence() {
 ***********************************/
 void tree_window_load(Window *window)
 {
-  
+  // deinit old windows, such that we have more free ram
+  // to show the fancy animations! :-)
+  deinit_creativity_input_windows();
+  deinit_happiness_input_window();
+  deinit_activation_input_window();
   
   int _activation, _pleasant, _creativity;
   uint8_t _genericValues[5];
