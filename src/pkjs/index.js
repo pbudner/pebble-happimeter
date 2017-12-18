@@ -17,7 +17,7 @@ Pebble.addEventListener('ready', function (e) {
     }, function (e) {
       console.log('(JS) Failed to send that JS is ready: ' + JSON.stringify(e));
     });
-  
+
     if (localStorage.getItem("happimeter_token") === null) {
       console.log("(JS) User is not logged in.");
     }
@@ -27,46 +27,46 @@ Pebble.addEventListener('ready', function (e) {
 Pebble.addEventListener('showConfiguration', function() {
   var url = 'http://config.happimeter.org/#';
   var config = {};
-  
+
   var mail = localStorage.getItem("happimeter_mail");
   if(mail !== null) {
     config.mail = mail;
   }
-  
+
   var hue = localStorage.getItem("happimeter_hue_username");
   if(hue !== null) {
     config.hue = hue;
   }
-  
+
   var live = localStorage.getItem("happimeter_live");
   if(live !== null) {
     config.live = live;
   }
-  
+
   var show_general_questions = localStorage.getItem("happimeter_show_general_questions");
   if(show_general_questions !== null) {
     config.show_general_questions = show_general_questions;
   }
-  
+
   var show_general_questions2 = localStorage.getItem("happimeter_show_general_questions2");
   if(show_general_questions2 !== null) {
     config.show_general_questions2 = show_general_questions2;
   }
-  
+
   url += encodeURIComponent(JSON.stringify(config));
   Pebble.openURL(url);
 });
 
 // listen for when configuration page is closed
 Pebble.addEventListener('webviewclosed', function (e) {
-    
+
     if (e && !e.response) {
         return;
     }
-  
+
     var response = JSON.parse(e.response);
     if ("happimeter_hue_username" in response) {
-      if(response.happimeter_hue_username !== false && response.happimeter_hue_username != "false") { 
+      if(response.happimeter_hue_username !== false && response.happimeter_hue_username != "false") {
         localStorage.setItem("happimeter_hue_username", response.happimeter_hue_username);
         localStorage.setItem("happimeter_hue_group", response.happimeter_hue_group);
         console.log("(JS Hue) Added connection to bridge (username: "+response.happimeter_hue_username+", lightgroup: "+response.happimeter_hue_group+").");
@@ -222,7 +222,7 @@ var SetPhilipsHue = function(happiness, activation) {
             x = 0.2834359366816283;
             y = 0.10972421908809096;
           }
-          
+
           request_2.send(JSON.stringify({ "xy": [x, y], "bri": brigthness }));
         } else {
           console.log("(JS Hue) Could not find a bridge in the network.");
@@ -252,12 +252,12 @@ var retrieve_current_mood = function() {
           }, function (e) {
             console.log('(JS) Message failed to send the mood to the watch: ' + JSON.stringify(e));
           });
-          
+
           // SetPhilipsHue(response.happiness, response.activation);
         } else if(response.status == 400) {
           console.log("(JS) The model is not trained yet.");
           Pebble.sendAppMessage({ // (-2,-2) means not trained yet
-            'pleasant': -2, 
+            'pleasant': -2,
             'activation': -2
           });
         } else {
@@ -294,7 +294,7 @@ var saveSensorData = function (dict) {
     } else {
         items = JSON.parse(items);
     }
-  
+
     var currentTime = dict.current_time;
     var d = new Date();
     var hour_difference = d.getTimezoneOffset(); // UTC time offset
@@ -337,7 +337,7 @@ var sendSensorData = function () {
         var sensorObj = items.shift();
         if (!sensorObj)
             return;
-      
+
         console.log("Sending sensor obj: ", sensorObj);
 
         // Create the request
@@ -365,7 +365,7 @@ var sendSensorData = function () {
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         request.send(JSON.stringify(sensorObj));
     };
-    
+
     items = JSON.parse(items);
     if (!(!items) && items.length > 0) {
         sendData(items);
@@ -383,11 +383,11 @@ var saveMoodData = function (dict) {
     } else {
         items = JSON.parse(items);
     }
-  
+
     console.log("Dict is ", dict);
-  
+
     SetPhilipsHue(dict.pleasant, dict.activation);
-    
+
     items.push({
         'account_id': accountToken,
         'device_id': watchToken,
@@ -510,28 +510,32 @@ var retrieve_and_send_friends = function() {
   request.send(null);
 };
 
+var cachedGenericQuestions;
 
 var retrieve_generic_quenstions = function() {
-  
+
   var request = new XMLHttpRequest();
   request.onreadystatechange = function () {
+    var data;
     if(request.status == 200) {
       var response = JSON.parse(request.responseText);
-      
-      Pebble.sendAppMessage({
+      data = {
         'generic_question_desciption_1': response.questions[0],
         'generic_question_desciption_2': response.questions[1],
         'generic_question_desciption_3': response.questions[2],
         'generic_question_desciption_4': response.questions[3],
         'generic_question_desciption_5': response.questions[4],
         'generic_question_count': response.questions.length,
-      }, function () {
+      };
+      cachedGenericQuestions = data;
+    } else {
+      data = cachedGenericQuestions;
+    }
+      Pebble.sendAppMessage(data, function () {
         console.log('(JS) Message successfully sent the generic questions to the watch..');
       }, function (e) {
         console.log('(JS) Message failed to send the generic questions to the watch: ' + JSON.stringify(e));
       });
-
-      }
     };
     request.onerror = function (e) {
       console.log("ERROR:",e);
@@ -543,7 +547,7 @@ var retrieve_generic_quenstions = function() {
     request.open("GET", url + "moods/genericquestions/" + group_id, false);
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
-    request.send(null);  
+    request.send(null);
 };
 
 
@@ -589,7 +593,7 @@ Pebble.addEventListener('appmessage', function (e) {
     } else if ("retrieve_mood" in dict) {
       console.log("(JS) Message contains request to retrieve the current mood..");
       retrieve_current_mood();
-    } 
+    }
     if ("retrieve_generic_question" in dict) {
       console.log("(JS) Message contains request to retrieve the retrieve_generic_questionss..");
       retrieve_generic_quenstions();
