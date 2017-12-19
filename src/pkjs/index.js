@@ -145,10 +145,8 @@ Pebble.addEventListener('webviewclosed', function (e) {
         });
       }
     } else if("generic-question" in response) {
-      if (response["generic-question"]) {
-        console.log('(JS) Set generic question group to: ' + response["generic-question"]);
-        localStorage.setItem("generic-question", response["generic-question"]);
-      } 
+      console.log('(JS) Set generic question group to: ' + response["generic-question"]);
+      localStorage.setItem("generic-question", response["generic-question"]);
       Pebble.sendAppMessage({
           'show_general_questions': 100
         }, function () {
