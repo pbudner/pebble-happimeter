@@ -516,7 +516,7 @@ var retrieve_generic_quenstions = function() {
 
   var request = new XMLHttpRequest();
   request.onreadystatechange = function () {
-    var data;
+    var data = null;
     if(request.status == 200) {
       var response = JSON.parse(request.responseText);
       data = {
@@ -527,15 +527,19 @@ var retrieve_generic_quenstions = function() {
         'generic_question_desciption_5': response.questions[4],
         'generic_question_count': response.questions.length,
       };
+      // we cach the generic questions for the case of no internet connection
       cachedGenericQuestions = data;
     } else {
+      // invalid response so use the cached generic questions
       data = cachedGenericQuestions;
     }
-      Pebble.sendAppMessage(data, function () {
-        console.log('(JS) Message successfully sent the generic questions to the watch..');
-      }, function (e) {
-        console.log('(JS) Message failed to send the generic questions to the watch: ' + JSON.stringify(e));
-      });
+      if (data !== null) { // only send if data is set
+        Pebble.sendAppMessage(data, function () {
+          console.log('(JS) Message successfully sent the generic questions to the watch..');
+        }, function (e) {
+          console.log('(JS) Message failed to send the generic questions to the watch: ' + JSON.stringify(e));
+        });
+      }
     };
     request.onerror = function (e) {
       console.log("ERROR:",e);
