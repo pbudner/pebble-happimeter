@@ -519,14 +519,12 @@ var retrieve_generic_quenstions = function() {
     var data = null;
     if(request.status == 200) {
       var response = JSON.parse(request.responseText);
-      data = {
-        'generic_question_desciption_1': response.questions[0],
-        'generic_question_desciption_2': response.questions[1],
-        'generic_question_desciption_3': response.questions[2],
-        'generic_question_desciption_4': response.questions[3],
-        'generic_question_desciption_5': response.questions[4],
+      var data = {
         'generic_question_count': response.questions.length,
       };
+      for (var i = 0; i < response.questions.length; i++) {
+        data['generic_question_desciption_' + (i+1)] = response.question[i].question;
+      }
       // we cach the generic questions for the case of no internet connection
       cachedGenericQuestions = data;
     } else {
