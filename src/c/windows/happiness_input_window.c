@@ -1,4 +1,4 @@
-#include "happiness_input_window.h"
+ #include "happiness_input_window.h"
 
 static Window *happinessWindow;
 static GBitmap *optionImage, *smileyImage;

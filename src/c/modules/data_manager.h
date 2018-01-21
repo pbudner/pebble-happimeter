@@ -33,3 +33,7 @@ extern void request_friends();
 extern void request_mood();
 extern void ping_js();
 extern void request_generic_questions();
+extern void save_mood(int type, int mood, int id);
+//extern void save_generic_values(int type, int mood[], int id);
+extern void upload_mood_from_storage();
+extern void upload_storage_mood(int pleasant, int activation, int creativity);

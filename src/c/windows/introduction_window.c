@@ -23,12 +23,18 @@ void intro_up_click_handler(ClickRecognizerRef recognizer, void *context){
       request_friends();
       window_stack_push(friends_window_get_window(), true); // show the friends window
     }
+    else {
+      window_stack_push(introduction_window_get_window(), true);
+    }
   }
 }
 
 void intro_down_click_handler(ClickRecognizerRef recognizer, void *context){
   if(hasMachineLearning) {
     window_stack_push(happiness_input_window_get_window(), true); // show the main window
+  }
+  else {
+     window_stack_pop_all(true);
   }
 }
 
@@ -92,11 +98,70 @@ void set_mood_window_text(int happiness, int activation) {
     }
   } else if(happiness == -3 && activation == -3) {
     // there is no trained model yet
+    // no bluetooth connection
     hasReceivedResult = true;
-    canProceedToMood = false;
+    canProceedToMood = true;
+    
     hasInternetConnection = false;
+    hasMachineLearning = false;
+    
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_NO_CONNECTION);
-    text_layer_set_text(machine_learning_text_layer, "No connection to the phone.");
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_cross_bitmap);
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_tick_bitmap);
+    text_layer_set_text(machine_learning_text_layer, "No connection to the phone. Continue?");
+    
+    
+     // change the frame of the smiley image layer
+    predicted_happiness = 0;
+    predicted_activation = 0;
+    Layer *window_layer = window_get_root_layer(introWindow);
+    GRect bounds = layer_get_bounds(window_layer);
+    GRect newBounds = GRect(-ACTION_BAR_WIDTH / 2, 15, 144 - ACTION_BAR_WIDTH, 100);
+    layer_set_frame(bitmap_layer_get_layer(smileyImageLayer), newBounds);
+    
+    if(activation == 0) {
+      if(happiness == 0) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_0_h_0);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_0_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_0_small);
+      } else if(happiness == 1) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_0_h_1);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_0_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_1_small);
+      } else if(happiness == 2) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_0_h_2);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_0_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_2_small);
+      }
+    } else if(activation == 1) {
+      if(happiness == 0) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_1_h_0);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_1_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_0_small);
+      } else if(happiness == 1) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_1_h_1);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_1_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_1_small);
+      } else if(happiness == 2) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_1_h_2);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_1_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_2_small);
+      }
+    } else if(activation == 2) {
+      if(happiness == 0) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_2_h_0);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_2_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_0_small);
+      } else if(happiness == 1) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_2_h_1);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_2_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_1_small);
+      } else if(happiness == 2) {
+        smileyImage = gbitmap_create_with_resource(RESOURCE_ID_a_2_h_2);
+        activationImage = gbitmap_create_with_resource(RESOURCE_ID_activation_2_small);
+        happinessImage = gbitmap_create_with_resource(RESOURCE_ID_happiness_2_small);
+      }
+    }
   } else {
     hasReceivedResult = true;
     hasInternetConnection = true;

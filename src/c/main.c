@@ -43,7 +43,6 @@ static void init() {
    window_stack_push(missingconfig_window_get_window(), true); // show the missing config window
    return;
   }
-
   // do something based on the launch reason
   if(launch_reason() == APP_LAUNCH_WORKER) {
     window_stack_push(upload_window_get_window(), false);
