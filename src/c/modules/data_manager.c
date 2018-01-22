@@ -2,7 +2,7 @@
 
 static int current_measurement_id = 0;
 static int pleasant; // saving pleasing answer
-static int activation; // saving pleasing answer
+static int activation; // saving activation answer
 static int creativity; // saving creativity answer
 
 static int numberOfGenericQuestions = 0;

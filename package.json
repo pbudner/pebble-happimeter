@@ -57,6 +57,18 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/retry1.png",
+                    "name": "RETRY_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/retry1.png",
+                    "name": "retry1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/zzz.png",
                     "name": "SLEEP",
                     "targetPlatforms": null,
