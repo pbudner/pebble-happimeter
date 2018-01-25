@@ -172,7 +172,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     } else {
       APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Requesting the mood..");
       request_mood();
-      //request_generic_questions();
+      request_generic_questions();
     }
   }
 }

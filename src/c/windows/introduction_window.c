@@ -2,14 +2,20 @@
 
 static Window *introWindow;
 static int predicted_happiness, predicted_activation;
-static bool hasMachineLearning = false, canProceedToMood = false, hasInternetConnection = false, hasReceivedResult = false;
+static bool hasMachineLearning = false, canProceedToMood = false, hasInternetConnection = false, hasReceivedResult = false, hasBtConnection= true;
 static TextLayer *tree_text_layer;
 static TextLayer *heading_text_layer;
 static TextLayer *machine_learning_text_layer;
 static GBitmap *smileyImage, *activationImage, *happinessImage;
 static BitmapLayer *smileyImageLayer, *activationImageLayer, *happinessImageLayer;
 static ActionBarLayer *s_action_bar_layer;
-static GBitmap *s_tick_bitmap, *s_cross_bitmap, *s_go_bitmap, *s_zz_bitmap, *s_social_bitmap;
+static GBitmap *s_tick_bitmap, *s_cross_bitmap, *s_go_bitmap, *s_zz_bitmap, *s_social_bitmap, *s_retry1_bitmap;
+
+
+
+bool get_hasBtConnection(){
+  return hasBtConnection;
+}
 
 /***********************************
 * Click handler functions          *
@@ -23,12 +29,25 @@ void intro_up_click_handler(ClickRecognizerRef recognizer, void *context){
       request_friends();
       window_stack_push(friends_window_get_window(), true); // show the friends window
     }
+    else {
+      if(!hasInternetConnection){
+        set_mood_window_text(-1, -1); //loading..
+        app_timer_register(10000, message_timeout_callback, NULL); //callback if there is still no connection
+      }
+      
+      else {
+        introduction_window_get_window();
+      }
+    }
   }
 }
 
 void intro_down_click_handler(ClickRecognizerRef recognizer, void *context){
   if(hasMachineLearning) {
     window_stack_push(happiness_input_window_get_window(), true); // show the main window
+  }
+  else {
+     window_stack_pop_all(true);
   }
 }
 
@@ -92,11 +111,20 @@ void set_mood_window_text(int happiness, int activation) {
     }
   } else if(happiness == -3 && activation == -3) {
     // there is no trained model yet
-    hasReceivedResult = true;
-    canProceedToMood = false;
+    // no bluetooth connection
+    hasReceivedResult = false;
+    canProceedToMood = true;
+    hasBtConnection = false;
     hasInternetConnection = false;
+    hasMachineLearning = false;
+    
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_NO_CONNECTION);
-    text_layer_set_text(machine_learning_text_layer, "No connection to the phone.");
+    s_retry1_bitmap = gbitmap_create_with_resource(RESOURCE_ID_RETRY_1);
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_cross_bitmap);
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_tick_bitmap);
+    action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_retry1_bitmap);
+    text_layer_set_text(machine_learning_text_layer, "No connection to the phone. Continue?");
+    
   } else {
     hasReceivedResult = true;
     hasInternetConnection = true;
@@ -181,6 +209,7 @@ void set_mood_window_text(int happiness, int activation) {
 void message_timeout_callback(void *data) {
   set_mood_window_text(-3, -3); // this means no internet connection
 }
+
 
 /***********************************
 * Load event of the window         *
