@@ -53,10 +53,16 @@ void intro_down_click_handler(ClickRecognizerRef recognizer, void *context){
 
 void intro_select_click_handler(ClickRecognizerRef recognizer, void *context){
   if(hasMachineLearning) {
+    if(hasBtConnection){
+    start_upload();
+    }
     setHappiness(predicted_happiness);
     setActivation(predicted_activation);
     window_stack_push(creativity_input_window_get_next_window(), true);
   } else if(canProceedToMood) {
+    if(hasBtConnection){
+    start_upload();
+    }
     window_stack_push(happiness_input_window_get_window(), true); // show the main window
   } 
 }

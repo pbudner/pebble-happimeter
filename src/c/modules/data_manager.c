@@ -239,8 +239,6 @@ void upload_mood(int pleasant, int activation, int creativity, uint8_t genericVa
     dict_write_data(out_iter, MESSAGE_KEY_generic_values, genericValues, sizeof(uint8_t) * 5);
     result = app_message_outbox_send(); // send this message
    if(result != APP_MSG_OK) { 
-    
-
       APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the mood outbox: %d", (int)result);
     } else {
       APP_LOG(APP_LOG_LEVEL_INFO, "Succesfully sent the mood outbox: %d", (int)result);
@@ -299,7 +297,7 @@ void save_mood(int type, int mood, int mood_id){
 * given id and type.               *
 **********************************/
 void save_generic_values(int type, int mood[], int mood_id){
-  for(int i =0; i<4;i++){
+  for(int i =0; i<5;i++){
     uint32_t key = mood_id * 1000 + type + i;
     int value = mood[i]; 
     persist_write_int(key, value);
@@ -363,10 +361,11 @@ void start_upload(){
    uint32_t k =7;
     if(persist_exists(k)){
       mood_id = persist_read_int(k); 
-      while(mood_id>0){
+      if(mood_id>0){
         upload_mood_from_storage(mood_id);
         mood_id = mood_id-1;
-        persist_write_int(k, mood_id);
+        persist_write_int(k, mood_id);  
+        psleep(5000);
       } 
    }
 }
@@ -376,8 +375,6 @@ void start_upload(){
 * exist and sends it to the app js *
 ***********************************/
 void upload_measure() {
-  
-  start_upload();
    
   APP_LOG(APP_LOG_LEVEL_INFO, "Opened upload measure %d.", current_measurement_id);
   if(get_measure(current_measurement_id, 10, false) != -1) {

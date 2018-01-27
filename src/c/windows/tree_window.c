@@ -200,10 +200,12 @@ void tree_window_load(Window *window)
   }
   
    if(hasBtC){
-    upload_mood(_pleasant, _activation, _creativity,_genericValues);
+   upload_mood(_pleasant, _activation, _creativity,_genericValues); 
+   psleep(5000);
   } else{
      save_storage_mood(_pleasant, _activation, _creativity,_genericValues);
   }
+    
  
   Layer *window_layer = window_get_root_layer(window);
      GRect bounds = layer_get_bounds(window_layer);
@@ -226,6 +228,7 @@ void tree_window_load(Window *window)
     if(counter == 0) {
       counter = 4;
     }
+ 
   }
 
 
@@ -259,6 +262,7 @@ void tree_window_load(Window *window)
 
   // override back_button_manager
   window_set_click_config_provider(window, (ClickConfigProvider) tree_click_config_provider);
+  
 }
 
 /***********************************
@@ -268,6 +272,7 @@ void tree_window_unload(Window *window)
 {
   gbitmap_destroy(treeImage);
   bitmap_layer_destroy(treeImageLayer);
+
 }
 
 /***********************************
