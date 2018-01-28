@@ -1,6 +1,7 @@
 var messageKeys = require('message_keys'); // Load message keys
 
-var url = "https://api.happimeter.org/v1/";
+var url = "http://10.10.10.3:4711/v1/";
+// var url = "https://api.happimeter.org/v1/";
 var watchToken = "";
 var accountToken = "";
 
@@ -17,7 +18,7 @@ Pebble.addEventListener('ready', function (e) {
     }, function (e) {
       console.log('(JS) Failed to send that JS is ready: ' + JSON.stringify(e));
     });
-  
+
     if (localStorage.getItem("happimeter_token") === null) {
       console.log("(JS) User is not logged in.");
     }
@@ -27,64 +28,46 @@ Pebble.addEventListener('ready', function (e) {
 Pebble.addEventListener('showConfiguration', function() {
   var url = 'http://config.happimeter.org/#';
   var config = {};
-  
-  //if user updates app, we want to show the same generic questions as before, therefore we migrate the config here to new format
-  if(localStorage.getItem("happimeter_show_general_questions")) {
-    localStorage.setItem("generic-question", "0");
-    localStorage.removeItem("happimeter_show_general_questions");
-  } else if (localStorage.getItem("happimeter_show_general_questions2")) {
-    localStorage.setItem("generic-question", "1");
-    localStorage.removeItem("happimeter_show_general_questions2");
-  }
-  
-  
-  
+
   var mail = localStorage.getItem("happimeter_mail");
   if(mail !== null) {
     config.mail = mail;
   }
-  
+
   var hue = localStorage.getItem("happimeter_hue_username");
   if(hue !== null) {
     config.hue = hue;
   }
-  
+
   var live = localStorage.getItem("happimeter_live");
   if(live !== null) {
     config.live = live;
   }
-  
+
   var show_general_questions = localStorage.getItem("happimeter_show_general_questions");
   if(show_general_questions !== null) {
     config.show_general_questions = show_general_questions;
   }
-  
+
   var show_general_questions2 = localStorage.getItem("happimeter_show_general_questions2");
   if(show_general_questions2 !== null) {
     config.show_general_questions2 = show_general_questions2;
   }
-  var genericQuestion = localStorage.getItem("generic-question");
-  if(genericQuestion) {
-    config["generic-question"] = genericQuestion;
-  }
-  
-  //tell the config page, that we support generic questions as strings
-  config["supports_generic_question_identifier"] = true;
-  
+
   url += encodeURIComponent(JSON.stringify(config));
   Pebble.openURL(url);
 });
 
 // listen for when configuration page is closed
 Pebble.addEventListener('webviewclosed', function (e) {
-    
+
     if (e && !e.response) {
         return;
     }
-  
+
     var response = JSON.parse(e.response);
     if ("happimeter_hue_username" in response) {
-      if(response.happimeter_hue_username !== false && response.happimeter_hue_username != "false") { 
+      if(response.happimeter_hue_username !== false && response.happimeter_hue_username != "false") {
         localStorage.setItem("happimeter_hue_username", response.happimeter_hue_username);
         localStorage.setItem("happimeter_hue_group", response.happimeter_hue_group);
         console.log("(JS Hue) Added connection to bridge (username: "+response.happimeter_hue_username+", lightgroup: "+response.happimeter_hue_group+").");
@@ -144,20 +127,7 @@ Pebble.addEventListener('webviewclosed', function (e) {
           console.log('(JS) Message "live mode disabled" failed: ' + JSON.stringify(e));
         });
       }
-    } else if("generic-question" in response) {
-      if (response["generic-question"]) {
-        console.log('(JS) Set generic question group to: ' + response["generic-question"]);
-        localStorage.setItem("generic-question", response["generic-question"]);
-      } 
-      Pebble.sendAppMessage({
-          'show_general_questions': 100
-        }, function () {
-          console.log('(JS) Message "general questions mode enabled" sent successfully..');
-        }, function (e) {
-          console.log('(JS) Message "Show general questions mode enabled" failed: ' + JSON.stringify(e));
-        });
-    } 
-  else if("happimeter_show_general_questions" in response) {
+    } else if("happimeter_show_general_questions" in response) {
       if (response.happimeter_show_general_questions != "false" && response.happimeter_show_general_questions !== false) {
         console.log("(JS) Show general questions mode..");
         localStorage.setItem("happimeter_show_general_questions", true);
@@ -253,7 +223,7 @@ var SetPhilipsHue = function(happiness, activation) {
             x = 0.2834359366816283;
             y = 0.10972421908809096;
           }
-          
+
           request_2.send(JSON.stringify({ "xy": [x, y], "bri": brigthness }));
         } else {
           console.log("(JS Hue) Could not find a bridge in the network.");
@@ -283,12 +253,12 @@ var retrieve_current_mood = function() {
           }, function (e) {
             console.log('(JS) Message failed to send the mood to the watch: ' + JSON.stringify(e));
           });
-          
+
           // SetPhilipsHue(response.happiness, response.activation);
         } else if(response.status == 400) {
           console.log("(JS) The model is not trained yet.");
           Pebble.sendAppMessage({ // (-2,-2) means not trained yet
-            'pleasant': -2, 
+            'pleasant': -2,
             'activation': -2
           });
         } else {
@@ -325,7 +295,7 @@ var saveSensorData = function (dict) {
     } else {
         items = JSON.parse(items);
     }
-  
+
     var currentTime = dict.current_time;
     var d = new Date();
     var hour_difference = d.getTimezoneOffset(); // UTC time offset
@@ -368,7 +338,7 @@ var sendSensorData = function () {
         var sensorObj = items.shift();
         if (!sensorObj)
             return;
-      
+
         console.log("Sending sensor obj: ", sensorObj);
 
         // Create the request
@@ -396,7 +366,7 @@ var sendSensorData = function () {
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         request.send(JSON.stringify(sensorObj));
     };
-    
+
     items = JSON.parse(items);
     if (!(!items) && items.length > 0) {
         sendData(items);
@@ -414,11 +384,11 @@ var saveMoodData = function (dict) {
     } else {
         items = JSON.parse(items);
     }
-  
+
     console.log("Dict is ", dict);
-  
+
     SetPhilipsHue(dict.pleasant, dict.activation);
-    
+
     items.push({
         'account_id': accountToken,
         'device_id': watchToken,
@@ -541,41 +511,59 @@ var retrieve_and_send_friends = function() {
   request.send(null);
 };
 
+var transformQuestionsForPebble = function (questions){
+	var transformedQuestions = {
+		'generic_question_count': questions.length
+	}
+	var i = 0;
+	while (i < questions.length) {
+		if (questions[i].hasOwnProperty('question')) {
+			transformedQuestions['generic_question_desciption_' + (i+1)] = questions[i]['question'];
+		} else {
+			transformedQuestions['generic_question_desciption_' + (i+1)] = null
+		}
+		i++;
+	}
+	while (i < 5) {
+		transformedQuestions['generic_question_desciption_' + (i+1)] = null;
+		i++;
+	}
+	
+    return transformedQuestions
+}
 
 var retrieve_generic_quenstions = function() {
-  
+
   var request = new XMLHttpRequest();
   request.onreadystatechange = function () {
+    var questions = null;
     if(request.status == 200) {
       var response = JSON.parse(request.responseText);
-      
-      Pebble.sendAppMessage({
-        'generic_question_desciption_1': response.questions[0],
-        'generic_question_desciption_2': response.questions[1],
-        'generic_question_desciption_3': response.questions[2],
-        'generic_question_desciption_4': response.questions[3],
-        'generic_question_desciption_5': response.questions[4],
-        'generic_question_count': response.questions.length,
-      }, function () {
-        console.log('(JS) Message successfully sent the generic questions to the watch..');
-      }, function (e) {
-        console.log('(JS) Message failed to send the generic questions to the watch: ' + JSON.stringify(e));
-      });
-
+	  questions = response['questions'];
+	  localStorage.setItem("cachedGenericQuestions", questions);
+    } else {
+      // invalid response so use the cached generic questions
+      questions = localStorage.getItem('cachedGenericQuestions');
+    }
+      if (questions !== null) { // only send if questions is set
+		  Pebble.sendAppMessage(transformQuestionsForPebble(questions), function () {
+          console.log('(JS) Message successfully sent the generic questions to the watch..');
+        }, function (e) {
+          console.log('(JS) Message failed to send the generic questions to the watch: ' + JSON.stringify(e));
+        });
       }
     };
     request.onerror = function (e) {
       console.log("ERROR:",e);
     };
-
-    if(!localStorage.getItem("generic-question")) {
-      return;
+    var group_id = 0;
+    if(localStorage.getItem("happimeter_show_general_questions2") == "true") {
+      group_id = 1;
     }
-    var questionIdentifier = localStorage.getItem("generic-question");
-    request.open("GET", url + "moods/genericquestions/" + questionIdentifier, false);
+    request.open("GET", url + "moods/genericquestions/" + group_id, false);
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
-    request.send(null);  
+    request.send(null);
 };
 
 
@@ -621,7 +609,7 @@ Pebble.addEventListener('appmessage', function (e) {
     } else if ("retrieve_mood" in dict) {
       console.log("(JS) Message contains request to retrieve the current mood..");
       retrieve_current_mood();
-    } 
+    }
     if ("retrieve_generic_question" in dict) {
       console.log("(JS) Message contains request to retrieve the retrieve_generic_questionss..");
       retrieve_generic_quenstions();

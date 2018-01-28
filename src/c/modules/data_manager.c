@@ -319,7 +319,7 @@ void upload_mood_from_storage(int mood_id){
   APP_LOG(APP_LOG_LEVEL_INFO, "Creativity %d.", c);
   
   uint8_t values[5];
-   for(int i =0; i<4;i++){
+   for(int i =0; i<5;i++){
       uint32_t key = mood_id * 1000 + 4 + i;
       if(persist_exists(key)) {
           values[i] = persist_read_int(key);
