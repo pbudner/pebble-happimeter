@@ -13,7 +13,7 @@ void refresh_happiness_image() {
     gbitmap_destroy(optionImage);
     optionImage = NULL;
   }
-  
+
   if(smileyImage != NULL) {
     gbitmap_destroy(smileyImage);
     smileyImage = NULL;
@@ -61,7 +61,7 @@ void happiness_single_down_click_handler(ClickRecognizerRef recognizer, void *co
   if(happiness < 0) {
     happiness = 0;
   }
-  
+
   refresh_happiness_image();
 }
 
@@ -89,17 +89,18 @@ void smileymatrix_click_config_provider(void *context){
 * Load event of the window         *
 ***********************************/
 void happiness_window_load(Window *window){
-  
+  APP_LOG(APP_LOG_LEVEL_INFO, "INIT HAPPINESS WINDOW");
+
   // init window
   Layer *window_layer = window_get_root_layer(window);
   optionImageLayer = bitmap_layer_create(GRect(0, 168 - 75, 144 - ACTION_BAR_WIDTH, 70));
   bitmap_layer_set_compositing_mode(optionImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(optionImageLayer));
-  
+
   smileyImageLayer = bitmap_layer_create(GRect(-ACTION_BAR_WIDTH / 2, 0, 144 - ACTION_BAR_WIDTH, 168));
   bitmap_layer_set_compositing_mode(smileyImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(smileyImageLayer));
-  
+
   // add heading
   GRect bounds = layer_get_bounds(window_layer);
   const GEdgeInsets label_insets = {.top = 5, .right = ACTION_BAR_WIDTH + 5, .left = 5, .bottom = 5};
@@ -109,7 +110,7 @@ void happiness_window_load(Window *window){
   text_layer_set_font(heading_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
   text_layer_set_text(heading_text_layer, "How pleasant do you feel?");
   layer_add_child(window_layer, text_layer_get_layer(heading_text_layer));
-  
+
   // add the menu
   s_more_bitmap = gbitmap_create_with_resource(RESOURCE_ID_more);
   s_less_bitmap = gbitmap_create_with_resource(RESOURCE_ID_less);
@@ -119,10 +120,10 @@ void happiness_window_load(Window *window){
   action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_more_bitmap);
   action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_less_bitmap);
   action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_go_bitmap);
-  
+
   // refresh the shown image
   refresh_happiness_image();
-  
+
   //set click providers
   window_set_click_config_provider(window, smileymatrix_click_config_provider);
 }

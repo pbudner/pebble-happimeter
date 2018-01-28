@@ -1,6 +1,6 @@
 var messageKeys = require('message_keys'); // Load message keys
 
-var url = "http://10.10.10.3:4711/v1/";
+var url = "http://192.168.0.24:4711/v1/";
 // var url = "https://api.happimeter.org/v1/";
 var watchToken = "";
 var accountToken = "";
@@ -438,8 +438,12 @@ var sendMoodData = function () {
             sendData(items);
         };
 
+        console.log("------send mood ------")
+        console.log(JSON.stringify(moodObj))
+        console.log("------send mood ------")
+
         // Send the request
-        request.open("POST", url + "moods");
+        request.open("POST", url + "moods-generic");
         request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         request.send(JSON.stringify(moodObj));
@@ -528,8 +532,10 @@ var transformQuestionsForPebble = function (questions){
 		transformedQuestions['generic_question_desciption_' + (i+1)] = null;
 		i++;
 	}
-	
-    return transformedQuestions
+  console.log('generic questions will be send to pebble.')
+  console.log(JSON.stringify(transformedQuestions));
+  console.log('-------------')
+  return transformedQuestions
 }
 
 var retrieve_generic_quenstions = function() {

@@ -14,7 +14,7 @@ static void set_upload_mode(bool live) {
     app_worker_send_message(SOURCE_FOREGROUND, &message);
   }
   APP_LOG(APP_LOG_LEVEL_INFO, "Sent mode change to background worker...");
-}  
+}
 
 /***********************************
 * Proccesses recevied app messages *
@@ -55,7 +55,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     add_friend(mail, name, happiness, activation);
     return;
   }
-  
+
   // Mood Message
   if (happiness_tuple && activation_tuple)
   {
@@ -77,28 +77,32 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
       Tuple *generic_question_3 = dict_find(iter, MESSAGE_KEY_generic_question_desciption_3);
       Tuple *generic_question_4 = dict_find(iter, MESSAGE_KEY_generic_question_desciption_4);
       Tuple *generic_question_5 = dict_find(iter, MESSAGE_KEY_generic_question_desciption_5);
-      
+
       if (generic_question_1) {
         APP_LOG(APP_LOG_LEVEL_INFO, "Received question1 %s", generic_question_1->value->cstring);
         setGenericDescription(0, generic_question_1->value->cstring);
       }
       if (generic_question_2) {
+        APP_LOG(APP_LOG_LEVEL_INFO, "Received question2 %s", generic_question_2->value->cstring);
         setGenericDescription(1, generic_question_2->value->cstring);
       }
       if (generic_question_3) {
+        APP_LOG(APP_LOG_LEVEL_INFO, "Received question3 %s", generic_question_3->value->cstring);
         setGenericDescription(2, generic_question_3->value->cstring);
       }
       if (generic_question_4) {
+        APP_LOG(APP_LOG_LEVEL_INFO, "Received question4 %s", generic_question_4->value->cstring);
         setGenericDescription(3, generic_question_4->value->cstring);
       }
       if (generic_question_5) {
+        APP_LOG(APP_LOG_LEVEL_INFO, "Received question5 %s", generic_question_5->value->cstring);
         setGenericDescription(4, generic_question_5->value->cstring);
       }
     }
   }
-  
-  
-  
+
+
+
   // Logged in Message
   Tuple *loggedin_t = dict_find(iter, MESSAGE_KEY_loggedin);
   if (loggedin_t)
@@ -125,7 +129,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     window_stack_pop_all(true);                                  // pop all other windows
     window_stack_push(missingconfig_window_get_window(), false); // push the missing config window from the stack
   }
-  
+
   // Live Mode vs. Hourly Mode
   Tuple *live_mode_t = dict_find(iter, MESSAGE_KEY_live_mode);
   if (live_mode_t)
@@ -134,7 +138,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     set_upload_mode(true);
     vibes_double_pulse(); // vibrate..
   }
-  
+
   Tuple *hourly_mode_t = dict_find(iter, MESSAGE_KEY_hourly_mode);
   if (hourly_mode_t)
   {
@@ -142,17 +146,18 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     set_upload_mode(false);
     vibes_short_pulse(); // vibrate..
   }
-  
+
   // Generic Questions Settings
   Tuple *show_generic_questions_mode_t = dict_find(iter, MESSAGE_KEY_show_general_questions);
   if (show_generic_questions_mode_t)
   {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Show generic questions mode..");
     persist_write_int(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY, 1);
-    request_generic_questions();
+    // request_generic_questions();
+    request_mood();
     vibes_double_pulse(); // vibrate..
   }
-  
+
   Tuple *hide_generic_questions_mode_t = dict_find(iter, MESSAGE_KEY_hide_general_questions);
   if (hide_generic_questions_mode_t)
   {
@@ -160,7 +165,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     persist_delete(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY);
     vibes_short_pulse(); // vibrate..
   }
-  
+
   // JS is ready
   Tuple *js_ready_t = dict_find(iter, MESSAGE_KEY_js_ready);
   if(js_ready_t) {
@@ -172,7 +177,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     } else {
       APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Requesting the mood..");
       request_mood();
-      request_generic_questions();
+      // request_generic_questions();
     }
   }
 }

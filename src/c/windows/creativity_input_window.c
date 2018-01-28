@@ -57,7 +57,7 @@ void creativity_single_down_click_handler(ClickRecognizerRef recognizer, void *c
   if(value[currentIndex] < 0) {
     value[currentIndex] = 0;
   }
-  
+
   refresh_creativity_image();
 }
 
@@ -86,13 +86,13 @@ void creativity_click_config_provider(void *context){
 * Load event of the window         *
 ***********************************/
 void creativity_window_load(Window *window){
-  
+
   // init window
   Layer *window_layer = window_get_root_layer(window);
   optionImageLayer[currentIndex] = bitmap_layer_create(GRect(0, 168 - 75, 144 - ACTION_BAR_WIDTH, 70));
   bitmap_layer_set_compositing_mode(optionImageLayer[currentIndex], GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(optionImageLayer[currentIndex]));
-    
+
   // add heading
   GRect bounds = layer_get_bounds(window_layer);
   const GEdgeInsets label_insets = {.top = 5, .right = ACTION_BAR_WIDTH + 5, .left = 5, .bottom = 5};
@@ -103,7 +103,7 @@ void creativity_window_load(Window *window){
   char* tmp = getGenericDescription(currentIndex);
   text_layer_set_text(heading_text_layer[currentIndex], tmp);
   layer_add_child(window_layer, text_layer_get_layer(heading_text_layer[currentIndex]));
-  
+
   // add the menu
   s_more_bitmap[currentIndex] = gbitmap_create_with_resource(RESOURCE_ID_more);
   s_less_bitmap[currentIndex] = gbitmap_create_with_resource(RESOURCE_ID_less);
@@ -113,10 +113,10 @@ void creativity_window_load(Window *window){
   action_bar_layer_set_icon(s_action_bar_layer[currentIndex], BUTTON_ID_UP, s_more_bitmap[currentIndex]);
   action_bar_layer_set_icon(s_action_bar_layer[currentIndex], BUTTON_ID_DOWN, s_less_bitmap[currentIndex]);
   action_bar_layer_set_icon(s_action_bar_layer[currentIndex], BUTTON_ID_SELECT, s_go_bitmap[currentIndex]);
-  
+
   // refresh the shown image
   refresh_creativity_image();
-  
+
   //set click providers
   window_set_click_config_provider(window, creativity_click_config_provider);
 }
@@ -135,6 +135,7 @@ void creativity_window_unload(){
 * Init the window          *
 ***********************************/
 void init_creativity_input_window(void) {
+  APP_LOG(APP_LOG_LEVEL_INFO, "INIT CREATIVITY WINDOW");
   creativityWindow = window_create();
   window_set_background_color(creativityWindow, GColorWhite);
   window_set_window_handlers(creativityWindow, (WindowHandlers){.load = creativity_window_load, .unload = creativity_window_unload});
@@ -161,13 +162,18 @@ Window *creativity_input_window_get_window(void) {
 }
 
 Window *creativity_input_window_get_next_window(void) {
+  APP_LOG(APP_LOG_LEVEL_INFO, "creativity_input_window_get_next_window");
+
   APP_LOG(APP_LOG_LEVEL_DEBUG, "currentIndex is %d", currentIndex);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "getNumberOfGenericQuestions()  is %d", getNumberOfGenericQuestions() );
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "!persist_exists(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY)  is %d", !persist_exists(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY));
+
   currentIndex = currentIndex + 1;
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Show generic questions is %d", persist_exists(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY));
-  if (!persist_exists(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY) || getNumberOfGenericQuestions() <= currentIndex) {
+  if (getNumberOfGenericQuestions() <= currentIndex) {
     return tree_window_get_window();
   }
-  
+  APP_LOG(APP_LOG_LEVEL_INFO, "creativity_input_window_get_next_window bis hier");
   if (!initializedWindows[currentIndex]) {
     creativityWindows[currentIndex] =  window_create();
     window_set_background_color(creativityWindows[currentIndex], GColorWhite);
