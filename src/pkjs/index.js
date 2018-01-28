@@ -1,7 +1,7 @@
 var messageKeys = require('message_keys'); // Load message keys
 
-var url = "http://10.10.10.3:4711/v1/";
-// var url = "https://api.happimeter.org/v1/";
+// var url = "http://10.10.10.3:4711/v1/";
+var url = "https://api.happimeter.org/v1/";
 var watchToken = "";
 var accountToken = "";
 
