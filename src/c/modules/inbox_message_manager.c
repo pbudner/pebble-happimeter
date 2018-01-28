@@ -97,6 +97,39 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     }
   }
   
+  if(generic_question_value_tuple){
+    APP_LOG(APP_LOG_LEVEL_INFO, "Received values for generic questions"); 
+    if(window_stack_get_top_window() == introduction_window_get_window()) {
+      int values[5];
+      Tuple *generic_value_1 = dict_find(iter, MESSAGE_KEY_generic_value_1);
+      Tuple *generic_value_2 = dict_find(iter, MESSAGE_KEY_generic_value_2);
+      Tuple *generic_value_3 = dict_find(iter, MESSAGE_KEY_generic_value_3);
+      Tuple *generic_value_4 = dict_find(iter, MESSAGE_KEY_generic_value_4);
+      Tuple *generic_value_5 = dict_find(iter, MESSAGE_KEY_generic_value_5);
+      
+      if (generic_value_1) {
+        APP_LOG(APP_LOG_LEVEL_INFO, "Received value1 %s", generic_value_1->value->int32);
+        values[0] = generic_value_1->value->int32;
+      }
+      if (generic_value_2) {
+        APP_LOG(APP_LOG_LEVEL_INFO, "Received value2 %s", generic_value_2->value->int32);
+        values[1] = generic_value_2->value->int32;
+      }
+      if (generic_value_3) {
+        values[2] = generic_value_3->value->int32;
+      }
+      if (generic_value_4) {
+        values[3] = generic_value_4->value->int32;
+      }
+      if (generic_value_5) {
+        values[4] = generic_value_5->value->int32;
+      }
+      
+      set_predicted_values(values);
+    }
+    return;
+  }
+  
   
   
   // Logged in Message
@@ -149,7 +182,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
   {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Show generic questions mode..");
     persist_write_int(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY, 1);
-    request_generic_questions();
+    request_mood();
     vibes_double_pulse(); // vibrate..
   }
   
@@ -172,7 +205,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     } else {
       APP_LOG(APP_LOG_LEVEL_DEBUG, "(Pebble) Requesting the mood..");
       request_mood();
-      request_generic_questions();
+      //request_generic_questions();
     }
   }
 }

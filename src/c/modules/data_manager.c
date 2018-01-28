@@ -141,6 +141,7 @@ void request_mood() {
   app_message_open(64, 256); // open the app message
   AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
   if(result == APP_MSG_OK) {
+	dict_write_cstring(out_iter, MESSAGE_KEY_retrieve_mood, "1");
     dict_write_cstring(out_iter, MESSAGE_KEY_retrieve_mood, "1");
     dict_write_cstring(out_iter, MESSAGE_KEY_retrieve_generic_question, "1");
     result = app_message_outbox_send();
@@ -151,26 +152,6 @@ void request_mood() {
     }
   } else {
     APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the mood request outbox: %d", (int)result);
-  }
-}
-
-/**********************************
-* Requests the generic questions  *
-**********************************/
-void request_generic_questions() {
-  DictionaryIterator *out_iter;
-  app_message_open(64, 256); // open the app message
-  AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
-  if(result == APP_MSG_OK) {
-    dict_write_cstring(out_iter, MESSAGE_KEY_retrieve_generic_question, "1");
-    result = app_message_outbox_send();
-    if(result != APP_MSG_OK) {
-      APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the generic questions request outbox: %d", (int)result);
-    } else {
-      APP_LOG(APP_LOG_LEVEL_INFO, "Succesfully sent the generic questions request outbox: %d", (int)result);
-    }
-  } else {
-    APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the generic questions request outbox: %d", (int)result);
   }
 }
 

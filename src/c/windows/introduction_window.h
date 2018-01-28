@@ -12,3 +12,5 @@ extern void set_mood_window_text(int happiness, int activation);
 extern Window *introduction_window_get_window(void);
 extern void message_timeout_callback(void *data);
 extern bool get_hasBtConnection();
+extern bool get_hasReceivedResult();
+extern bool get_hasInternetConnection();

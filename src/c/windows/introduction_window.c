@@ -17,6 +17,14 @@ bool get_hasBtConnection(){
   return hasBtConnection;
 }
 
+bool get_hasReceivedResult(){
+  return hasReceivedResult;
+}
+
+bool get_hasInternetConnection(){
+  return hasInternetConnection;
+}
+
 /***********************************
 * Click handler functions          *
 ***********************************/

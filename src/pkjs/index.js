@@ -566,6 +566,44 @@ var retrieve_generic_quenstions = function() {
     request.send(null);
 };
 
+// retrieve the generic values and send it to the watch
+var retrieve_generic_values = function() {
+  console.log("Sending generic values request...");
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    var data = null;
+    if(request.status == 200) {
+      var response = JSON.parse(request.responseText);
+      for (var i = 0; i < response.length; i++) {
+        data['generic_question_value_' + (i+1)] = response.value[i];
+      } 
+    }
+    else {
+      console.log("(JS) The generic value model is not trained yet.");
+      for (var j = 0; j < 5; j++) {
+        data['generic_question_value_' + (j+1)] = 1;
+      }
+    }
+      if (data !== null) { // only send if data is set
+        Pebble.sendAppMessage(data, function () {
+          console.log('(JS) Message successfully sent the generic values to the watch..');
+        }, function (e) {
+          console.log('(JS) Message failed to send the generic values to the watch: ' + JSON.stringify(e));
+        });
+      }
+  }; 
+  
+   request.onerror = function (e) {
+      console.log("ERROR:",e);
+    };
+   
+    request.open("GET", url + "classifier/predict-all", false);
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
+    request.send(null);
+};
+
+
 
 // listen for AppMessages from the watch
 Pebble.addEventListener('appmessage', function (e) {
@@ -613,5 +651,6 @@ Pebble.addEventListener('appmessage', function (e) {
     if ("retrieve_generic_question" in dict) {
       console.log("(JS) Message contains request to retrieve the retrieve_generic_questionss..");
       retrieve_generic_quenstions();
+	  retrieve_generic_values();
     }
 });

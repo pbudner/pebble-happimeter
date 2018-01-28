@@ -8,12 +8,18 @@ static BitmapLayer *optionImageLayer[5];
 static TextLayer *heading_text_layer[5];
 static ActionBarLayer *s_action_bar_layer[5];
 static GBitmap *s_more_bitmap[5], *s_less_bitmap[5], *s_go_bitmap[5];
-static int value[5] = {1,1,1,1,1};
+static int predicted_values[5] = {1,1,1,1,1};
 
 static int currentIndex = -1;
 
 void reset_generic_question_counter() {
   currentIndex = -1;
+}
+
+void set_predicted_values(int values[]){
+  for(int i = 0; i < 5; i++){
+    predicted_values[i] = values[i];
+  }   
 }
 
 void refresh_creativity_image() {

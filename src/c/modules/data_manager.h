@@ -33,7 +33,6 @@ extern void received_finished_upload();
 extern void request_friends();
 extern void request_mood();
 extern void ping_js();
-extern void request_generic_questions();
 
 extern void save_mood(int type, int mood, int mood_id);
 extern void save_generic_values(int type, int mood[], int mood_id);
