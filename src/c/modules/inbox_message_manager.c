@@ -40,6 +40,7 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     }
     return;
   }
+  Tuple *generic_question_value_tuple = dict_find(iter, MESSAGE_KEY_generic_question_value);
   Tuple *generic_question_count_tuple = dict_find(iter, MESSAGE_KEY_generic_question_count);
   Tuple *happiness_tuple = dict_find(iter, MESSAGE_KEY_pleasant);
   Tuple *activation_tuple = dict_find(iter, MESSAGE_KEY_activation);
