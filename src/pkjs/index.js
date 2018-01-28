@@ -1,5 +1,6 @@
 var messageKeys = require('message_keys'); // Load message keys
 
+// var url = "http://10.10.10.3:4711/v1/";
 var url = "https://api.happimeter.org/v1/";
 var watchToken = "";
 var accountToken = "";
@@ -510,29 +511,42 @@ var retrieve_and_send_friends = function() {
   request.send(null);
 };
 
-var cachedGenericQuestions;
+var transformQuestionsForPebble = function (questions){
+	var transformedQuestions = {
+		'generic_question_count': questions.length
+	}
+	var i = 0;
+	while (i < questions.length) {
+		if (questions[i].hasOwnProperty('question')) {
+			transformedQuestions['generic_question_desciption_' + (i+1)] = questions[i]['question'];
+		} else {
+			transformedQuestions['generic_question_desciption_' + (i+1)] = null
+		}
+		i++;
+	}
+	while (i < 5) {
+		transformedQuestions['generic_question_desciption_' + (i+1)] = null;
+		i++;
+	}
+	
+    return transformedQuestions
+}
 
 var retrieve_generic_quenstions = function() {
 
   var request = new XMLHttpRequest();
   request.onreadystatechange = function () {
-    var data = null;
+    var questions = null;
     if(request.status == 200) {
       var response = JSON.parse(request.responseText);
-      var data = {
-        'generic_question_count': response.questions.length,
-      };
-      for (var i = 0; i < response.questions.length; i++) {
-        data['generic_question_desciption_' + (i+1)] = response.question[i].question;
-      }
-      // we cach the generic questions for the case of no internet connection
-      cachedGenericQuestions = data;
+	  questions = response['questions'];
+	  localStorage.setItem("cachedGenericQuestions", questions);
     } else {
       // invalid response so use the cached generic questions
-      data = cachedGenericQuestions;
+      questions = localStorage.getItem('cachedGenericQuestions');
     }
-      if (data !== null) { // only send if data is set
-        Pebble.sendAppMessage(data, function () {
+      if (questions !== null) { // only send if questions is set
+		  Pebble.sendAppMessage(transformQuestionsForPebble(questions), function () {
           console.log('(JS) Message successfully sent the generic questions to the watch..');
         }, function (e) {
           console.log('(JS) Message failed to send the generic questions to the watch: ' + JSON.stringify(e));
