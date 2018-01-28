@@ -28,7 +28,7 @@ void refresh_creativity_image() {
     optionImage[currentIndex] = NULL;
   }
 
-  switch (value[currentIndex])
+  switch (predicted_values[currentIndex])
   {
     case 0:
       optionImage[currentIndex] = gbitmap_create_with_resource(RESOURCE_ID_generic_0);
@@ -48,27 +48,27 @@ void refresh_creativity_image() {
 }
 
 void creativity_single_up_click_handler(ClickRecognizerRef recognizer, void *context) {
-  value[currentIndex]++;
+  predicted_values[currentIndex]++;
 
-  if(value[currentIndex] > 2) {
-    value[currentIndex] = 2;
+  if(predicted_values[currentIndex] > 2) {
+    predicted_values[currentIndex] = 2;
   }
 
   refresh_creativity_image();
 }
 
 void creativity_single_down_click_handler(ClickRecognizerRef recognizer, void *context) {
-  value[currentIndex]--;
+  predicted_values[currentIndex]--;
 
-  if(value[currentIndex] < 0) {
-    value[currentIndex] = 0;
+  if(predicted_values[currentIndex] < 0) {
+    predicted_values[currentIndex] = 0;
   }
   
   refresh_creativity_image();
 }
 
 void creativity_single_click_handler(ClickRecognizerRef recognizer, void *context){
-  setGenericValue(currentIndex, value[currentIndex]);
+  setGenericValue(currentIndex, predicted_values[currentIndex]);
   window_stack_push(creativity_input_window_get_next_window(), true);
 }
 

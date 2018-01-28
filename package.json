@@ -51,7 +51,14 @@
             "generic_question_count",
             "generic_values",
             "show_general_questions",
-            "hide_general_questions"
+            "hide_general_questions",
+            "retrieve_generic_value",
+            "generic_value_1",
+            "generic_value_2",
+            "generic_value_3",
+            "generic_value_4",
+            "generic_value_5",
+            "generic_question_value"
         ],
         "projectType": "native",
         "resources": {
@@ -448,13 +455,13 @@
                 },
                 {
                     "file": "images/retry1.png",
-                    "name": "RETRY_1",
+                    "name": "retry1",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
                     "file": "images/retry1.png",
-                    "name": "retry1",
+                    "name": "RETRY_1",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
