@@ -575,7 +575,7 @@ var retrieve_generic_values = function() {
     if(request.status == 200) {
       var response = JSON.parse(request.responseText);
       for (var i = 0; i < response.length; i++) {
-        data['generic_question_value_' + (i+1)] = response.questions.answer[i];
+        data['generic_question_value_' + (i+1)] = response['generic_values'][i];
       } 
     }
     else {
