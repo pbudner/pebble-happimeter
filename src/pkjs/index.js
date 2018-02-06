@@ -494,21 +494,21 @@ var serverCommunicationModule = function serverCommunicationModule() {
     function doPostRequest(url, data, resolve, reject) {
         console.log('doPostRequest() called');
         var JSONString = typeof data == 'string' ? data : JSON.stringify(data);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', url);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState > 3 && xhr.status == 200) {
-                resolve(JSON.parse(xhr.responseText));
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open('POST', url);
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState > 3 && xmlHttp.status == 200) {
+                resolve(JSON.parse(xmlHttp.responseText));
             } else {
-                reject(xhr.responseText);
+                reject(xmlHttp.responseText);
             }
         };
-        xhr.onerror = function (e) {
+        xmlHttp.onerror = function (e) {
             reject(JSON.stringify(e));
         };
-        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-        xhr.send(JSONString);
+        xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        xmlHttp.setRequestHeader('Authorization', 'Bearer ' + token);
+        xmlHttp.send(JSONString);
     }
 
     // generalized functions for all get requests
@@ -519,6 +519,8 @@ var serverCommunicationModule = function serverCommunicationModule() {
         xmlHttp.onreadystatechange = function () {
             if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                 resolve(JSON.parse(xmlHttp.responseText));
+            } else {
+                reject(xmlHttp.responseText);
             }
         };
         xmlHttp.onerror = function (e) {
@@ -601,9 +603,22 @@ var serverCommunicationModule = function serverCommunicationModule() {
         doGetRequest(predictionUrl, function resolve(response) {
             console.log('Successfully retrieved predictions');
             console.log(JSON.stringify(response));
+            Pebble.sendAppMessage(response, function () {
+                console.log('(JS) Message successfully sent predictions to the watch..');
+            }, function (e) {
+                console.log('(JS) Message failed to send predictions to the watch: ' + JSON.stringify(e));
+            });
         }, function reject(error) {
             console.error('Failed to retrieve predictions!');
             console.error(JSON.stringify(error));
+            Pebble.sendAppMessage({ // (-2,-2) means not trained yet
+                'pleasant': -2,
+                'activation': -2
+            }, function () {
+                console.log('(JS) Message successfully sent models have not been trained to the watch..');
+            }, function (e) {
+                console.log('(JS) Message failed to send models have not been trained to the watch: ' + JSON.stringify(e));
+            });
         });
         /*
         var request = new XMLHttpRequest();
