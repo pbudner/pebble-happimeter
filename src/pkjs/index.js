@@ -12,7 +12,7 @@ var accountToken = "";
 
 // create modules
 var myServerCommunicationModule;
-var withoutServer = true;
+var withoutServer = false;
 
 /******************************************
  * Event Listners
@@ -350,7 +350,8 @@ var transformOldMoodDataIntoGenericStyle = function(moodData) {
     if (moodData.hasOwnProperty('generic_values')) {
         var generic_values =  moodData['generic_values'];
         var cachedGenericQuestions = JSON.parse(localStorage.getItem('cachedGenericQuestions'));
-
+        console.log('cachedGenericQuestions');
+        console.log(JSON.stringify(cachedGenericQuestions));
         var index = 0;
         while (index < generic_values.length) {
             if (generic_values[index] !== 99) {
@@ -361,6 +362,7 @@ var transformOldMoodDataIntoGenericStyle = function(moodData) {
     }
     console.log('transformed genericMoodData: ');
     console.log(JSON.stringify(genericMoodData));
+    return genericMoodData;
 };
 
 // set the philips hue lights
@@ -818,6 +820,7 @@ var serverCommunicationModule = function serverCommunicationModule() {
                 }
             ]
         };
+        localStorage.setItem('cachedGenericQuestions', JSON.stringify(mockupGenericQuestions['questions']));
         console.log(JSON.stringify(mockupGenericQuestions));
         Pebble.sendAppMessage(transformQuestionsForPebble(mockupGenericQuestions.questions), function () {
             console.log('(JS) Message successfully sent the generic questions to the watch. (MOCKUP)');
