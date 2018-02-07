@@ -4,8 +4,8 @@
  */
 
 var messageKeys = require('message_keys'); // Load message keys
-var url = "http://192.168.0.24:4711/v1/";
-var baseUrl = "http://192.168.0.24:4711/v1/";
+var url = "http://192.168.179.23:4711/v1/";
+var baseUrl = url;
 // var url = "https://api.happimeter.org/v1/";
 var watchToken = "";
 var accountToken = "";
@@ -497,15 +497,15 @@ var serverCommunicationModule = function serverCommunicationModule() {
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open('POST', url);
         xmlHttp.onreadystatechange = function () {
-            if (xmlHttp.readyState > 3 && xmlHttp.status == 200) {
+            if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
                 resolve(JSON.parse(xmlHttp.responseText));
-            } else {
+            } else if (xmlHttp.readyState === 4 && xmlHttp.status !== 200) {
                 reject(xmlHttp.responseText);
             }
         };
-        xmlHttp.onerror = function (e) {
+        /* xmlHttp.onerror = function (e) {
             reject(JSON.stringify(e));
-        };
+        }; */
         xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         xmlHttp.setRequestHeader('Authorization', 'Bearer ' + token);
         xmlHttp.send(JSONString);
@@ -517,15 +517,17 @@ var serverCommunicationModule = function serverCommunicationModule() {
         console.log('url: ' + theUrl);
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.onreadystatechange = function () {
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                resolve(JSON.parse(xmlHttp.responseText));
-            } else {
-                reject(xmlHttp.responseText);
+            if (xmlHttp.readyState === 4) { // api call status is DONE
+                if (xmlHttp.status < 400) {
+                    resolve(JSON.parse(xmlHttp.responseText));
+                } else {
+                    reject(xmlHttp.responseText);
+                }
             }
         };
-        xmlHttp.onerror = function (e) {
+        /* xmlHttp.onerror = function (e) {
             reject(JSON.stringify(e));
-        };
+        };               */
         xmlHttp.open("GET", theUrl, true); // true for asynchronous
         xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xmlHttp.setRequestHeader("Authorization", "Bearer " + token);
