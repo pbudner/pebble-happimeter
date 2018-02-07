@@ -12,7 +12,7 @@ var accountToken = "";
 
 // create modules
 var myServerCommunicationModule;
-var withoutServer = false;
+var withoutServer = true;
 
 /******************************************
  * Event Listners
