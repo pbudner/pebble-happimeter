@@ -790,7 +790,7 @@ var serverCommunicationModule = function serverCommunicationModule() {
      */
     // just mockup
     function delMemockupGetPredictionsForCompatibility() {
-        console.log('mockupGetPredictions() called');
+        console.log('delMemockupGetPredictionsForCompatibility() called');
         Pebble.sendAppMessage({
             'pleasant': 0,
             'activation': 0
