@@ -386,17 +386,6 @@ var SetPhilipsHue = function (happiness, activation) {
     }
 };
 
-// send a message to the watch that the upload is finished
-var sendFinishedWithUploadToPebbleWatch = function () {
-    Pebble.sendAppMessage({
-        'app_callback': 100 // this says finished with upload
-    }, function () {
-        console.log('(JS) Message "finished with upload" sent successfully..');
-    }, function (e) {
-        console.log('(JS) Message "finished with upload" failed: ' + JSON.stringify(e));
-    });
-};
-
 // retrieve and send the friends of the current user
 var retrieve_and_send_friends = function () {
     var request = new XMLHttpRequest();
@@ -478,6 +467,17 @@ var transformQuestionsForPebble = function (questions) {
     return transformedQuestions
 };
 
+var pushItemToLocalStorage = function (key, item) {
+    var items;
+    try {
+        items = JSON.parse(localStorage.getItem(key));
+    } catch (e) { // if key doesnt exists
+        items = [];
+    }
+    items.push(item);
+    localStorage.setItem(key, JSON.stringify(items));
+};
+
 /******************************************
  * Module for Communication with Pebble Server
  ******************************************
@@ -485,7 +485,7 @@ var transformQuestionsForPebble = function (questions) {
 
 var serverCommunicationModule = function serverCommunicationModule() {
     var genericQuestionsUrl = baseUrl + 'moods/genericquestions';
-    var moodsUrl = baseUrl + 'moods';
+    var moodsUrl = baseUrl + 'moods-generic';
     var predictionUrl = baseUrl + 'classifier/predict-all';
     var sensorDataUrl = baseUrl + 'sensors';
     var token = localStorage.getItem("happimeter_token");
@@ -568,32 +568,33 @@ var serverCommunicationModule = function serverCommunicationModule() {
     // send saved sensor data from the phone to the server API
     function sendSensorData() {
         console.log('sendSensorData() called');
-        var items = localStorage.getItem("sensorItems");
+        var items = JSON.parse(localStorage.getItem("sensorItems"));
         if (!items || items.length === 0) {
             console.log("No sensor data stored. Exit.");
             return;
         }
-        items = JSON.parse(items);
-        var sensorObj = items.shift();   // to be discussed: send only first item?
-        if (!sensorObj) {
-            console.log("No items in sensor data. Exit.");
-            return;
-        } else {
+
+        while (items.length > 0) {
+            console.log(items.length + ' sensor data items remain for sending to server.');
+            var sensorObj = items.shift();   // to be discussed: send only first item?
             doPostRequest(sensorDataUrl, sensorObj, function resolve(response) {
                 console.log('Successfully sent sensor data to server.');
                 console.log("response from sending sensor data: ");
                 console.log(JSON.stringify(response));
-                localStorage.setItem("sensorItems", JSON.stringify(items));
-                sendFinishedWithUploadToPebbleWatch();
             }, function reject(error) {
                 console.error("Failed to send sensor data to server!");
                 console.error(JSON.stringify(error));
-                localStorage.setItem("sensorItems", JSON.stringify(items));   // to be discussed: failed item should be pushed again
-                sendFinishedWithUploadToPebbleWatch();        // to be discussed: different message?
+                pushItemToLocalStorage('sensorItems', sensorObj); // push failed item back to storage
             });
-
-
         }
+        localStorage.setItem('sensorItems', JSON.stringify([])); // clear storage
+        Pebble.sendAppMessage({
+            'app_callback': 100 // this says finished with upload
+        }, function () {
+            console.log('(JS) Message "finished with upload" sent successfully..');
+        }, function (e) {
+            console.log('(JS) Message "finished with upload" failed: ' + JSON.stringify(e));
+        });
     };
 
     // retrieve the current mood and send it to the watch
@@ -661,52 +662,26 @@ var serverCommunicationModule = function serverCommunicationModule() {
 
     // send the saved mood data from the phone to the API
     function sendMoodData() {
-        // TODO: use generalized method
         console.log('sendMoodData() called');
-        var items = localStorage.getItem("moodItems");
-        if (!items) {
+        var items = JSON.parse(localStorage.getItem("moodItems"));
+        if (!items || items.length === 0) {
+            console.log("There are no mood items to be send to server.");
             return;
         }
 
-        var sendData = function (items) {
+
+        while (items.length > 0) {
+            console.log(items.length + ' mood data items remain for sending to server.');
             var moodObj = items.shift();
-            if (!moodObj)
-                return;
-
-            // Create the request
-            var request = new XMLHttpRequest();
-
-            // Specify the callback for when the request is completed
-            request.onload = function () {
-                console.log('Got save mood data response: ' + this.responseText);
-                localStorage.setItem("moodItems", JSON.stringify(items));
-                sendData(items);
-            };
-
-            request.onerror = function (e) {
-                console.log('Error during saving mood data: ' + e);
-                items.push(moodObj);
-                localStorage.setItem("moodItems", JSON.stringify(items));
-                sendData(items);
-            };
-
-            console.log("------send mood ------");
-            console.log(JSON.stringify(moodObj));
-            console.log("------send mood ------");
-
-            // Send the request
-            request.open("POST", baseUrl + "moods-generic");
-            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("happimeter_token"));
-            request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            request.send(JSON.stringify(moodObj));
-        };
-        console.log(items);
-        items = JSON.parse(items);
-        if (!(!items) && items.length > 0) {
-            sendData(items);
-        } else {
-            console.log("(JS) There are no mood items to be send.");
+            doPostRequest(moodsUrl, moodObj, function resolve(response) {
+                console.log('Successfully send mood data item to server.');
+            }, function reject(error) {
+                console.error('Failed to send mood data item to server.');
+                console.error(JSON.stringify(error));
+                pushItemToLocalStorage('moodItems', moodObj); // push failed item back to storage
+            });
         }
+        localStorage.setItem("moodItems", JSON.stringify([])); // clear storage
     };
 
 
@@ -722,7 +697,8 @@ var serverCommunicationModule = function serverCommunicationModule() {
                 { // "question_id": predicted_value
                     "1": Math.floor((Math.random() * 3)),
                     "2": Math.floor((Math.random() * 3)),
-                    "5": Math.floor((Math.random() * 3))
+                    "5": Math.floor((Math.random() * 3)),
+                    "16": Math.floor((Math.random() * 3))
                 }
         }
         console.log(JSON.stringify(mockupPredictions));
@@ -740,15 +716,23 @@ var serverCommunicationModule = function serverCommunicationModule() {
             "questions": [
                 {
                     "question": "How active do you feel?",
-                    "id": 1
+                    "id": 1,
+                    "watchface": "runner"
                 },
                 {
                     "question": "How pleasent do you feel?",
-                    "id": 2
+                    "id": 2,
+                    "watchface": "smiley"
                 },
                 {
                     "question": "I am stressed",
-                    "id": 5
+                    "id": 5,
+                    "watchface": "stressed"
+                },
+                {
+                    "question": "I want more alcohol.",
+                    "id": 16,
+                    "watchface": "default"
                 }
             ]
         };
