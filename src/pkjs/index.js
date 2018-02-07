@@ -196,51 +196,55 @@ var addEventListerners = function () {
 
     // listen for AppMessages from the watch
     Pebble.addEventListener('appmessage', function (e) {
+
+        var interpretAppMessageAndTriggerActions = function(dict) {
+            var containsSensorData = "vmc" in dict;
+            var containsQuestionAnswerData = "activation" in dict;
+            var containsRequestForFriends = dict.friend_mail == "request";
+            var containsRequestForPredictions = "retrieve_mood" in dict;
+            var containsRequestForGenericQuestions = "retrieve_generic_question" in dict;
+
+            if (containsSensorData) {
+                console.log("(JS) Message contains sensor data.");
+                saveSensorData(dict);
+                myServerCommunicationModule.sendSensorData();
+            }
+            if (containsQuestionAnswerData) {
+                console.log("(JS) Message contains mood data.");
+                saveMoodData(dict);
+                myServerCommunicationModule.sendMoodData();
+            }
+            if (containsRequestForFriends) {
+                console.log("(JS) Pebble requested friend list.");
+                retrieve_and_send_friends();
+            }
+            if (containsRequestForPredictions) {
+                console.log("(JS) Message contains request to retrieve the predictions.");
+                myServerCommunicationModule.getPredictions();
+            }
+            if (containsRequestForGenericQuestions) {
+                console.log("(JS) Message contains request to retrieve the retrieve_generic_questions.");
+                myServerCommunicationModule.retrieveGenericQuestionsFromServerAndSendToPebbleWatch();
+            }
+        };
+
         var dict = e.payload; // Get the dictionary from the message
         console.log('(JS) Got message from Pebble Watch: ' + JSON.stringify(dict));
-        if ("vmc" in dict) {
-            console.log("(JS) Message contains sensor data..");
-            navigator.geolocation.getCurrentPosition(function (pos) {
-                dict.lat = pos.coords.latitude;
-                dict.lon = pos.coords.longitude;
-                dict.alt = pos.coords.altitude;
-                saveSensorData(dict);
-                myServerCommunicationModule.sendSensorData();
-            }, function (err) {
-                console.log(err);
-                dict.lat = null;
-                dict.lon = null;
-                dict.alt = null;
-                saveSensorData(dict);
-                myServerCommunicationModule.sendSensorData();
-            }, {enableHighAccuracy: true, maximumAge: 10000, timeout: 5000});
-        } else if ("activation" in dict) {
-            console.log("(JS) Message contains mood data..");
-            navigator.geolocation.getCurrentPosition(function (pos) {
-                dict.lat = pos.coords.latitude;
-                dict.lon = pos.coords.longitude;
-                dict.alt = pos.coords.altitude;
-                saveMoodData(dict);
-                myServerCommunicationModule.sendMoodData();
-            }, function (err) {
-                console.log(err);
-                dict.lat = null;
-                dict.lon = null;
-                dict.alt = null;
-                saveMoodData(dict);
-                myServerCommunicationModule.sendMoodData();
-            }, {enableHighAccuracy: true, maximumAge: 10000, timeout: 5000});
-        } else if (dict.friend_mail == "request") {
-            console.log("(JS) Pebble requested friend list..");
-            retrieve_and_send_friends();
-        } else if ("retrieve_mood" in dict) {
-            console.log("(JS) Message contains request to retrieve the current mood..");
-            myServerCommunicationModule.getPredictions();
-        }
-        if ("retrieve_generic_question" in dict) {
-            console.log("(JS) Message contains request to retrieve the retrieve_generic_questions..");
-            myServerCommunicationModule.retrieveGenericQuestionsFromServerAndSendToPebbleWatch();
-        }
+        // try to get geolocation, but continue anyways
+        navigator.geolocation.getCurrentPosition(function (pos) {
+            dict.lat = pos.coords.latitude;
+            dict.lon = pos.coords.longitude;
+            dict.alt = pos.coords.altitude;
+            interpretAppMessageAndTriggerActions(dict);
+        }, function (err) {
+            console.log(err);
+            dict.lat = null;
+            dict.lon = null;
+            dict.alt = null;
+            interpretAppMessageAndTriggerActions(dict);
+        }, {enableHighAccuracy: true, maximumAge: 10000, timeout: 5000});
+
+
     });
 
 };
@@ -328,6 +332,36 @@ var saveMoodData = function (dict) {
  * Helpers
  ******************************************
  */
+
+
+var transformOldMoodDataIntoGenericStyle = function(moodData) {
+    console.log('moodData: ');
+    console.log(JSON.stringify(moodData));
+    var genericMoodData = {};
+    genericMoodData.timestamp = moodData.timestamp;
+    genericMoodData.local_timestamp = moodData.local_timestamp;
+    genericMoodData.position = moodData.position;
+    genericMoodData['account_id'] = moodData['account_id'];
+    genericMoodData['device_id'] = moodData['device_id'];
+    genericMoodData.mood_answers = {};
+    genericMoodData.mood_answers['1'] = moodData['activation'];
+    genericMoodData.mood_answers['2'] = moodData['pleasance'];
+
+    if (moodData.hasOwnProperty('generic_values')) {
+        var generic_values =  moodData['generic_values'];
+        var cachedGenericQuestions = JSON.parse(localStorage.getItem('cachedGenericQuestions'));
+
+        var index = 0;
+        while (index < generic_values.length) {
+            if (generic_values[index] !== 99) {
+                genericMoodData.mood_answers[cachedGenericQuestions[index]['id']] = generic_values[index];
+            }
+            index ++;
+        }
+    }
+    console.log('transformed genericMoodData: ');
+    console.log(JSON.stringify(genericMoodData));
+};
 
 // set the philips hue lights
 var SetPhilipsHue = function (happiness, activation) {
@@ -500,7 +534,7 @@ var serverCommunicationModule = function serverCommunicationModule() {
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
                 resolve(JSON.parse(xmlHttp.responseText));
             } else if (xmlHttp.readyState === 4 && xmlHttp.status !== 200) {
-                reject(xmlHttp.responseText);
+                reject(xmlHttp.responseText, data);
             }
         };
         /* xmlHttp.onerror = function (e) {
@@ -583,7 +617,7 @@ var serverCommunicationModule = function serverCommunicationModule() {
                 console.log('Successfully sent sensor data to server.');
                 console.log("response from sending sensor data: ");
                 console.log(JSON.stringify(response));
-            }, function reject(error) {
+            }, function reject(error, sensorObj) {
                 console.error("Failed to send sensor data to server!");
                 console.error(JSON.stringify(error));
                 pushItemToLocalStorage('sensorItems', sensorObj); // push failed item back to storage
@@ -675,12 +709,18 @@ var serverCommunicationModule = function serverCommunicationModule() {
         while (items.length > 0) {
             console.log(items.length + ' mood data items remain for sending to server.');
             var moodObj = items.shift();
+            if (moodObj == null) {
+                console.log('Null Object in Mood data!');
+                continue;
+            }
+            moodObj = transformOldMoodDataIntoGenericStyle(moodObj);
             doPostRequest(moodsUrl, moodObj, function resolve(response) {
                 console.log('Successfully send mood data item to server.');
-            }, function reject(error) {
+            }, function reject(error, moodObj) {
                 console.error('Failed to send mood data item to server.');
                 console.error(JSON.stringify(error));
-                pushItemToLocalStorage('moodItems', moodObj); // push failed item back to storage
+                // todo: push again
+                // pushItemToLocalStorage('moodItems', moodObj); // push failed item back to storage
             });
         }
         localStorage.setItem("moodItems", JSON.stringify([])); // clear storage
@@ -745,6 +785,46 @@ var serverCommunicationModule = function serverCommunicationModule() {
             console.log('(JS) Message failed to send the generic questions to the watch (MOCKUP): ' + JSON.stringify(e));
         });
     };
+    /**
+     * DELME MOCKUP methods for prediction and generic questions
+     */
+    // just mockup
+    function delMemockupGetPredictionsForCompatibility() {
+        console.log('mockupGetPredictions() called');
+        Pebble.sendAppMessage({
+            'pleasant': 0,
+            'activation': 0
+        }, function () {
+            console.log('(JS) Message successfully sent models have not been trained to the watch..');
+        }, function (e) {
+            console.log('(JS) Message failed to send models have not been trained to the watch: ' + JSON.stringify(e));
+        })
+    };
+
+    // just mockup
+    function delMemockupGetGenericQuestionsForCompatibiltity() {
+        console.log('delMemockupGetGenericQuestionsForCompatibiltity() called');
+        var mockupGenericQuestions = {
+            "questions": [
+                {
+                    "question": "I am stressed",
+                    "id": 5,
+                    "watchface": "stressed"
+                },
+                {
+                    "question": "I want more alcohol.",
+                    "id": 16,
+                    "watchface": "default"
+                }
+            ]
+        };
+        console.log(JSON.stringify(mockupGenericQuestions));
+        Pebble.sendAppMessage(transformQuestionsForPebble(mockupGenericQuestions.questions), function () {
+            console.log('(JS) Message successfully sent the generic questions to the watch. (MOCKUP)');
+        }, function (e) {
+            console.log('(JS) Message failed to send the generic questions to the watch (MOCKUP): ' + JSON.stringify(e));
+        });
+    };
 
     if (withoutServer) {
         return {
@@ -755,10 +835,10 @@ var serverCommunicationModule = function serverCommunicationModule() {
         }
     } else {
         return {
-            "retrieveGenericQuestionsFromServerAndSendToPebbleWatch": retrieveGenericQuestionsFromServerAndSendToPebbleWatch,
+            "retrieveGenericQuestionsFromServerAndSendToPebbleWatch": delMemockupGetGenericQuestionsForCompatibiltity,
             "sendSensorData": sendSensorData,
             "sendMoodData": sendMoodData,
-            "getPredictions": getPredictions
+            "getPredictions": delMemockupGetPredictionsForCompatibility
         }
     }
 };
