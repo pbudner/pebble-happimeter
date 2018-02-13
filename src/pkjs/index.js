@@ -4,9 +4,9 @@
  */
 
 var messageKeys = require('message_keys'); // Load message keys
-var url = "http://192.168.179.23:4711/v1/";
+//var url = "http://192.168.179.23:4711/v1/";
 var baseUrl = url;
-// var url = "https://api.happimeter.org/v1/";
+var url = "https://api.happimeter.org/v1/";
 var watchToken = "";
 var accountToken = "";
 
@@ -638,7 +638,10 @@ var serverCommunicationModule = function serverCommunicationModule() {
     // retrieve the current mood and send it to the watch
     function getPredictions() {
         console.log("getPredictions() called");
-
+      Pebble.sendAppMessage({ // auf predictions anpassen
+                'pleasant': 1,
+                'activation': 1,
+            });
         doGetRequest(predictionUrl, function resolve(response) {
             console.log('Successfully retrieved predictions');
             console.log(JSON.stringify(response));
@@ -733,18 +736,19 @@ var serverCommunicationModule = function serverCommunicationModule() {
      * MOCKUP methods for prediction and generic questions
      */
     // just mockup
+    // data structure has to look exactly like that 
     function mockupGetPredictions() {
         console.log('mockupGetPredictions() called');
-
+  
         var mockupPredictions = {
-            "predictions":
-                { // "question_id": predicted_value
-                    "1": Math.floor((Math.random() * 3)),
-                    "2": Math.floor((Math.random() * 3)),
-                    "5": Math.floor((Math.random() * 3)),
-                    "16": Math.floor((Math.random() * 3))
-                }
-        }
+            'pleasant': 1,        //müssen beide gesendet werden (bluetooth), wenn keine prediction = -2
+            'activation': 1,
+            'generic_value_1': 0, //Math.floor((Math.random() * 3)),
+            'generic_value_2': 1, //Math.floor((Math.random() * 3)),
+            'generic_value_3': 2, //Math.floor((Math.random() * 3)),
+            'generic_value_4': 3,//Math.floor((Math.random() * 3)),
+                
+        };
         console.log(JSON.stringify(mockupPredictions));
         Pebble.sendAppMessage(mockupPredictions, function () {
             console.log('(JS) Message successfully sent predictions to the watch. (MOCKUP)');
@@ -754,31 +758,16 @@ var serverCommunicationModule = function serverCommunicationModule() {
     };
 
     // just mockup
+    // data structure has to look exactly like that 
+    // no more than 4/5 questions possible, depending on the importance of the tree animation
     function mockupGetGenericQuestions() {
         console.log('mockupGetGenericQuestions() called');
         var mockupGenericQuestions = {
-            "questions": [
-                {
-                    "question": "How active do you feel?",
-                    "id": 1,
-                    "watchface": "runner"
-                },
-                {
-                    "question": "How pleasent do you feel?",
-                    "id": 2,
-                    "watchface": "smiley"
-                },
-                {
-                    "question": "I am stressed",
-                    "id": 5,
-                    "watchface": "stressed"
-                },
-                {
-                    "question": "I want more alcohol.",
-                    "id": 16,
-                    "watchface": "default"
-                }
-            ]
+          'generic_question_count': 4,
+          'generic_question_desciption_1': "I am stressed.",
+          'generic_question_desciption_2': "I understand what is discussed right now.",
+          'generic_question_desciption_3': "I want more alcohol.",
+          'generic_question_desciption_4': "I want to sleep.", 
         };
         console.log(JSON.stringify(mockupGenericQuestions));
         Pebble.sendAppMessage(mockupGenericQuestions, function () {

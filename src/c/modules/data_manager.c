@@ -7,7 +7,7 @@ static int creativity; // saving creativity answer
 
 static int numberOfGenericQuestions = 0;
 static int mood_id;
-static int genericValues[10]; //values of the generic sampling windows
+static int genericValues[6]; //values of the generic sampling windows
 static char genericDescriptions[10][255]; //the descriptinos for the generic sampling windows
 
 static bool wait_for_upload_finish = true;
@@ -34,6 +34,12 @@ void setHappiness(int _pleasant) {
 * generic question with id = index *
 ***********************************/
 void setGenericValue(int index, int value) {
+  if(value > 2){
+    value = 2;
+  }
+  if(value < 0){
+    value = 0;
+  }
   genericValues[index] = value;
 }
 
@@ -214,7 +220,7 @@ void check_whether_upload_process_is_finished() {
 /***********************************
 * Uploads the mood dataset.        *
 ***********************************/
-void upload_mood(int pleasant, int activation, int creativity, uint8_t genericValues[5]) {
+void upload_mood(int pleasant, int activation, int creativity, uint8_t genericValues[6]) {
   DictionaryIterator *out_iter;
   int _numberOfgenericValues = getNumberOfGenericQuestions();
   app_message_open(64, 256); // open the app message
@@ -236,7 +242,7 @@ void upload_mood(int pleasant, int activation, int creativity, uint8_t genericVa
     dict_write_int(out_iter, MESSAGE_KEY_pleasant, &pleasant, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_activation, &activation, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_generic_question_count, &_numberOfgenericValues, sizeof(int), true);
-    dict_write_data(out_iter, MESSAGE_KEY_generic_values, genericValues, sizeof(uint8_t) * 5);
+    dict_write_data(out_iter, MESSAGE_KEY_generic_values, genericValues, sizeof(uint8_t) * 6);
     result = app_message_outbox_send(); // send this message
    if(result != APP_MSG_OK) { 
       APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the mood outbox: %d", (int)result);
@@ -251,12 +257,13 @@ void upload_mood(int pleasant, int activation, int creativity, uint8_t genericVa
   
   // reset the counter for the generic questions
   reset_generic_question_counter();
+  reset_value();
 }
 
 /***********************************
 * Saves a mood on the storage      *
 ***********************************/
-void save_storage_mood(int pleasant, int activation, int creativity, uint8_t genericValues[5]) {
+void save_storage_mood(int pleasant, int activation, int creativity, uint8_t genericValues[6]) {
         uint32_t k =7;
     if(persist_exists(k)){
       mood_id = persist_read_int(k)+1; 
@@ -271,8 +278,8 @@ void save_storage_mood(int pleasant, int activation, int creativity, uint8_t gen
       save_mood(2, activation, mood_id);
       save_mood(3, creativity, mood_id);
   
-   int values[5];
-      for(int i = 0; i<5; i++){
+   int values[6];
+      for(int i = 0; i<6; i++){
         values[i] = genericValues[i];
       }
       save_generic_values(4, values, mood_id);
@@ -297,7 +304,7 @@ void save_mood(int type, int mood, int mood_id){
 * given id and type.               *
 **********************************/
 void save_generic_values(int type, int mood[], int mood_id){
-  for(int i =0; i<5;i++){
+  for(int i =0; i<6;i++){
     uint32_t key = mood_id * 1000 + type + i;
     int value = mood[i]; 
     persist_write_int(key, value);
@@ -318,8 +325,8 @@ void upload_mood_from_storage(int mood_id){
     int c =  get_mood(mood_id, 3, true);
   APP_LOG(APP_LOG_LEVEL_INFO, "Creativity %d.", c);
   
-  uint8_t values[5];
-   for(int i =0; i<5;i++){
+  uint8_t values[6];
+   for(int i =0; i<6;i++){
       uint32_t key = mood_id * 1000 + 4 + i;
       if(persist_exists(key)) {
           values[i] = persist_read_int(key);

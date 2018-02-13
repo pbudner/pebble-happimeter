@@ -119,7 +119,7 @@ int frame_no =0;
     gbitmap_destroy(treeImage);
     treeImage = NULL;
   }
-  
+
   switch (counter){
     
     case 1:
@@ -150,6 +150,8 @@ int frame_no =0;
     NO_OF_FRAMES = NO_OF_FRAMES4;
     break;
   } 
+
+  
   if(frame_no == NO_OF_FRAMES){
   frame_no = 0;
     return;
@@ -283,6 +285,7 @@ void init_tree_window()
   if (!treeWindow){
     treeWindow = window_create();
     window_set_window_handlers(treeWindow, (WindowHandlers) { .load = tree_window_load, .unload = tree_window_unload });
+
   }
 }
 

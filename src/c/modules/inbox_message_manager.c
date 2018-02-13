@@ -56,7 +56,9 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
     return;
   }
 
-  // Mood Message
+  /*******************************************************
+  *getting the predictions                               *
+  ********************************************************/
   if (happiness_tuple && activation_tuple)
   {
     if(window_stack_get_top_window() == introduction_window_get_window()) {
@@ -65,9 +67,42 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
       APP_LOG(APP_LOG_LEVEL_INFO, "Received mood Act.: %d Hap.: %d", (int)activation, (int)happiness);
       set_mood_window_text(happiness, activation);
     }
+    
+    if(get_hasBtConnection()){
+      Tuple *generic_value_1 = dict_find(iter, MESSAGE_KEY_generic_value_1);
+      Tuple *generic_value_2 = dict_find(iter, MESSAGE_KEY_generic_value_2);
+      Tuple *generic_value_3 = dict_find(iter, MESSAGE_KEY_generic_value_3);
+      Tuple *generic_value_4 = dict_find(iter, MESSAGE_KEY_generic_value_4);
+      Tuple *generic_value_5 = dict_find(iter, MESSAGE_KEY_generic_value_5);
+    
+    
+      if(generic_value_1){
+        APP_LOG(APP_LOG_LEVEL_INFO, "Received question1 value %d", generic_value_1->value->int32);
+        setGenericValue(0, generic_value_1->value->int8);
+      }
+      if(generic_value_2){
+        APP_LOG(APP_LOG_LEVEL_INFO, "Received question2 value %d", generic_value_2->value->int32);
+        setGenericValue(1, generic_value_2->value->int8);
+      }
+      if(generic_value_3){
+        APP_LOG(APP_LOG_LEVEL_INFO, "Received question3 value %d", generic_value_3->value->int32);
+        setGenericValue(2, generic_value_3->value->int8);
+      }
+      if(generic_value_4){
+        APP_LOG(APP_LOG_LEVEL_INFO, "Received question4 value %d", generic_value_4->value->int32);
+        setGenericValue(3, generic_value_4->value->int8);
+      }
+      if(generic_value_5){
+        APP_LOG(APP_LOG_LEVEL_INFO, "Received question5 value %d", generic_value_5->value->int32);
+        setGenericValue(4, generic_value_5->value->int8);
+      }
+    }
     return;
   }
-  if (generic_question_count_tuple) {
+  /*******************************************************
+  *getting the generic descriptions                      *
+  ********************************************************/
+  if (generic_question_count_tuple && get_hasBtConnection()) {
     APP_LOG(APP_LOG_LEVEL_INFO, "Received questions %d", generic_question_count_tuple->value->int32);
     if(window_stack_get_top_window() == introduction_window_get_window()) {
       int32_t generic_question_count = generic_question_count_tuple->value->int32;
@@ -77,11 +112,13 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
       Tuple *generic_question_3 = dict_find(iter, MESSAGE_KEY_generic_question_desciption_3);
       Tuple *generic_question_4 = dict_find(iter, MESSAGE_KEY_generic_question_desciption_4);
       Tuple *generic_question_5 = dict_find(iter, MESSAGE_KEY_generic_question_desciption_5);
+      Tuple *termination = dict_find(iter, MESSAGE_KEY_for_termination);
 
       if (generic_question_1) {
         APP_LOG(APP_LOG_LEVEL_INFO, "Received question1 %s", generic_question_1->value->cstring);
         setGenericDescription(0, generic_question_1->value->cstring);
       }
+      
       if (generic_question_2) {
         APP_LOG(APP_LOG_LEVEL_INFO, "Received question2 %s", generic_question_2->value->cstring);
         setGenericDescription(1, generic_question_2->value->cstring);
@@ -97,10 +134,13 @@ static void app_message_inbox_received_callback(DictionaryIterator *iter, void *
       if (generic_question_5) {
         APP_LOG(APP_LOG_LEVEL_INFO, "Received question5 %s", generic_question_5->value->cstring);
         setGenericDescription(4, generic_question_5->value->cstring);
+      } 
+      if(termination){
+        setGenericDescription(5, termination->value->cstring);
       }
     }
+    return;
   }
-
 
 
   // Logged in Message

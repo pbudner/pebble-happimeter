@@ -100,11 +100,13 @@ void set_mood_window_text(int happiness, int activation) {
 
   if(happiness == -1 && activation == -1) {
     // mood has not been loaded yet
+    hasBtConnection = true;
     hasInternetConnection = false;
     smileyImage = gbitmap_create_with_resource(RESOURCE_ID_loadingscreen_144x100);
     text_layer_set_text(machine_learning_text_layer, "Loading...");
   } else if(happiness == -2 && activation == -2) {
     // there is no trained model yet
+    hasBtConnection = true;
     hasReceivedResult = true;
     canProceedToMood = true;
     hasInternetConnection = true;
@@ -130,9 +132,11 @@ void set_mood_window_text(int happiness, int activation) {
     action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_cross_bitmap);
     action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_tick_bitmap);
     action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_retry1_bitmap);
-    text_layer_set_text(machine_learning_text_layer, "No connection to the phone. Continue?");
+    text_layer_set_text(heading_text_layer, "No Connection");
+    text_layer_set_text(machine_learning_text_layer, "Still continue?");
 
   } else {
+    hasBtConnection = true;
     hasReceivedResult = true;
     hasInternetConnection = true;
     predicted_happiness = happiness;

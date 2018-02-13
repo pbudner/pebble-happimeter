@@ -1,19 +1,24 @@
 #include "creativity_input_window.h"
 
 static Window *creativityWindow;
-static Window *creativityWindows[5];
-static bool initializedWindows[5];
-static GBitmap *optionImage[5];
-static BitmapLayer *optionImageLayer[5];
-static TextLayer *heading_text_layer[5];
-static ActionBarLayer *s_action_bar_layer[5];
-static GBitmap *s_more_bitmap[5], *s_less_bitmap[5], *s_go_bitmap[5];
-static int value[5] = {1,1,1,1,1};
-
+static Window *creativityWindows[6];
+static bool initializedWindows[6];
+static GBitmap *optionImage[6];
+static BitmapLayer *optionImageLayer[6];
+static TextLayer *heading_text_layer[6];
+static ActionBarLayer *s_action_bar_layer[6];
+static GBitmap *s_more_bitmap[6], *s_less_bitmap[6], *s_go_bitmap[6];
+static int value[6] = {1,1,1,1,1,1};
 static int currentIndex = -1;
 
 void reset_generic_question_counter() {
   currentIndex = -1;
+}
+
+void reset_value(){
+  for(int i = 0; i < 6; i++){
+    value[i] = 1; 
+  }
 }
 
 void refresh_creativity_image() {
@@ -81,6 +86,26 @@ void creativity_click_config_provider(void *context){
   window_single_click_subscribe(BUTTON_ID_BACK, (ClickHandler)creativity_back_click_handler);
 }
 
+/***************************
+* Refeshing the action bar *
+***************************/
+void refresh_menu(Window *window){
+  if(s_action_bar_layer != NULL){
+    action_bar_layer_destroy(s_action_bar_layer[currentIndex]);
+    s_action_bar_layer[currentIndex] = NULL;
+  }
+  s_more_bitmap[currentIndex] = gbitmap_create_with_resource(RESOURCE_ID_more);
+  s_less_bitmap[currentIndex] = gbitmap_create_with_resource(RESOURCE_ID_less);
+  s_go_bitmap[currentIndex] = gbitmap_create_with_resource(RESOURCE_ID_NEXT);
+  s_action_bar_layer[currentIndex] = action_bar_layer_create();
+  action_bar_layer_add_to_window(s_action_bar_layer[currentIndex], window);
+  action_bar_layer_set_icon(s_action_bar_layer[currentIndex], BUTTON_ID_UP, s_more_bitmap[currentIndex]);
+  action_bar_layer_set_icon(s_action_bar_layer[currentIndex], BUTTON_ID_DOWN, s_less_bitmap[currentIndex]);
+  action_bar_layer_set_icon(s_action_bar_layer[currentIndex], BUTTON_ID_SELECT, s_go_bitmap[currentIndex]);
+  
+  window_set_click_config_provider(window, creativity_click_config_provider);
+}
+
 
 /***********************************
 * Load event of the window         *
@@ -102,23 +127,15 @@ void creativity_window_load(Window *window){
   text_layer_set_font(heading_text_layer[currentIndex], fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
   char* tmp = getGenericDescription(currentIndex);
   text_layer_set_text(heading_text_layer[currentIndex], tmp);
+  value[currentIndex] = getGenericValue(currentIndex);
   layer_add_child(window_layer, text_layer_get_layer(heading_text_layer[currentIndex]));
 
-  // add the menu
-  s_more_bitmap[currentIndex] = gbitmap_create_with_resource(RESOURCE_ID_more);
-  s_less_bitmap[currentIndex] = gbitmap_create_with_resource(RESOURCE_ID_less);
-  s_go_bitmap[currentIndex] = gbitmap_create_with_resource(RESOURCE_ID_NEXT);
-  s_action_bar_layer[currentIndex] = action_bar_layer_create();
-  action_bar_layer_add_to_window(s_action_bar_layer[currentIndex], window);
-  action_bar_layer_set_icon(s_action_bar_layer[currentIndex], BUTTON_ID_UP, s_more_bitmap[currentIndex]);
-  action_bar_layer_set_icon(s_action_bar_layer[currentIndex], BUTTON_ID_DOWN, s_less_bitmap[currentIndex]);
-  action_bar_layer_set_icon(s_action_bar_layer[currentIndex], BUTTON_ID_SELECT, s_go_bitmap[currentIndex]);
+  //refresh the menu
+  refresh_menu(window);
 
   // refresh the shown image
   refresh_creativity_image();
 
-  //set click providers
-  window_set_click_config_provider(window, creativity_click_config_provider);
 }
 
 /***********************************
@@ -149,7 +166,7 @@ void deinit_creativity_input_window(void) {
 }
 
 void deinit_creativity_input_windows(void) {
-  for (int i = 0; i < getNumberOfGenericQuestions(); i++) {
+  for (int i = 0; i < getNumberOfGenericQuestions()-1; i++) {
     window_destroy(creativityWindows[i]);
   }
 }
@@ -163,17 +180,17 @@ Window *creativity_input_window_get_window(void) {
 
 Window *creativity_input_window_get_next_window(void) {
   APP_LOG(APP_LOG_LEVEL_INFO, "creativity_input_window_get_next_window");
-
+  
+    currentIndex = currentIndex + 1;
   APP_LOG(APP_LOG_LEVEL_DEBUG, "currentIndex is %d", currentIndex);
   APP_LOG(APP_LOG_LEVEL_DEBUG, "getNumberOfGenericQuestions()  is %d", getNumberOfGenericQuestions() );
   APP_LOG(APP_LOG_LEVEL_DEBUG, "!persist_exists(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY)  is %d", !persist_exists(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY));
 
-  currentIndex = currentIndex + 1;
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Show generic questions is %d", persist_exists(SHOW_GENERIC_QUESTIONS_MODE_STORAGE_KEY));
   if (getNumberOfGenericQuestions() <= currentIndex) {
     return tree_window_get_window();
   }
-  APP_LOG(APP_LOG_LEVEL_INFO, "creativity_input_window_get_next_window bis hier");
+
   if (!initializedWindows[currentIndex]) {
     creativityWindows[currentIndex] =  window_create();
     window_set_background_color(creativityWindows[currentIndex], GColorWhite);
@@ -182,3 +199,4 @@ Window *creativity_input_window_get_next_window(void) {
   }
     return creativityWindows[currentIndex];
 }
+
