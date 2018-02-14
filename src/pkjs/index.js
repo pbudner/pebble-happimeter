@@ -480,27 +480,46 @@ var retrieve_and_send_friends = function () {
     request.send(null);
 };
 
-var transformQuestionsForPebble = function (questions) {
-    var transformedQuestions = {
-        'generic_question_count': questions.length
+var transformPredictionsFromServerForPebble = function(predictions) {
+    var transformedPredictions = {};
+
+    transformedPredictions['pleasent'] = predictions.hasOwnProperty('2') ? predictions['2'] : -2;
+    transformedPredictions['activation'] = predictions.hasOwnProperty('1') ? predictions['1'] : -2;
+
+
+    var cachedGenericQuestions = JSON.parse(localStorage.getItem('cachedGenericQuestions'));
+    var j = 0;
+    for (var i = 0; i < cachedGenericQuestions.length; i ++) {
+        var questionId = cachedGenericQuestions[i]['id'];
+        if (questionId !== 2 && questionId !== 1) {
+            transformedPredictions['generic_value_' + (j+1)] = (predictions.hasOwnProperty(questionId) && predictions[questionId] !== false) ? predictions[questionId] : -2;
+            j++;
+        }
     }
-    var i = 0;
+    console.log('transformedPredictions that will be send to pebble');
+    console.log(JSON.stringify(transformedPredictions));
+    return transformedPredictions;
+}
+
+var transformQuestionsForPebble = function (questions) {
+    var transformedQuestions = {};
+    var i = 0, j = 0;
     while (i < questions.length) {
-        if (questions[i].hasOwnProperty('question')) {
-            transformedQuestions['generic_question_desciption_' + (i + 1)] = questions[i]['question'];
-        } else {
-            transformedQuestions['generic_question_desciption_' + (i + 1)] = null
+        if (questions[i]['id'] !== 1 && questions[i]['id'] !== 2) {
+            transformedQuestions['generic_question_desciption_' + (j + 1)] = questions[i]['question'];
+            j++;
         }
         i++;
     }
-    while (i < 5) {
-        transformedQuestions['generic_question_desciption_' + (i + 1)] = null;
-        i++;
+    transformedQuestions['generic_question_count'] = j;
+    while (j < 5) {
+        transformedQuestions['generic_question_desciption_' + (j + 1)] = null;
+        j++;
     }
-    console.log('generic questions will be send to pebble.')
+    console.log('generic questions will be send to pebble.');
     console.log(JSON.stringify(transformedQuestions));
-    console.log('-------------')
-    return transformedQuestions
+    console.log('-------------');
+    return transformedQuestions;
 };
 
 var pushItemToLocalStorage = function (key, item) {
@@ -638,14 +657,15 @@ var serverCommunicationModule = function serverCommunicationModule() {
     // retrieve the current mood and send it to the watch
     function getPredictions() {
         console.log("getPredictions() called");
-      Pebble.sendAppMessage({ // auf predictions anpassen
+         Pebble.sendAppMessage({ // auf predictions anpassen
                 'pleasant': 1,
                 'activation': 1,
             });
         doGetRequest(predictionUrl, function resolve(response) {
             console.log('Successfully retrieved predictions');
             console.log(JSON.stringify(response));
-            Pebble.sendAppMessage(response, function () {
+            var predictions = response['predictions'];
+            Pebble.sendAppMessage(transformPredictionsFromServerForPebble(predictions), function () {
                 console.log('(JS) Message successfully sent predictions to the watch..');
             }, function (e) {
                 console.log('(JS) Message failed to send predictions to the watch: ' + JSON.stringify(e));
@@ -732,106 +752,28 @@ var serverCommunicationModule = function serverCommunicationModule() {
     };
 
 
-    /**
-     * MOCKUP methods for prediction and generic questions
-     */
-    // just mockup
-    // data structure has to look exactly like that 
-    function mockupGetPredictions() {
-        console.log('mockupGetPredictions() called');
-  
-        var mockupPredictions = {
-            'pleasant': 1,        //müssen beide gesendet werden (bluetooth), wenn keine prediction = -2
-            'activation': 1,
-            'generic_value_1': 0, //Math.floor((Math.random() * 3)),
-            'generic_value_2': 1, //Math.floor((Math.random() * 3)),
-            'generic_value_3': 2, //Math.floor((Math.random() * 3)),
-            'generic_value_4': 3,//Math.floor((Math.random() * 3)),
-                
-        };
-        console.log(JSON.stringify(mockupPredictions));
-        Pebble.sendAppMessage(mockupPredictions, function () {
-            console.log('(JS) Message successfully sent predictions to the watch. (MOCKUP)');
-        }, function (e) {
-            console.log('(JS) Message failed to send predictions to the watch (MOCKUP): ' + JSON.stringify(e));
-        });
+    var mockupPredictions = {
+        'pleasant': 1,        //müssen beide gesendet werden (bluetooth), wenn keine prediction = -2
+        'activation': 1,
+        'generic_value_1': 0, //Math.floor((Math.random() * 3)),
+        'generic_value_2': 1, //Math.floor((Math.random() * 3)),
+        'generic_value_3': 2, //Math.floor((Math.random() * 3)),
+        'generic_value_4': 3//Math.floor((Math.random() * 3)),
+
+    };
+    var mockupGenericQuestions = {
+        'generic_question_count': 4,
+        'generic_question_desciption_1': "I am stressed.",
+        'generic_question_desciption_2': "I understand what is discussed right now.",
+        'generic_question_desciption_3': "I want more alcohol.",
+        'generic_question_desciption_4': "I want to sleep."
     };
 
-    // just mockup
-    // data structure has to look exactly like that 
-    // no more than 4/5 questions possible, depending on the importance of the tree animation
-    function mockupGetGenericQuestions() {
-        console.log('mockupGetGenericQuestions() called');
-        var mockupGenericQuestions = {
-          'generic_question_count': 4,
-          'generic_question_desciption_1': "I am stressed.",
-          'generic_question_desciption_2': "I understand what is discussed right now.",
-          'generic_question_desciption_3': "I want more alcohol.",
-          'generic_question_desciption_4': "I want to sleep.", 
-        };
-        console.log(JSON.stringify(mockupGenericQuestions));
-        Pebble.sendAppMessage(mockupGenericQuestions, function () {
-            console.log('(JS) Message successfully sent the generic questions to the watch. (MOCKUP)');
-        }, function (e) {
-            console.log('(JS) Message failed to send the generic questions to the watch (MOCKUP): ' + JSON.stringify(e));
-        });
-    };
-    /**
-     * DELME MOCKUP methods for prediction and generic questions
-     */
-    // just mockup
-    function delMemockupGetPredictionsForCompatibility() {
-        console.log('delMemockupGetPredictionsForCompatibility() called');
-        Pebble.sendAppMessage({
-            'pleasant': 0,
-            'activation': 0
-        }, function () {
-            console.log('(JS) Message successfully sent models have not been trained to the watch..');
-        }, function (e) {
-            console.log('(JS) Message failed to send models have not been trained to the watch: ' + JSON.stringify(e));
-        })
-    };
-
-    // just mockup
-    function delMemockupGetGenericQuestionsForCompatibiltity() {
-        console.log('delMemockupGetGenericQuestionsForCompatibiltity() called');
-        var mockupGenericQuestions = {
-            "questions": [
-                {
-                    "question": "I am stressed",
-                    "id": 5,
-                    "watchface": "stressed"
-                },
-                {
-                    "question": "I want more alcohol.",
-                    "id": 16,
-                    "watchface": "default"
-                }
-            ]
-        };
-        localStorage.setItem('cachedGenericQuestions', JSON.stringify(mockupGenericQuestions['questions']));
-        console.log(JSON.stringify(mockupGenericQuestions));
-        Pebble.sendAppMessage(transformQuestionsForPebble(mockupGenericQuestions.questions), function () {
-            console.log('(JS) Message successfully sent the generic questions to the watch. (MOCKUP)');
-        }, function (e) {
-            console.log('(JS) Message failed to send the generic questions to the watch (MOCKUP): ' + JSON.stringify(e));
-        });
-    };
-
-    if (withoutServer) {
-        return {
-            "retrieveGenericQuestionsFromServerAndSendToPebbleWatch": mockupGetGenericQuestions,
-            "sendSensorData": sendSensorData,
-            "sendMoodData": sendMoodData,
-            "getPredictions": mockupGetPredictions
-        }
-    } else {
-        return {
-            "retrieveGenericQuestionsFromServerAndSendToPebbleWatch": delMemockupGetGenericQuestionsForCompatibiltity,
-            "sendSensorData": sendSensorData,
-            "sendMoodData": sendMoodData,
-            "getPredictions": delMemockupGetPredictionsForCompatibility
-        }
+    return {
+        "retrieveGenericQuestionsFromServerAndSendToPebbleWatch": retrieveGenericQuestionsFromServerAndSendToPebbleWatch,
+        "sendSensorData": sendSensorData,
+        "sendMoodData": sendMoodData,
+        "getPredictions": getPredictions
     }
 };
 
