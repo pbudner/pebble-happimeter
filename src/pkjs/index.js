@@ -4,9 +4,9 @@
  */
 
 var messageKeys = require('message_keys'); // Load message keys
-//var url = "http://192.168.179.23:4711/v1/";
+var url = "http://10.10.10.3:4711/v1/";
 var baseUrl = url;
-var url = "https://api.happimeter.org/v1/";
+//var url = "https://api.happimeter.org/v1/";
 var watchToken = "";
 var accountToken = "";
 
@@ -483,8 +483,8 @@ var retrieve_and_send_friends = function () {
 var transformPredictionsFromServerForPebble = function(predictions) {
     var transformedPredictions = {};
 
-    transformedPredictions['pleasent'] = predictions.hasOwnProperty('2') ? predictions['2'] : -2;
-    transformedPredictions['activation'] = predictions.hasOwnProperty('1') ? predictions['1'] : -2;
+    transformedPredictions['pleasent'] = (predictions.hasOwnProperty('2') && predictions['2'] !== false) ? predictions['2'] : -2;
+    transformedPredictions['activation'] = (predictions.hasOwnProperty('1') && predictions['1'] !== false) ? predictions['1'] : -2;
 
 
     var cachedGenericQuestions = JSON.parse(localStorage.getItem('cachedGenericQuestions'));
@@ -749,24 +749,6 @@ var serverCommunicationModule = function serverCommunicationModule() {
             });
         }
         localStorage.setItem("moodItems", JSON.stringify([])); // clear storage
-    };
-
-
-    var mockupPredictions = {
-        'pleasant': 1,        //müssen beide gesendet werden (bluetooth), wenn keine prediction = -2
-        'activation': 1,
-        'generic_value_1': 0, //Math.floor((Math.random() * 3)),
-        'generic_value_2': 1, //Math.floor((Math.random() * 3)),
-        'generic_value_3': 2, //Math.floor((Math.random() * 3)),
-        'generic_value_4': 3//Math.floor((Math.random() * 3)),
-
-    };
-    var mockupGenericQuestions = {
-        'generic_question_count': 4,
-        'generic_question_desciption_1': "I am stressed.",
-        'generic_question_desciption_2': "I understand what is discussed right now.",
-        'generic_question_desciption_3': "I want more alcohol.",
-        'generic_question_desciption_4': "I want to sleep."
     };
 
     return {
