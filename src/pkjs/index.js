@@ -344,21 +344,31 @@ var transformOldMoodDataIntoGenericStyle = function(moodData) {
     genericMoodData['account_id'] = moodData['account_id'];
     genericMoodData['device_id'] = moodData['device_id'];
     genericMoodData.mood_answers = {};
-    genericMoodData.mood_answers['1'] = moodData['activation'];
-    genericMoodData.mood_answers['2'] = moodData['pleasance'];
+	if (moodData.hasOwnProperty('activation')) {
+		genericMoodData.mood_answers['1'] = moodData['activation'];
+	}
+    if (moodData.hasOwnProperty('pleasance')) {
+    	genericMoodData.mood_answers['2'] = moodData['pleasance'];
+	}
 
     if (moodData.hasOwnProperty('generic_values')) {
         var generic_values =  moodData['generic_values'];
         var cachedGenericQuestions = JSON.parse(localStorage.getItem('cachedGenericQuestions'));
         console.log('cachedGenericQuestions');
         console.log(JSON.stringify(cachedGenericQuestions));
-        var index = 0;
-        while (index < generic_values.length) {
-            if (generic_values[index] !== 99) {
-                genericMoodData.mood_answers[cachedGenericQuestions[index]['id']] = generic_values[index];
-            }
-            index ++;
-        }
+		
+	    var j = 0;
+	    for (var i = 0; i < cachedGenericQuestions.length; i ++) {
+	        var questionId = cachedGenericQuestions[i]['id'];
+	        if (questionId !== 2 && questionId !== 1) {
+				if (j < generic_values.length) {
+					if (generic_values[j] !== 99) {
+						genericMoodData.mood_answers[questionId] = generic_values[j];
+					}
+	            	j++;
+				}
+	        }
+	    }
     }
     console.log('transformed genericMoodData: ');
     console.log(JSON.stringify(genericMoodData));
@@ -483,7 +493,7 @@ var retrieve_and_send_friends = function () {
 var transformPredictionsFromServerForPebble = function(predictions) {
     var transformedPredictions = {};
 
-    transformedPredictions['pleasent'] = (predictions.hasOwnProperty('2') && predictions['2'] !== false) ? predictions['2'] : -2;
+    transformedPredictions['pleasant'] = (predictions.hasOwnProperty('2') && predictions['2'] !== false) ? predictions['2'] : -2;
     transformedPredictions['activation'] = (predictions.hasOwnProperty('1') && predictions['1'] !== false) ? predictions['1'] : -2;
 
 
@@ -657,10 +667,6 @@ var serverCommunicationModule = function serverCommunicationModule() {
     // retrieve the current mood and send it to the watch
     function getPredictions() {
         console.log("getPredictions() called");
-         Pebble.sendAppMessage({ // auf predictions anpassen
-                'pleasant': 1,
-                'activation': 1,
-            });
         doGetRequest(predictionUrl, function resolve(response) {
             console.log('Successfully retrieved predictions');
             console.log(JSON.stringify(response));
@@ -674,8 +680,8 @@ var serverCommunicationModule = function serverCommunicationModule() {
             console.error('Failed to retrieve predictions!');
             console.error(JSON.stringify(error));
             Pebble.sendAppMessage({ // (-2,-2) means not trained yet
-                'pleasant': -2,
-                'activation': -2
+                'pleasant': -3,
+                'activation': -3
             }, function () {
                 console.log('(JS) Message successfully sent models have not been trained to the watch..');
             }, function (e) {

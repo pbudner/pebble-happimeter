@@ -193,7 +193,7 @@ void tree_window_load(Window *window)
   _pleasant = getPleasant();
   _creativity = getCreativity();
   
-  for (int i = 0; i < 5;i++) {
+  for (int i = 0; i < 6;i++) {
     if (i < getNumberOfGenericQuestions()) {
       _genericValues[i] = getGenericValue(i);  
     } else {

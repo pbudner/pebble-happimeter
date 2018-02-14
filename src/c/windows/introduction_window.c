@@ -32,7 +32,7 @@ void intro_up_click_handler(ClickRecognizerRef recognizer, void *context){
     else {
       if(!hasInternetConnection){
         set_mood_window_text(-1, -1); //loading..
-        app_timer_register(10000, message_timeout_callback, NULL); //callback if there is still no connection
+        app_timer_register(15000, message_timeout_callback, NULL); //callback if there is still no connection
       }
 
       else {
@@ -86,6 +86,7 @@ void intro_click_config_provider(void *context){
 * Sets the text of the intro window*
 ***********************************/
 void set_mood_window_text(int happiness, int activation) {
+	
   if(hasReceivedResult) {
     return;
   }
