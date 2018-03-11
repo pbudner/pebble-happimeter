@@ -6,6 +6,7 @@ static BitmapLayer *treeImageLayer;
 static TextLayer *tree_text_layer;
 static uint32_t counter = 1;
 static int tree_counter;
+static bool hasBtC;
 
 int       frame_no1, 
           frame_no2, 
@@ -118,7 +119,7 @@ int frame_no =0;
     gbitmap_destroy(treeImage);
     treeImage = NULL;
   }
-  
+
   switch (counter){
     
     case 1:
@@ -149,6 +150,8 @@ int frame_no =0;
     NO_OF_FRAMES = NO_OF_FRAMES4;
     break;
   } 
+
+  
   if(frame_no == NO_OF_FRAMES){
   frame_no = 0;
     return;
@@ -177,6 +180,7 @@ static void load_sequence() {
 ***********************************/
 void tree_window_load(Window *window)
 {
+  hasBtC = get_hasBtConnection();
   // deinit old windows, such that we have more free ram
   // to show the fancy animations! :-)
   deinit_creativity_input_windows();
@@ -189,16 +193,22 @@ void tree_window_load(Window *window)
   _pleasant = getPleasant();
   _creativity = getCreativity();
   
-  for (int i = 0; i < 5;i++) {
+  for (int i = 0; i < 6;i++) {
     if (i < getNumberOfGenericQuestions()) {
       _genericValues[i] = getGenericValue(i);  
     } else {
       _genericValues[i] = 99;
     }
   }
-
   
-  upload_mood(_pleasant, _activation, _creativity,_genericValues);
+   if(hasBtC){
+   upload_mood(_pleasant, _activation, _creativity,_genericValues); 
+   psleep(5000);
+  } else{
+     save_storage_mood(_pleasant, _activation, _creativity,_genericValues);
+  }
+    
+ 
   Layer *window_layer = window_get_root_layer(window);
      GRect bounds = layer_get_bounds(window_layer);
 
@@ -220,6 +230,7 @@ void tree_window_load(Window *window)
     if(counter == 0) {
       counter = 4;
     }
+ 
   }
 
 
@@ -253,6 +264,7 @@ void tree_window_load(Window *window)
 
   // override back_button_manager
   window_set_click_config_provider(window, (ClickConfigProvider) tree_click_config_provider);
+  
 }
 
 /***********************************
@@ -262,6 +274,7 @@ void tree_window_unload(Window *window)
 {
   gbitmap_destroy(treeImage);
   bitmap_layer_destroy(treeImageLayer);
+
 }
 
 /***********************************
@@ -272,6 +285,7 @@ void init_tree_window()
   if (!treeWindow){
     treeWindow = window_create();
     window_set_window_handlers(treeWindow, (WindowHandlers) { .load = tree_window_load, .unload = tree_window_unload });
+
   }
 }
 

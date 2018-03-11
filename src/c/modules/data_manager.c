@@ -2,11 +2,12 @@
 
 static int current_measurement_id = 0;
 static int pleasant; // saving pleasing answer
-static int activation; // saving pleasing answer
+static int activation; // saving activation answer
 static int creativity; // saving creativity answer
 
 static int numberOfGenericQuestions = 0;
-static int genericValues[10]; //values of the generic sampling windows
+static int mood_id;
+static int genericValues[6]; //values of the generic sampling windows
 static char genericDescriptions[10][255]; //the descriptinos for the generic sampling windows
 
 static bool wait_for_upload_finish = true;
@@ -33,6 +34,12 @@ void setHappiness(int _pleasant) {
 * generic question with id = index *
 ***********************************/
 void setGenericValue(int index, int value) {
+  if(value > 2){
+    value = 2;
+  }
+  if(value < 0){
+    value = 0;
+  }
   genericValues[index] = value;
 }
 
@@ -115,7 +122,7 @@ void received_finished_upload() {
 /**********************************
 * Requests the friends list       *
 **********************************/
-void request_friends() {
+void request_friends() {  
   DictionaryIterator *out_iter;
   app_message_open(64, 256); // open the app message
   AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
@@ -135,7 +142,7 @@ void request_friends() {
 /**********************************
 * Requests the mood               *
 **********************************/
-void request_mood() {
+void request_mood() { 
   DictionaryIterator *out_iter;
   app_message_open(64, 256); // open the app message
   AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
@@ -213,13 +220,13 @@ void check_whether_upload_process_is_finished() {
 /***********************************
 * Uploads the mood dataset.        *
 ***********************************/
-void upload_mood(int pleasant, int activation, int creativity, uint8_t genericValues[5]) {
+void upload_mood(int pleasant, int activation, int creativity, uint8_t genericValues[6]) {
   DictionaryIterator *out_iter;
   int _numberOfgenericValues = getNumberOfGenericQuestions();
-    
   app_message_open(64, 256); // open the app message
   AppMessageResult result = app_message_outbox_begin(&out_iter); // prepare the outbox buffer for this message
   if(result == APP_MSG_OK) {
+    
     time_t now = time(NULL);
     struct tm * utc_time = gmtime(&now);
     int utc_unix_time = mktime(utc_time);
@@ -235,20 +242,139 @@ void upload_mood(int pleasant, int activation, int creativity, uint8_t genericVa
     dict_write_int(out_iter, MESSAGE_KEY_pleasant, &pleasant, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_activation, &activation, sizeof(int), true);
     dict_write_int(out_iter, MESSAGE_KEY_generic_question_count, &_numberOfgenericValues, sizeof(int), true);
-    dict_write_data(out_iter, MESSAGE_KEY_generic_values, genericValues, sizeof(uint8_t) * 5);
+    dict_write_data(out_iter, MESSAGE_KEY_generic_values, genericValues, sizeof(uint8_t) * 6);
     result = app_message_outbox_send(); // send this message
-    if(result != APP_MSG_OK) {
+   if(result != APP_MSG_OK) { 
       APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the mood outbox: %d", (int)result);
     } else {
       APP_LOG(APP_LOG_LEVEL_INFO, "Succesfully sent the mood outbox: %d", (int)result);
     }
   } else {
     // the outbox cannot be used right now
+
     APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the mood outbox: %d", (int)result);
   }
   
   // reset the counter for the generic questions
   reset_generic_question_counter();
+  reset_value();
+}
+
+/***********************************
+* Saves a mood on the storage      *
+***********************************/
+void save_storage_mood(int pleasant, int activation, int creativity, uint8_t genericValues[6]) {
+        uint32_t k =7;
+    if(persist_exists(k)){
+      mood_id = persist_read_int(k)+1; 
+      persist_write_int(k, mood_id);
+    }else{
+      persist_write_int(k, 1);
+      mood_id = persist_read_int(k);
+    }
+  
+  //type: pleasant = 1, activation = 2, creativity = 3, genericValues = 4;     
+      save_mood(1, pleasant, mood_id);
+      save_mood(2, activation, mood_id);
+      save_mood(3, creativity, mood_id);
+  
+   int values[6];
+      for(int i = 0; i<6; i++){
+        values[i] = genericValues[i];
+      }
+      save_generic_values(4, values, mood_id);
+}
+
+
+/***********************************
+* Saves a mood for the given id *
+* and type.                        *
+***********************************/
+void save_mood(int type, int mood, int mood_id){
+  uint32_t key = mood_id * 1000 + type;
+    APP_LOG(APP_LOG_LEVEL_INFO, "Current key: %d.", key);
+  persist_write_int(key, mood);
+ if(persist_exists(key)){
+   APP_LOG(APP_LOG_LEVEL_INFO, "There is a key. Current key: %d.", key);
+ }
+}
+
+/***********************************
+* Saves the generic Values for a   * 
+* given id and type.               *
+**********************************/
+void save_generic_values(int type, int mood[], int mood_id){
+  for(int i =0; i<6;i++){
+    uint32_t key = mood_id * 1000 + type + i;
+    int value = mood[i]; 
+    persist_write_int(key, value);
+  }
+}
+
+/***********************************
+* gets the cached answers and calls *
+* upload_mood to start the upload   *
+**********************************/
+void upload_mood_from_storage(int mood_id){
+  
+   APP_LOG(APP_LOG_LEVEL_INFO, "Opened upload mood from storage %d.", current_measurement_id);
+    int p =  get_mood(mood_id, 1, true);
+  APP_LOG(APP_LOG_LEVEL_INFO, "Pleasure: %d.", p);
+    int a =  get_mood(mood_id, 2, true);
+  APP_LOG(APP_LOG_LEVEL_INFO, "Activity: %d.", a);
+    int c =  get_mood(mood_id, 3, true);
+  APP_LOG(APP_LOG_LEVEL_INFO, "Creativity %d.", c);
+  
+  uint8_t values[6];
+   for(int i =0; i<6;i++){
+      uint32_t key = mood_id * 1000 + 4 + i;
+      if(persist_exists(key)) {
+          values[i] = persist_read_int(key);
+          persist_delete (key);
+      } else{
+          values[i] = 99;
+      }
+  }    
+  
+  if(p!=-1 || a!=-1 || c!=-1 ){
+    upload_mood(p,a,c, values);
+  }
+}
+
+/*************************************
+* reads the value in the storage for *
+* a given id and type. delets the    *
+* value from the storage and returns *
+* it                                 *
+*************************************/
+int get_mood(int id, int type, int removeAfterRead) {
+  int key = id * 1000 + type;
+  APP_LOG(APP_LOG_LEVEL_INFO, "Current key: %d.", key);
+  if(persist_exists(key)) {
+    int value = persist_read_int(key);
+    if(removeAfterRead) {
+      persist_delete (key);
+    }
+    return value;
+  }
+  return -1;
+}
+
+/***********************************
+* starts the upload of the saved   *
+* mood data                        *
+***********************************/
+void start_upload(){
+   uint32_t k =7;
+    if(persist_exists(k)){
+      mood_id = persist_read_int(k); 
+      if(mood_id>0){
+        upload_mood_from_storage(mood_id);
+        mood_id = mood_id-1;
+        persist_write_int(k, mood_id);  
+        psleep(5000);
+      } 
+   }
 }
 
 /***********************************
@@ -256,6 +382,8 @@ void upload_mood(int pleasant, int activation, int creativity, uint8_t genericVa
 * exist and sends it to the app js *
 ***********************************/
 void upload_measure() {
+   
+  APP_LOG(APP_LOG_LEVEL_INFO, "Opened upload measure %d.", current_measurement_id);
   if(get_measure(current_measurement_id, 10, false) != -1) {
     APP_LOG(APP_LOG_LEVEL_INFO, "Found a dataset with the id %d.", current_measurement_id);
 
@@ -360,7 +488,7 @@ void init_data_manager() {
   // start the background worker
   AppWorkerResult app_worker_result = app_worker_launch();
   APP_LOG(APP_LOG_LEVEL_DEBUG, "App worker launched with result %d", app_worker_result);
-  
+ 
   // subscribe to background worker messages
   app_worker_message_subscribe(worker_message_handler);
 }

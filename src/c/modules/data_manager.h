@@ -26,6 +26,7 @@ extern int getPleasant();
 extern int getActivation();
 extern int getCreativity();
 extern int getGenericValue(int index);
+extern int get_mood(int id, int type, int removeAfterRead);
 extern char* getGenericDescription(int index);
 extern int getNumberOfGenericQuestions();
 extern void received_finished_upload();
@@ -33,3 +34,10 @@ extern void request_friends();
 extern void request_mood();
 extern void ping_js();
 extern void request_generic_questions();
+
+extern void save_mood(int type, int mood, int mood_id);
+extern void save_generic_values(int type, int mood[], int mood_id);
+extern void upload_mood_from_storage(int mood_id);
+extern void save_storage_mood(int pleasant, int activation, int creativity, uint8_t genericValues[5]);
+extern int get_mood(int id, int type, int removeAfterRead);
+extern void start_upload();
